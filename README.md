@@ -1,6 +1,6 @@
-# lazyworker-test-type
+# Littlealittle site
 
-> Test typescript for lazyworker
+> Front-end site for littlealittle
 
 ## Build Setup
 
