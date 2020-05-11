@@ -5,7 +5,7 @@ module.exports = {
     node: true,
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    // parser: 'babel-eslint'
   },
   extends: [
     "@nuxtjs/eslint-config-typescript",
@@ -32,13 +32,19 @@ module.exports = {
     }],
     "prefer-template": 2,
     "semi": [2, "always"],
-    "sort-keys": [2, "asc", { "caseSensitive": true, "natural": true }],
     "sort-vars": ["error", { "ignoreCase": true }],
     "spaced-comment": 2,
     "vue/attribute-hyphenation": "off",
     "vue/no-v-html": "off",
     "vue/no-parsing-error": [2, {
       "invalid-first-character-of-tag-name": false
-    }]
+    }],
+    "vue/sort-keys": ["error", "asc", {
+      "caseSensitive": true,
+      "ignoreChildrenOf": ["model"],
+      "ignoreGrandchildrenOf": ["computed", "directives", "inject", "props", "watch"],
+      "minKeys": 2,
+      "natural": false
+    }],
   },
 };
