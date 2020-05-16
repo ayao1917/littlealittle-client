@@ -22,22 +22,25 @@
         </div>
       </div>
     </div>
+    <HeaderMenuModal />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import Button from "~/cds/Button.vue";
+import HeaderMenuModal from "~/components/HeaderMenuModal.vue";
 
 export default Vue.extend({
   name: "Header",
   components: {
     Button,
+    HeaderMenuModal,
   },
   methods: {
     onClickCart() {},
     onClickMenu() {
-      console.log("onClickMenu");
+      this.$store.commit("modal/openModal", "HEADER_MENU");
     },
     onClickUser() {},
   },
