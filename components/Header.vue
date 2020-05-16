@@ -7,7 +7,7 @@
         </Button>
       </div>
       <div class="iconBox">
-        <img class="logoIcon" src="~assets/images/logo.png" />
+        <IconLogo size="s" />
       </div>
       <div class="rightContainer">
         <div class="iconBox">
@@ -30,12 +30,14 @@
 import Vue from "vue";
 import Button from "~/cds/Button.vue";
 import HeaderMenuModal from "~/components/HeaderMenuModal.vue";
+import IconLogo from "~/components/IconLogo.vue";
 
 export default Vue.extend({
   name: "Header",
   components: {
     Button,
     HeaderMenuModal,
+    IconLogo,
   },
   methods: {
     onClickCart() {},
