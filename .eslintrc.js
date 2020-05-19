@@ -28,7 +28,7 @@ module.exports = {
     "prettier/prettier": ["error", {
       "semi": true,
       "singleQuote": false,
-      "trailingComma": "es5",
+      "trailingComma": "all",
     }],
     "prefer-template": 2,
     "semi": [2, "always"],

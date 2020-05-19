@@ -2,9 +2,11 @@
   <div>
     <div class="container">
       <div class="iconBox">
-        <Button :onClick="onClickMenu">
-          <img class="menuIcon" src="~assets/images/menu.svg" />
-        </Button>
+        <MobileView>
+          <Button :onClick="onClickMenu">
+            <img class="menuIcon" src="~assets/images/menu.svg" />
+          </Button>
+        </MobileView>
       </div>
       <div class="iconBox">
         <IconLogo size="s" />
@@ -29,6 +31,7 @@
 <script lang="ts">
 import Vue from "vue";
 import Button from "~/cds/Button.vue";
+import MobileView from "~/cds/MobileView.vue";
 import HeaderMenuModal from "~/components/HeaderMenuModal.vue";
 import IconLogo from "~/components/IconLogo.vue";
 
@@ -38,7 +41,9 @@ export default Vue.extend({
     Button,
     HeaderMenuModal,
     IconLogo,
+    MobileView,
   },
+  computed: {},
   methods: {
     onClickCart() {},
     onClickMenu() {
