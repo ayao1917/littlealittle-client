@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div class="desktopContainer">
-      <slot />
-    </div>
+  <div class="desktopContainer">
+    <slot />
   </div>
 </template>
 

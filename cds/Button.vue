@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <button
-      :class="[$classObject, 'container']"
-      :disabled="disabled"
-      :type="buttonType"
-      @click="onButtonClick"
-    >
-      <slot />
-    </button>
-  </div>
+  <button
+    :class="[$classObject, 'buttonContainer']"
+    :disabled="disabled"
+    :type="buttonType"
+    @click="onButtonClick"
+  >
+    <slot />
+  </button>
 </template>
 
 <script lang="ts">
@@ -65,29 +63,33 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.container {
+.buttonContainer {
   border-radius: 4px;
   cursor: pointer;
 }
 
-.container:focus {
+.buttonContainer:focus {
   outline: none;
 }
 
 .buttonContainedTeal {
   background-color: #4f9eac;
+  color: #e6e6e6;
 }
 
 .buttonContainedUrbanGrey {
   background-color: #e6e6e6;
+  color: #808080;
 }
 
 .buttonOutlineTeal {
   border-color: #4f9eac;
+  color: #e6e6e6;
 }
 
 .buttonOutlineUrbanGrey {
   border-color: #e6e6e6;
+  color: #808080;
 }
 
 .buttonPure {

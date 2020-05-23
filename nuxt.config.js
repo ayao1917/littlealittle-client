@@ -1,4 +1,4 @@
-/* eslint-disable sort-keys,@typescript-eslint/no-unused-vars */
+/* eslint-disable vue/sort-keys, @typescript-eslint/no-unused-vars */
 export default {
   mode: "universal",
   /*

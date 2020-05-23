@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div class="mobileContainer">
-      <slot />
-    </div>
+  <div class="mobileContainer">
+    <slot />
   </div>
 </template>
 

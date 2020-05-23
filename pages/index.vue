@@ -1,16 +1,23 @@
 <template>
   <div class="container">
     <Header />
+    <MobileView>
+      <CategoryMobile />
+    </MobileView>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import MobileView from "~/cds/MobileView.vue";
+import CategoryMobile from "~/components/CategoryMobile.vue";
 import Header from "~/components/Header.vue";
 
 export default Vue.extend({
   components: {
+    CategoryMobile,
     Header,
+    MobileView,
   },
 });
 </script>
