@@ -21,7 +21,7 @@ type ButtonStyle =
 type ButtonType = "button" | "submit";
 
 export default Vue.extend({
-  name: "Button",
+  name: "ActionButton",
   props: {
     buttonStyle: {
       default: "pure",
@@ -74,17 +74,19 @@ export default Vue.extend({
 
 .buttonContainedTeal {
   background-color: #4f9eac;
+  border-style: none;
   color: #e6e6e6;
 }
 
 .buttonContainedUrbanGrey {
   background-color: #e6e6e6;
+  border-style: none;
   color: #808080;
 }
 
 .buttonOutlineTeal {
   border-color: #4f9eac;
-  color: #e6e6e6;
+  color: #808080;
 }
 
 .buttonOutlineUrbanGrey {

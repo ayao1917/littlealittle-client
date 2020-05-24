@@ -34,7 +34,7 @@ export default {
    */
   buildModules: ["@nuxt/typescript-build"],
   /*
-   ** Nuxt.js modules
+   ** Nuxt.js ignore-path
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
@@ -55,6 +55,18 @@ export default {
     /*
      ** You can extend webpack config here
      */
+    babel: {
+      presets() {
+        return [
+          [
+            "@nuxt/babel-preset-app",
+            {
+              corejs: { version: 3 },
+            },
+          ],
+        ];
+      },
+    },
     extend(config, ctx) {},
   },
 };

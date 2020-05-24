@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <Button
+      <ActionButton
         v-for="category in $categories"
         buttonStyle="containedTeal"
         class="categoryButton"
@@ -13,20 +13,20 @@
         "
       >
         {{ category.name }}
-      </Button>
+      </ActionButton>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import Button from "~/cds/Button.vue";
+import ActionButton from "~/cds/ActionButton.vue";
 import { Category } from "~/types/category";
 
 export default Vue.extend({
   name: "CategoryMobile",
   components: {
-    Button,
+    ActionButton,
   },
   computed: {
     $categories(): Category[] {

@@ -3,9 +3,9 @@
     <div class="container">
       <div class="iconBox">
         <MobileView>
-          <Button :onClick="onClickMenu">
+          <ActionButton :onClick="onClickMenu">
             <img class="menuIcon" src="~assets/images/menu.svg" />
-          </Button>
+          </ActionButton>
         </MobileView>
       </div>
       <div class="iconBox">
@@ -13,14 +13,14 @@
       </div>
       <div class="rightContainer">
         <div class="iconBox">
-          <Button :onClick="onClickCart">
+          <ActionButton :onClick="onClickCart">
             <img class="cartIcon" src="~assets/images/cart.svg" />
-          </Button>
+          </ActionButton>
         </div>
         <div class="iconBox">
-          <Button :onClick="onClickUser">
+          <ActionButton :onClick="onClickUser">
             <img class="userIcon" src="~assets/images/user.svg" />
-          </Button>
+          </ActionButton>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import Button from "~/cds/Button.vue";
+import ActionButton from "~/cds/ActionButton.vue";
 import MobileView from "~/cds/MobileView.vue";
 import HeaderMenuModal from "~/components/HeaderMenuModal.vue";
 import IconLogo from "~/components/IconLogo.vue";
@@ -38,7 +38,7 @@ import IconLogo from "~/components/IconLogo.vue";
 export default Vue.extend({
   name: "Header",
   components: {
-    Button,
+    ActionButton,
     HeaderMenuModal,
     IconLogo,
     MobileView,
