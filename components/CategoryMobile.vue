@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import ActionButton from "~/cds/ActionButton.vue";
+import ActionButton from "~/components/ActionButton.vue";
 import { Category } from "~/types/category";
 
 export default Vue.extend({

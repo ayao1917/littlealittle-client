@@ -30,10 +30,10 @@
 
 <script lang="ts">
 import Vue from "vue";
-import ActionButton from "~/cds/ActionButton.vue";
-import MobileView from "~/cds/MobileView.vue";
+import ActionButton from "~/components/ActionButton.vue";
 import HeaderMenuModal from "~/components/HeaderMenuModal.vue";
 import IconLogo from "~/components/IconLogo.vue";
+import MobileView from "~/components/MobileView.vue";
 
 export default Vue.extend({
   name: "Header",

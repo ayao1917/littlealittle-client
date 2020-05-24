@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/vue";
 
-import ActionButton from "../../cds/ActionButton.vue";
+import ActionButton from "../../components/ActionButton.vue";
 
 const actionsData = {
   onClick: () => {},
