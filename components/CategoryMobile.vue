@@ -3,9 +3,11 @@
     <div class="container">
       <ActionButton
         v-for="category in $categories"
-        buttonStyle="containedTeal"
-        class="categoryButton"
         :key="category.id"
+        :buttonStyle="
+          selected === category.id ? 'containedTeal' : 'containedUrbanGrey'
+        "
+        class="categoryButton"
         :onClick="
           () => {
             onClickCategory(category);
@@ -28,14 +30,19 @@ export default Vue.extend({
   components: {
     ActionButton,
   },
+  data() {
+    return {
+      selected: (null as unknown) as number,
+    };
+  },
   computed: {
     $categories(): Category[] {
-      return this.$store.state.category.categories;
+      return this.$store.getters["category/sortedCategories"];
     },
   },
   methods: {
     onClickCategory(category: Category): void {
-      console.log("category", category);
+      this.selected = category.id;
     },
   },
   mounted(): void {
@@ -48,9 +55,19 @@ export default Vue.extend({
 .container {
   display: flex;
   padding: 4px 2px;
+  overflow-x: scroll;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .categoryButton {
   padding: 2px 23px;
+  white-space: nowrap;
+}
+
+.categoryButton:not(:last-child) {
+  margin-right: 2px;
 }
 </style>
