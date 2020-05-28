@@ -18,10 +18,11 @@ export const state = () => ({
 export type CategoryState = ReturnType<typeof state>;
 
 export const getters: GetterTree<CategoryState, RootState> = {
-  categories: (state): Category[] => state.categories,
-  categoriesGetPending: (state): boolean => state.categoriesGetPending,
-  category: (state): Category => state.category,
-  categoryGetPending: (state): boolean => state.categoryGetPending,
+  sortedCategories: (state): Category[] => {
+    const categoryList = state.categories.slice();
+    categoryList.sort((a: Category, b: Category) => a.sort - b.sort);
+    return categoryList;
+  },
 };
 
 export const mutations: MutationTree<CategoryState> = {

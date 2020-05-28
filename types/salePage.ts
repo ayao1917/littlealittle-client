@@ -14,8 +14,29 @@ export interface SalePage {
   plans: Plan[];
 }
 
-export interface ActionGetFavoritesPayload {
-  branchId: number;
+export interface ActionGetSalePageResponse {
+  status: number;
+  msg: string;
+  result: {
+    salePage: SalePage;
+  };
+}
+
+export interface ActionGetSalePagePayload {
+  alias: string;
+}
+
+export interface ActionGetSalePagesResponse {
+  status: number;
+  msg: string;
+  result: {
+    salePages: SalePage[];
+  };
+}
+
+export interface ActionGetSalePagesPayload {
+  category: string | null;
+  random: number | null;
 }
 
 export interface ActionGetFavoritesResponse {
@@ -27,7 +48,6 @@ export interface ActionGetFavoritesResponse {
 }
 
 export interface ActionPostFavoritesPayload {
-  branchId: number;
   salePageId: number;
 }
 
@@ -35,4 +55,8 @@ export interface ActionPostFavoritesResponse {
   status: number;
   msg: string;
   result: string;
+}
+
+export interface ActionDeleteFavoritesPayload {
+  salePageId: number;
 }
