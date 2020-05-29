@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <Header />
     <MobileView>
       <CategoryMobile />
     </MobileView>
@@ -22,7 +21,6 @@
 <script lang="ts">
 import Vue from "vue";
 import CategoryMobile from "~/components/CategoryMobile.vue";
-import Header from "~/components/Header.vue";
 import MobileView from "~/components/MobileView.vue";
 import SalePageCard from "~/components/SalePageCard.vue";
 import Slider from "~/components/Slider.vue";
@@ -32,7 +30,6 @@ import { SalePage } from "~/types/salePage";
 export default Vue.extend({
   components: {
     CategoryMobile,
-    Header,
     MobileView,
     SalePageCard,
     Slider,

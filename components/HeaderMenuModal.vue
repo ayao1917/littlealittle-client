@@ -84,7 +84,6 @@ export default Vue.extend({
     .modalHeader {
       display: flex;
       justify-content: flex-end;
-      height: 60px;
       padding: 20px;
       box-shadow: 0 2px #e6e6e6;
 
@@ -95,7 +94,6 @@ export default Vue.extend({
     }
 
     .modalRow {
-      height: 60px;
       padding: 20px;
       box-shadow: 0 2px #e6e6e6;
     }

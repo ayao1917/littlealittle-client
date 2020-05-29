@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container">
-      <img :src="salePage.picUrl" class="productImage" />
+      <img :src="salePage.picUrl" class="productImage" @click="onClickCard" />
       <span class="productTitle">{{ salePage.name }}</span>
       <span>{{ salePage.metaDescription }}</span>
       <div class="footer">
@@ -22,6 +22,11 @@ export default Vue.extend({
     salePage: {
       required: true,
       type: Object as PropType<SalePage>,
+    },
+  },
+  methods: {
+    onClickCard(): void {
+      this.$router.push(`/product/${this.salePage.alias}`);
     },
   },
 });
@@ -56,7 +61,6 @@ export default Vue.extend({
 .footer {
   display: flex;
   justify-content: space-between;
-  width: 100%;
   padding: 8px;
   margin-top: 12px;
   box-shadow: -0.4px -2px #e6e6e6;
