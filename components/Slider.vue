@@ -1,20 +1,20 @@
 <template>
-  <div ref="slider" class="slider">
+  <div v-if="banners.length > 0" ref="slider" class="slider">
     <div ref="innerSlider" class="innerSlider">
       <div
         v-for="banner in banners"
         :key="banner.id"
         :style="{
           backgroundImage: `url(${banner.picUrl})`,
+          backgroundSize: `${sliderWidth}px 100%`,
           width: `${sliderWidth}px`,
-          height: `${sliderHeight}px`,
         }"
+        class="slideContent"
         @click="
           () => {
             onClickLink(banner.link);
           }
         "
-        class="slideContent"
       >
         <span class="sliderTitle">{{ banner.title }}</span>
       </div>
@@ -115,11 +115,15 @@ export default Vue.extend({
       this.position = index;
       this.changeSlider();
     },
+    updateWidth(): void {
+      const refSlider = this.$refs.slider as HTMLElement;
+      this.sliderWidth = refSlider.clientWidth;
+    },
   },
   mounted(): void {
-    const refSlider = this.$refs.slider as HTMLElement;
-    this.sliderWidth = refSlider.clientWidth;
-    this.sliderHeight = refSlider.clientHeight;
+    window.setTimeout(() => {
+      this.updateWidth();
+    }, 300);
 
     if (this.auto) {
       this.timerInstance = window.setInterval(
@@ -138,7 +142,6 @@ export default Vue.extend({
 .slider {
   position: relative;
   width: 100%;
-  min-height: 100vh;
   text-align: center;
   margin: 0 auto;
   // cursor: pointer;
@@ -149,6 +152,7 @@ export default Vue.extend({
     left: 0;
     display: flex;
     transition: left 0.5s;
+    height: 100%;
 
     .slideContent {
       float: left;
@@ -156,9 +160,7 @@ export default Vue.extend({
       flex-direction: column;
       justify-content: center;
       box-sizing: border-box;
-      background-size: 100% auto;
-      background-attachment: fixed;
-      background-position: center;
+      height: 100%;
 
       .sliderTitle {
         font-size: 20px;

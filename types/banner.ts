@@ -8,3 +8,12 @@ export interface Banner {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ActionGetBannersResponse {
+  status: number;
+  msg: string;
+  result: {
+    count: number;
+    sliders: Banner[];
+  };
+}
