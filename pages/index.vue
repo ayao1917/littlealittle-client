@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    <MobileView>
-      <CategoryMobile />
-    </MobileView>
+    <MenuBarDesktop class="menuBar" />
+    <CategoryMobile class="categoryMobile" />
     <Slider class="slider" :banners="$banners" />
     <div class="headerContainer">
       <span class="topTenHeader">熱銷排行TOP10</span>
@@ -21,7 +20,7 @@
 <script lang="ts">
 import Vue from "vue";
 import CategoryMobile from "~/components/CategoryMobile.vue";
-import MobileView from "~/components/MobileView.vue";
+import MenuBarDesktop from "~/components/MenuBarDesktop.vue";
 import SalePageCard from "~/components/SalePageCard.vue";
 import Slider from "~/components/Slider.vue";
 import { Banner } from "~/types/banner";
@@ -30,7 +29,7 @@ import { SalePage } from "~/types/salePage";
 export default Vue.extend({
   components: {
     CategoryMobile,
-    MobileView,
+    MenuBarDesktop,
     SalePageCard,
     Slider,
   },
@@ -54,6 +53,23 @@ export default Vue.extend({
   min-height: 100vh;
   background-color: #fafafa;
 
+  @media (min-width: 768px) {
+    .categoryMobile {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .menuBar {
+      display: none;
+    }
+  }
+
+  .menuBar {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
   .slider {
     width: 100%;
     height: 250px;
@@ -74,11 +90,29 @@ export default Vue.extend({
     }
   }
 
-  .salePageRow {
-    display: flex;
+  @media (min-width: 768px) {
+    .salePageRow {
+      display: flex;
+      max-width: 992px;
+      margin: 0 auto;
 
-    .salePageCard {
-      width: 50%;
+      .salePageCard {
+        width: 232px;
+      }
+
+      .salePageCard:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
+  }
+
+  @media (max-width: 767px) {
+    .salePageRow {
+      display: flex;
+
+      .salePageCard {
+        width: 50%;
+      }
     }
   }
 }

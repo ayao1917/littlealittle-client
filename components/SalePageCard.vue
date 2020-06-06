@@ -2,8 +2,8 @@
   <div>
     <div class="container">
       <img :src="salePage.picUrl" class="productImage" @click="onClickCard" />
-      <span class="productTitle">{{ salePage.name }}</span>
-      <span>{{ salePage.metaDescription }}</span>
+      <p class="productTitle">{{ salePage.name }}</p>
+      <p>{{ salePage.metaDescription }}</p>
       <div class="footer">
         <img class="iconLike" src="~assets/images/likeEmpty.svg" />
         <img class="iconCart" src="~assets/images/cart.svg" />
@@ -47,6 +47,7 @@ export default Vue.extend({
   font-size: 19px;
   font-weight: 500;
   text-overflow: ellipsis;
+  margin: 4px 2px;
 }
 
 .productDescription {
@@ -63,7 +64,7 @@ export default Vue.extend({
   justify-content: space-between;
   padding: 8px;
   margin-top: 12px;
-  box-shadow: -0.4px -2px #e6e6e6;
+  border-top: solid 1px #e6e6e6;
 }
 
 .iconLike {

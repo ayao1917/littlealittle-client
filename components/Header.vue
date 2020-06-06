@@ -1,17 +1,17 @@
 <template>
   <div>
     <div class="container">
-      <div class="iconBox">
-        <MobileView>
-          <ActionButton @onClick="onClickMenu">
-            <img class="menuIcon" src="~assets/images/menu.svg" />
-          </ActionButton>
-        </MobileView>
+      <div class="iconBox sideContainer">
+        <img
+          class="menuIcon"
+          src="~assets/images/menu.svg"
+          @click="onClickMenu"
+        />
       </div>
-      <div class="iconBox">
+      <div class="iconBox" @click="onClickLogo">
         <IconLogo size="s" />
       </div>
-      <div class="rightContainer">
+      <div class="rightContainer sideContainer">
         <div class="iconBox">
           <ActionButton @onClick="onClickCart">
             <img class="cartIcon" src="~assets/images/cart.svg" />
@@ -33,7 +33,6 @@ import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import HeaderMenuModal from "~/components/HeaderMenuModal.vue";
 import IconLogo from "~/components/IconLogo.vue";
-import MobileView from "~/components/MobileView.vue";
 
 export default Vue.extend({
   name: "Header",
@@ -41,11 +40,13 @@ export default Vue.extend({
     ActionButton,
     HeaderMenuModal,
     IconLogo,
-    MobileView,
   },
   computed: {},
   methods: {
     onClickCart() {},
+    onClickLogo() {
+      this.$router.push("/");
+    },
     onClickMenu() {
       this.$store.commit("modal/openModal", "HEADER_MENU");
     },
@@ -59,9 +60,13 @@ export default Vue.extend({
   height: 60px;
   padding: 0 20px;
   background-color: #ffffff;
-  box-shadow: 0 2px #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
   display: flex;
   justify-content: space-between;
+
+  .sideContainer {
+    width: 84px;
+  }
 
   .iconBox {
     display: flex;
@@ -91,6 +96,12 @@ export default Vue.extend({
   .userIcon {
     width: 24px;
     height: 25px;
+  }
+
+  @media (min-width: 768px) {
+    .menuIcon {
+      display: none;
+    }
   }
 }
 </style>

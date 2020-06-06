@@ -1,13 +1,16 @@
 <template>
   <div v-if="banners.length > 0" ref="slider" class="slider">
-    <div ref="innerSlider" class="innerSlider">
+    <div
+      ref="innerSlider"
+      :style="{ width: `${$innerSliderWidth}` }"
+      class="innerSlider"
+    >
       <div
         v-for="banner in banners"
         :key="banner.id"
         :style="{
           backgroundImage: `url(${banner.picUrl})`,
-          backgroundSize: `${sliderWidth}px 100%`,
-          width: `${sliderWidth}px`,
+          width: `${$sliderWidth}`,
         }"
         class="slideContent"
         @click="
@@ -88,15 +91,22 @@ export default Vue.extend({
   data() {
     return {
       position: 0,
-      sliderHeight: 0,
-      sliderWidth: 0,
       timerInstance: 0,
     };
   },
+  computed: {
+    $innerSliderWidth(): string {
+      return this.banners.length > 0 ? `${100 * this.banners.length}%` : "100%";
+    },
+    $sliderWidth(): string {
+      return this.banners.length > 0 ? `${100 / this.banners.length}%` : "100%";
+    },
+  },
   methods: {
     changeSlider(): void {
+      const refSlider = this.$refs.slider as HTMLElement;
       const refInnerSlider = this.$refs.innerSlider as HTMLElement;
-      refInnerSlider.style.left = `-${this.position * this.sliderWidth}px`;
+      refInnerSlider.style.left = `-${this.position * refSlider.clientWidth}px`;
     },
     onClickLeft(): void {
       this.position =
@@ -115,16 +125,8 @@ export default Vue.extend({
       this.position = index;
       this.changeSlider();
     },
-    updateWidth(): void {
-      const refSlider = this.$refs.slider as HTMLElement;
-      this.sliderWidth = refSlider.clientWidth;
-    },
   },
   mounted(): void {
-    window.setTimeout(() => {
-      this.updateWidth();
-    }, 300);
-
     if (this.auto) {
       this.timerInstance = window.setInterval(
         this.reverse ? this.onClickLeft : this.onClickRight,
@@ -144,7 +146,6 @@ export default Vue.extend({
   width: 100%;
   text-align: center;
   margin: 0 auto;
-  // cursor: pointer;
   overflow: hidden;
 
   .innerSlider {
@@ -160,6 +161,10 @@ export default Vue.extend({
       flex-direction: column;
       justify-content: center;
       box-sizing: border-box;
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      background-position-x: center;
+      background-color: #e6e6e6;
       height: 100%;
 
       .sliderTitle {
