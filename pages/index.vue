@@ -3,7 +3,7 @@
     <MobileView>
       <CategoryMobile />
     </MobileView>
-    <Slider :banners="$banners" />
+    <Slider class="slider" :banners="$banners" />
     <div class="headerContainer">
       <span class="topTenHeader">熱銷排行TOP10</span>
     </div>
@@ -53,28 +53,33 @@ export default Vue.extend({
 .container {
   min-height: 100vh;
   background-color: #fafafa;
-}
 
-.headerContainer {
-  display: flex;
-  justify-content: center;
-  padding: 14px 0;
-}
+  .slider {
+    width: 100%;
+    height: 250px;
+  }
 
-.topTenHeader {
-  color: #333333;
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: 2.1px;
-  padding: 4px 0;
-  border-bottom: 1px solid #ec8f26;
-}
+  .headerContainer {
+    display: flex;
+    justify-content: center;
+    padding: 14px 0;
 
-.salePageRow {
-  display: flex;
-}
+    .topTenHeader {
+      color: #333333;
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: 2.1px;
+      padding: 4px 0;
+      border-bottom: 1px solid #ec8f26;
+    }
+  }
 
-.salePageCard {
-  width: 50%;
+  .salePageRow {
+    display: flex;
+
+    .salePageCard {
+      width: 50%;
+    }
+  }
 }
 </style>

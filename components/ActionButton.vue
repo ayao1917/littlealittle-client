@@ -38,10 +38,6 @@ export default Vue.extend({
       required: false,
       type: Boolean,
     },
-    onClick: {
-      required: true,
-      type: Function as PropType<() => void>,
-    },
   },
   computed: {
     $classObject(): Object {
@@ -56,7 +52,7 @@ export default Vue.extend({
   },
   methods: {
     onButtonClick() {
-      this.onClick();
+      this.$emit("onClick");
     },
   },
 });
@@ -86,11 +82,13 @@ export default Vue.extend({
 
 .buttonOutlineTeal {
   border-color: #4f9eac;
+  border-style: solid;
   color: #808080;
 }
 
 .buttonOutlineUrbanGrey {
   border-color: #e6e6e6;
+  border-style: solid;
   color: #808080;
 }
 

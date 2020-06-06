@@ -3,7 +3,7 @@
     <div class="container">
       <div class="iconBox">
         <MobileView>
-          <ActionButton :onClick="onClickMenu">
+          <ActionButton @onClick="onClickMenu">
             <img class="menuIcon" src="~assets/images/menu.svg" />
           </ActionButton>
         </MobileView>
@@ -13,12 +13,12 @@
       </div>
       <div class="rightContainer">
         <div class="iconBox">
-          <ActionButton :onClick="onClickCart">
+          <ActionButton @onClick="onClickCart">
             <img class="cartIcon" src="~assets/images/cart.svg" />
           </ActionButton>
         </div>
         <div class="iconBox">
-          <ActionButton :onClick="onClickUser">
+          <ActionButton @onClick="onClickUser">
             <img class="userIcon" src="~assets/images/user.svg" />
           </ActionButton>
         </div>

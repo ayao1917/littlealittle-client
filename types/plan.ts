@@ -33,5 +33,6 @@ export interface PlanListDetailGood {
 export interface PlanListDetail {
   isPrimary: boolean;
   price: number;
-  Good: PlanListDetailGood;
+  goodsId: number;
+  goods: PlanListDetailGood;
 }

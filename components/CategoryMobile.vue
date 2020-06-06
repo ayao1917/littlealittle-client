@@ -8,7 +8,7 @@
           selected === category.id ? 'containedTeal' : 'containedUrbanGrey'
         "
         class="categoryButton"
-        :onClick="
+        @onClick="
           () => {
             onClickCategory(category);
           }
