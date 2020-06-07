@@ -2,8 +2,14 @@
   <div>
     <div class="container">
       <img :src="salePage.picUrl" class="productImage" @click="onClickCard" />
-      <p class="productTitle">{{ salePage.name }}</p>
-      <p>{{ salePage.metaDescription }}</p>
+      <div class="productContent">
+        <p class="productTitle">{{ salePage.name }}</p>
+        <p class="productDescription">不用去韓國也能在家做臉</p>
+        <div class="discount">
+          <span class="discountAfter">NT$2,990</span>
+          <span class="discountBefore">NT$7,089</span>
+        </div>
+      </div>
       <div class="footer">
         <img class="iconLike" src="~assets/images/likeEmpty.svg" />
         <img class="iconCart" src="~assets/images/cart.svg" />
@@ -36,44 +42,74 @@ export default Vue.extend({
 .container {
   margin: 4px;
   background-color: #ffffff;
-}
 
-.productImage {
-  width: 100%;
-}
+  .productImage {
+    width: 100%;
+    cursor: pointer;
+  }
 
-.productTitle {
-  color: #333333;
-  font-size: 19px;
-  font-weight: 500;
-  text-overflow: ellipsis;
-  margin: 4px 2px;
-}
+  .productContent {
+    padding: 0 8px;
 
-.productDescription {
-  color: #808080;
-  font-size: 15px;
-  font-weight: 400;
-  text-align: center;
-  display: inline-block;
-  width: 100%;
-}
+    .productTitle {
+      color: #333333;
+      font-size: 19px;
+      font-weight: 500;
+      text-overflow: ellipsis;
+      margin: 4px 2px;
+    }
 
-.footer {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px;
-  margin-top: 12px;
-  border-top: solid 1px #e6e6e6;
-}
+    .productDescription {
+      color: #808080;
+      font-size: 15px;
+      font-weight: 400;
+      display: inline-block;
+      width: 100%;
+      margin-top: 2px;
+    }
 
-.iconLike {
-  width: 31px;
-  height: 28px;
-}
+    .discount {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
 
-.iconCart {
-  width: 37px;
-  height: 32px;
+      .discountAfter {
+        color: #ba6562;
+        font-size: 19px;
+        font-weight: 600;
+      }
+
+      .discountBefore {
+        color: #b3b3b3;
+        font-size: 15px;
+        font-weight: 400;
+        text-decoration: line-through;
+      }
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    margin-top: 12px;
+    border-top: solid 1px #e6e6e6;
+
+    .iconLike {
+      width: 31px;
+      height: 28px;
+    }
+
+    .iconCart {
+      width: 37px;
+      height: 32px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .footer {
+      display: none;
+    }
+  }
 }
 </style>

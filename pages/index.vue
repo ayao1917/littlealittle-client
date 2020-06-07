@@ -6,14 +6,7 @@
     <div class="headerContainer">
       <span class="topTenHeader">熱銷排行TOP10</span>
     </div>
-    <div class="salePageRow">
-      <SalePageCard
-        v-for="salePage in $salePages"
-        :key="salePage.id"
-        :salePage="salePage"
-        class="salePageCard"
-      />
-    </div>
+    <SalePageRow :salePages="$salePages" />
   </div>
 </template>
 
@@ -21,7 +14,7 @@
 import Vue from "vue";
 import CategoryMobile from "~/components/CategoryMobile.vue";
 import MenuBarDesktop from "~/components/MenuBarDesktop.vue";
-import SalePageCard from "~/components/SalePageCard.vue";
+import SalePageRow from "~/components/SalePageRow.vue";
 import Slider from "~/components/Slider.vue";
 import { Banner } from "~/types/banner";
 import { SalePage } from "~/types/salePage";
@@ -30,7 +23,7 @@ export default Vue.extend({
   components: {
     CategoryMobile,
     MenuBarDesktop,
-    SalePageCard,
+    SalePageRow,
     Slider,
   },
   computed: {
@@ -87,32 +80,6 @@ export default Vue.extend({
       letter-spacing: 2.1px;
       padding: 4px 0;
       border-bottom: 1px solid #ec8f26;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .salePageRow {
-      display: flex;
-      max-width: 992px;
-      margin: 0 auto;
-
-      .salePageCard {
-        width: 232px;
-      }
-
-      .salePageCard:not(:last-child) {
-        margin-right: 12px;
-      }
-    }
-  }
-
-  @media (max-width: 767px) {
-    .salePageRow {
-      display: flex;
-
-      .salePageCard {
-        width: 50%;
-      }
     }
   }
 }
