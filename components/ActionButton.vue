@@ -1,6 +1,7 @@
 <template>
   <button
     :class="[$classObject, 'buttonContainer']"
+    class="buttonDefault"
     :disabled="disabled"
     :type="buttonType"
     @click="onButtonClick"
@@ -59,6 +60,10 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+.buttonDefault {
+  outline: none;
+}
+
 .buttonContainer {
   border-radius: 4px;
   cursor: pointer;
@@ -83,7 +88,7 @@ export default Vue.extend({
 .buttonOutlineTeal {
   border-color: #4f9eac;
   border-style: solid;
-  color: #808080;
+  color: #4f9eac;
 }
 
 .buttonOutlineUrbanGrey {

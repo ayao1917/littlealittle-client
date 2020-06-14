@@ -9,8 +9,8 @@
         <div class="planList" v-if="$plans.length > 0">
           <PlanDropdown
             class="planDropdown"
-            v-for="plan in $plans"
-            :key="plan.id"
+            v-for="(plan, i) in $plans"
+            :key="i"
             :plan="plan"
           />
         </div>
@@ -98,6 +98,10 @@ export default Vue.extend({
 
       .planDropdown {
         width: 100%;
+      }
+
+      .planDropdown:not(:last-child) {
+        margin-bottom: 8px;
       }
     }
   }

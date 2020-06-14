@@ -1,12 +1,36 @@
 <template>
   <div>
-    <div class="container">
+    <div class="salePageContainer">
       <div
         v-if="$product"
         class="productContent"
         v-html="$product.content"
       ></div>
-      <img class="contactIcon" src="~assets/images/contact.png" />
+      <div class="productDetail" v-if="$product">
+        <img class="productImage" :src="$product.picUrl" />
+        <div class="productInfo">
+          <p class="productTitle">{{ $product.name }}</p>
+          <p class="productDescription">
+            寵愛自已情調香芬蠟燭無煙加熱燈，均勻融化蠟燭。不會燃燒
+          </p>
+        </div>
+      </div>
+      <div class="planSelection" v-if="$product">
+        <PlanDropdown
+          class="planDropdown"
+          v-for="(plan, i) in $plans"
+          :key="i"
+          :plan="plan"
+        />
+        <div class="cartActionButtonContainer">
+          <ActionButton class="cartActionButton" buttonStyle="outlineTeal">
+            放入購物車
+          </ActionButton>
+          <ActionButton class="cartActionButton" buttonStyle="containedTeal">
+            立即結帳
+          </ActionButton>
+        </div>
+      </div>
       <div class="buyNowContainer">
         <ActionButton
           buttonStyle="containedTeal"
@@ -25,62 +49,137 @@
 import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import AddCartModalMobile from "~/components/AddCartModalMobile.vue";
+import PlanDropdown from "~/components/PlanDropdown.vue";
+import { Plan } from "~/types/plan";
 import { SalePage } from "~/types/salePage";
 
 export default Vue.extend({
   components: {
     ActionButton,
     AddCartModalMobile,
+    PlanDropdown,
   },
   computed: {
+    $plans(): Plan[] {
+      return this.$product ? this.$product.plans : [];
+    },
     $product(): SalePage {
       return this.$store.getters["salePage/salePage"];
-    },
-  },
-  methods: {
-    onBuyNowClickClick() {
-      this.$store.commit("modal/openModal", "ADD_CART");
     },
   },
   mounted(): void {
     const alias = this.$route.params.alias;
     this.$store.dispatch("salePage/getSalePage", { alias });
   },
+  methods: {
+    onBuyNowClickClick() {
+      this.$store.commit("modal/openModal", "ADD_CART");
+    },
+  },
 });
 </script>
 
 <style scoped lang="scss">
-.container {
-  background-color: #fafafa;
-  min-height: calc(100vh - 60px);
-}
+@media (min-width: 768px) {
+  .salePageContainer {
+    max-width: 768px;
+    margin: 0 auto;
 
-.productContent {
-  /deep/ img {
-    width: 100%;
+    .productContent {
+      /deep/ img {
+        width: 100%;
+      }
+    }
+
+    .productDetail {
+      display: flex;
+      padding: 40px 0 20px;
+
+      .productImage {
+        width: 50%;
+      }
+
+      .productInfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 12px;
+
+        .productTitle {
+          color: #333333;
+          font-size: 23px;
+          font-weight: 600;
+          margin-bottom: 12px;
+        }
+
+        .productDescription {
+          color: #808080;
+          font-size: 19px;
+          font-weight: 400;
+        }
+      }
+    }
+
+    .planSelection {
+      .planDropdown {
+        margin-bottom: 12px;
+      }
+
+      .cartActionButtonContainer {
+        display: flex;
+        margin-bottom: 24px;
+
+        .cartActionButton {
+          width: calc(50% - 4px);
+          padding: 8px;
+        }
+
+        .cartActionButton:not(:last-child) {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .buyNowContainer {
+      display: none;
+    }
   }
 }
 
-.contactIcon {
-  width: 100%;
-}
+@media (max-width: 767px) {
+  .salePageContainer {
+    background-color: #fafafa;
+    min-height: calc(100vh - 60px);
 
-.buyNowContainer {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  padding: 14px;
-  width: 100%;
-  box-sizing: border-box;
-  box-shadow: 0 -4px 10px -6px #808080;
-}
+    .productContent {
+      /deep/ img {
+        width: 100%;
+      }
+    }
 
-.buyNowButton {
-  width: 100%;
-}
+    .productDetail,
+    .planSelection {
+      display: none;
+    }
 
-.buyNowButtonText {
-  font-size: 21px;
-  font-weight: 500;
+    .buyNowContainer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      padding: 14px;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 -4px 10px -6px #808080;
+
+      .buyNowButton {
+        width: 100%;
+
+        .buyNowButtonText {
+          font-size: 21px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <button class="dropdownButton" @click="onDropdownClick">
-      {{ plan.name }}
+      <span class="dropdownText">{{ plan.name }}</span>
       <img
         v-if="!isActive"
         class="dropdownIcon"
@@ -13,7 +13,7 @@
         src="~assets/images/arrowDown.svg"
       />
     </button>
-    <div v-if="isActive">
+    <div class="dropdownContent" v-if="isActive">
       <div class="planListDetailTitle">
         <span>請選擇種類</span>
       </div>
@@ -24,19 +24,21 @@
         :count="selectedPrimary[planDetail.goodsId]"
         @onChangeCount="onUpdatePrimaryCount"
       />
-      <div class="planListDetailTitle">
-        <span>請選擇種類</span>
-        <span :class="{ valid: $isValidPair, invalid: !$isValidPair }">{{
-          `(${$totalSecondary} / ${$target})`
-        }}</span>
+      <div v-if="$accessory.length > 0">
+        <div class="planListDetailTitle">
+          <span>請選擇種類</span>
+          <span :class="{ valid: $isValidPair, invalid: !$isValidPair }">
+            {{ `(${$totalAccessory} / ${$target})` }}
+          </span>
+        </div>
+        <ItemSelector
+          v-for="planDetail in $accessory"
+          :key="planDetail.goodsId"
+          :planListDetail="planDetail"
+          :count="selectedAccessory[planDetail.goodsId]"
+          @onChangeCount="onUpdateSecondaryCount"
+        />
       </div>
-      <ItemSelector
-        v-for="planDetail in $secondary"
-        :key="planDetail.goodsId"
-        :planListDetail="planDetail"
-        :count="selectedSecondary[planDetail.goodsId]"
-        @onChangeCount="onUpdateSecondaryCount"
-      />
     </div>
   </div>
 </template>
@@ -64,26 +66,32 @@ export default Vue.extend({
   data() {
     return {
       isActive: false,
+      selectedAccessory: {} as CountGroup,
       selectedPrimary: {} as CountGroup,
-      selectedSecondary: {} as CountGroup,
     };
   },
   computed: {
-    $isValidPair(): boolean {
-      return this.$target === this.$totalSecondary;
-    },
-    $primary(): PlanListDetail[] {
-      return this.plan.planDetails.filter((planDetail) => planDetail.isPrimary);
-    },
-    $secondary(): PlanListDetail[] {
+    $accessory(): PlanListDetail[] {
       return this.plan.planDetails.filter(
         (planDetail) => !planDetail.isPrimary,
       );
+    },
+    $isValidPair(): boolean {
+      return this.$target === this.$totalAccessory;
+    },
+    $primary(): PlanListDetail[] {
+      return this.plan.planDetails.filter((planDetail) => planDetail.isPrimary);
     },
     $target(): number {
       return (
         (this.$totalPrimary / this.plan.primaryItemQuantity) *
         this.plan.accessorySyncQuantity
+      );
+    },
+    $totalAccessory(): number {
+      return Object.keys(this.selectedAccessory).reduce(
+        (a, c) => a + this.selectedAccessory[c],
+        0,
       );
     },
     $totalPrimary(): number {
@@ -92,19 +100,13 @@ export default Vue.extend({
         0,
       );
     },
-    $totalSecondary(): number {
-      return Object.keys(this.selectedSecondary).reduce(
-        (a, c) => a + this.selectedSecondary[c],
-        0,
-      );
-    },
   },
   mounted(): void {
     this.$primary.forEach((planDetail) => {
       this.$set(this.selectedPrimary, planDetail.goodsId, 0);
     });
-    this.$secondary.forEach((planDetail) => {
-      this.$set(this.selectedSecondary, planDetail.goodsId, 0);
+    this.$accessory.forEach((planDetail) => {
+      this.$set(this.selectedAccessory, planDetail.goodsId, 0);
     });
   },
   methods: {
@@ -115,51 +117,111 @@ export default Vue.extend({
       this.selectedPrimary[id] = value;
     },
     onUpdateSecondaryCount(id: string, value: number): void {
-      this.selectedSecondary[id] = value;
+      this.selectedAccessory[id] = value;
     },
   },
 });
 </script>
 
 <style scoped lang="scss">
-.dropdownButton {
-  border-radius: 8px;
-  border-color: #e6e6e6;
-  border-style: solid;
-  color: #808080;
-  padding: 8px;
-  width: 100%;
-  height: 60px;
-}
+@media (min-width: 768px) {
+  .dropdownButton {
+    border-radius: 8px;
+    border-color: #e6e6e6;
+    border-style: solid;
+    color: #808080;
+    padding: 8px;
+    width: 100%;
+    height: 48px;
+    outline: none;
 
-.dropdownIcon {
-  float: right;
-  width: 20px;
-  height: 11px;
-}
+    .dropdownText {
+      float: left;
+      color: #4d4d4d;
+      font-size: 21px;
+      font-weight: 400;
+    }
 
-.planListDetailTitle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #c7dfe2;
-  width: 100%;
-  height: 60px;
-  padding: 0 15px;
-  box-sizing: border-box;
-
-  span {
-    font-size: 21px;
-    font-weight: 500;
-    color: #4d4d4d;
+    .dropdownIcon {
+      float: right;
+      width: 20px;
+      height: 11px;
+      padding-top: 8px;
+    }
   }
 
-  .valid {
-    color: #4f9eac;
+  .dropdownContent {
+    margin-top: 8px;
+
+    .planListDetailTitle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #c7dfe2;
+      width: 100%;
+      height: 48px;
+      padding: 0 15px;
+      box-sizing: border-box;
+
+      span {
+        font-size: 21px;
+        font-weight: 500;
+        color: #4d4d4d;
+      }
+
+      .valid {
+        color: #4f9eac;
+      }
+
+      .invalid {
+        color: #ed847e;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .dropdownButton {
+    border-radius: 8px;
+    border-color: #e6e6e6;
+    border-style: solid;
+    color: #808080;
+    padding: 8px;
+    width: 100%;
+    height: 60px;
+    outline: none;
+
+    .dropdownIcon {
+      float: right;
+      width: 20px;
+      height: 11px;
+      padding: 4px 4px 0 0;
+    }
   }
 
-  .invalid {
-    color: #ed847e;
+  .planListDetailTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #c7dfe2;
+    width: 100%;
+    height: 60px;
+    padding: 0 15px;
+    box-sizing: border-box;
+
+    span {
+      font-size: 21px;
+      font-weight: 500;
+      color: #4d4d4d;
+    }
+
+    .valid {
+      color: #4f9eac;
+    }
+
+    .invalid {
+      color: #ed847e;
+    }
   }
 }
 </style>

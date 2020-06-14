@@ -53,34 +53,72 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.planListDetailRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 60px;
-  padding: 0 15px;
-  box-sizing: border-box;
-  border-color: #e6e6e6;
-  border-style: solid;
-  border-width: 0.5px;
-
-  .countSelect {
+@media (min-width: 768px) {
+  .planListDetailRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 30%;
+    width: 100%;
+    height: 48px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    border-color: #e6e6e6;
+    border-style: solid;
+    border-width: 0.5px;
 
-    .minusIcon {
-      width: 17px;
-      height: 3px;
-      cursor: pointer;
+    .countSelect {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 15%;
+
+      .minusIcon {
+        width: 17px;
+        height: 3px;
+        cursor: pointer;
+        margin-right: 12px;
+      }
+
+      .plusIcon {
+        width: 17px;
+        height: 18px;
+        cursor: pointer;
+        margin-left: 12px;
+      }
     }
+  }
+}
 
-    .plusIcon {
-      width: 17px;
-      height: 18px;
-      cursor: pointer;
+@media (max-width: 767px) {
+  .planListDetailRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    border-color: #e6e6e6;
+    border-style: solid;
+    border-width: 0.5px;
+
+    .countSelect {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 30%;
+
+      .minusIcon {
+        width: 17px;
+        height: 3px;
+        cursor: pointer;
+      }
+
+      .plusIcon {
+        width: 17px;
+        height: 18px;
+        cursor: pointer;
+      }
     }
   }
 }
