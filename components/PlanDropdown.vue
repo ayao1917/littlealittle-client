@@ -1,7 +1,12 @@
 <template>
   <div>
     <button class="dropdownButton" @click="onDropdownClick">
-      <span class="dropdownText">{{ plan.name }}</span>
+      <div class="dropdownText">
+        <span>{{ plan.name }}</span>
+        <span v-if="$totalPlanFee > 0" class="amount">
+          {{ `${$currency} ${$totalPlanFee}` }}
+        </span>
+      </div>
       <img
         v-if="!isActive"
         class="dropdownIcon"
@@ -13,9 +18,20 @@
         src="~assets/images/arrowDown.svg"
       />
     </button>
-    <div class="dropdownContent" v-if="isActive">
+    <div v-if="isActive" class="dropdownContent">
       <div class="planListDetailTitle">
-        <span>請選擇種類</span>
+        <div>
+          <span>主要商品</span>
+          <span v-if="$totalPrimaryFee > 0" class="amount">
+            {{ `${$currency} ${$totalPrimaryFee}` }}
+          </span>
+        </div>
+        <span
+          v-if="$shouldValidatePrimary"
+          :class="{ valid: $isValidPrimary, invalid: !$isValidPrimary }"
+        >
+          {{ `(${$totalPrimaryAmount} / ${$targetPrimaryQuantity})` }}
+        </span>
       </div>
       <ItemSelector
         v-for="planDetail in $primary"
@@ -26,9 +42,17 @@
       />
       <div v-if="$accessory.length > 0">
         <div class="planListDetailTitle">
-          <span>請選擇種類</span>
-          <span :class="{ valid: $isValidPair, invalid: !$isValidPair }">
-            {{ `(${$totalAccessory} / ${$target})` }}
+          <div>
+            <span>配件商品</span>
+            <span v-if="$totalAccessoryFee > 0" class="amount">
+              {{ `${$currency} ${$totalAccessoryFee}` }}
+            </span>
+          </div>
+          <span
+            v-if="$shouldValidateAccessory"
+            :class="{ valid: $isValidAccessory, invalid: !$isValidAccessory }"
+          >
+            {{ `(${$totalAccessoryAmount} / ${$targetAccessoryQuantity})` }}
           </span>
         </div>
         <ItemSelector
@@ -76,29 +100,106 @@ export default Vue.extend({
         (planDetail) => !planDetail.isPrimary,
       );
     },
-    $isValidPair(): boolean {
-      return this.$target === this.$totalAccessory;
+    $currency(): string {
+      const product = this.$store.getters["salePage/salePage"];
+      if (product) {
+        return product.currency.isoCode;
+      } else {
+        return "$";
+      }
+    },
+    $isValidAccessory(): boolean {
+      const { accessoryQuantity } = this.plan;
+      if (accessoryQuantity === -1 || accessoryQuantity === 1) {
+        return this.$targetAccessoryQuantity === this.$totalAccessoryAmount;
+      } else {
+        return true;
+      }
+    },
+    $isValidPrimary(): boolean {
+      const { primaryItemQuantity } = this.plan;
+      if (primaryItemQuantity === 1) {
+        return true;
+      } else {
+        return this.$targetPrimaryQuantity === this.$totalPrimaryAmount;
+      }
     },
     $primary(): PlanListDetail[] {
       return this.plan.planDetails.filter((planDetail) => planDetail.isPrimary);
     },
-    $target(): number {
-      return (
-        (this.$totalPrimary / this.plan.primaryItemQuantity) *
-        this.plan.accessorySyncQuantity
-      );
+    $shouldValidateAccessory(): boolean {
+      const { accessoryQuantity } = this.plan;
+      return accessoryQuantity === -1 || accessoryQuantity > 1;
     },
-    $totalAccessory(): number {
+    $shouldValidatePrimary(): boolean {
+      const { primaryItemQuantity } = this.plan;
+      return primaryItemQuantity > 1;
+    },
+    $targetAccessoryQuantity(): number {
+      const {
+        accessoryQuantity,
+        accessorySyncQuantity,
+        primaryItemQuantity,
+      } = this.plan;
+      if (accessoryQuantity === -1) {
+        return (
+          (this.$totalPrimaryAmount / primaryItemQuantity) *
+          accessorySyncQuantity
+        );
+      } else if (accessoryQuantity > 1) {
+        return accessoryQuantity;
+      } else {
+        return 0;
+      }
+    },
+    $targetPrimaryQuantity(): number {
+      const { primaryItemQuantity } = this.plan;
+      if (primaryItemQuantity > 1) {
+        return primaryItemQuantity;
+      } else {
+        return 0;
+      }
+    },
+    $totalAccessoryAmount(): number {
       return Object.keys(this.selectedAccessory).reduce(
         (a, c) => a + this.selectedAccessory[c],
         0,
       );
     },
-    $totalPrimary(): number {
+    $totalAccessoryFee(): number {
+      const { accessoryPrice, accessoryQuantity } = this.plan;
+      if (accessoryQuantity === -1) {
+        return accessoryPrice * this.$targetAccessoryQuantity;
+      } else if (accessoryQuantity === 0) {
+        return accessoryPrice * accessoryQuantity;
+      } else if (accessoryQuantity === 1) {
+        return accessoryPrice * this.$totalAccessoryAmount;
+      } else {
+        return (
+          accessoryPrice * (this.$totalAccessoryAmount / accessoryQuantity)
+        );
+      }
+    },
+    $totalPlanFee(): number {
+      return this.$totalPrimaryFee + this.$totalAccessoryFee;
+    },
+    $totalPrimaryAmount(): number {
       return Object.keys(this.selectedPrimary).reduce(
         (a, c) => a + this.selectedPrimary[c],
         0,
       );
+    },
+    $totalPrimaryFee(): number {
+      const { primaryItemPrice, primaryItemQuantity } = this.plan;
+      if (primaryItemQuantity === 1) {
+        return primaryItemPrice * this.$totalPrimaryAmount;
+      } else if (primaryItemQuantity > 1) {
+        return (
+          primaryItemPrice * (this.$totalPrimaryAmount / primaryItemQuantity)
+        );
+      } else {
+        return 0;
+      }
     },
   },
   mounted(): void {
@@ -126,6 +227,9 @@ export default Vue.extend({
 <style scoped lang="scss">
 @media (min-width: 768px) {
   .dropdownButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 8px;
     border-color: #e6e6e6;
     border-style: solid;
@@ -135,18 +239,15 @@ export default Vue.extend({
     height: 48px;
     outline: none;
 
-    .dropdownText {
-      float: left;
+    .dropdownText span {
       color: #4d4d4d;
       font-size: 21px;
       font-weight: 400;
     }
 
     .dropdownIcon {
-      float: right;
       width: 20px;
       height: 11px;
-      padding-top: 8px;
     }
   }
 
@@ -191,6 +292,11 @@ export default Vue.extend({
     height: 60px;
     outline: none;
 
+    .dropdownText {
+      display: inline;
+      margin-left: 24px;
+    }
+
     .dropdownIcon {
       float: right;
       width: 20px;
@@ -223,5 +329,9 @@ export default Vue.extend({
       color: #ed847e;
     }
   }
+}
+
+.amount {
+  color: #4f9eac;
 }
 </style>
