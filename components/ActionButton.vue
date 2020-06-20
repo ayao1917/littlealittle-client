@@ -52,8 +52,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    onButtonClick() {
-      this.$emit("onClick");
+    onButtonClick(event: MouseEvent) {
+      this.$emit("onClick", event);
     },
   },
 });

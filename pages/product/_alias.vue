@@ -6,7 +6,7 @@
         class="productContent"
         v-html="$product.content"
       ></div>
-      <div class="productDetail" v-if="$product">
+      <div v-if="$product" class="productDetail">
         <img class="productImage" :src="$product.picUrl" />
         <div class="productInfo">
           <p class="productTitle">{{ $product.name }}</p>
@@ -21,12 +21,21 @@
           v-for="(plan, i) in $plans"
           :key="i"
           :plan="plan"
+          @onUpdatePlan="onUpdateSelectedPlan"
         />
         <div class="cartActionButtonContainer">
-          <ActionButton class="cartActionButton" buttonStyle="outlineTeal">
+          <ActionButton
+            class="cartActionButton"
+            buttonStyle="outlineTeal"
+            @onClick="onAddToCartClick"
+          >
             放入購物車
           </ActionButton>
-          <ActionButton class="cartActionButton" buttonStyle="containedTeal">
+          <ActionButton
+            class="cartActionButton"
+            buttonStyle="containedTeal"
+            @onClick="onBuyNowClick"
+          >
             立即結帳
           </ActionButton>
         </div>
@@ -35,13 +44,17 @@
         <ActionButton
           buttonStyle="containedTeal"
           class="buyNowButton"
-          @onClick="onBuyNowClickClick"
+          @onClick="onOpenCartModalClick"
         >
           <span class="buyNowButtonText">立即購買</span>
         </ActionButton>
       </div>
     </div>
-    <AddCartModalMobile :product="$product" />
+    <AddCartModalMobile
+      :product="$product"
+      @onAddToCart="doAddToCart"
+      @onUpdatePlan="onUpdateSelectedPlan"
+    />
   </div>
 </template>
 
@@ -50,14 +63,21 @@ import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import AddCartModalMobile from "~/components/AddCartModalMobile.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
+import { SelectedPlan, SelectedPlans } from "~/types/cart";
 import { Plan } from "~/types/plan";
 import { SalePage } from "~/types/salePage";
+import { addToCartAnimate } from "~/utils/cart";
 
 export default Vue.extend({
   components: {
     ActionButton,
     AddCartModalMobile,
     PlanDropdown,
+  },
+  data() {
+    return {
+      selectedPlans: {} as SelectedPlans,
+    };
   },
   computed: {
     $plans(): Plan[] {
@@ -72,8 +92,28 @@ export default Vue.extend({
     this.$store.dispatch("salePage/getSalePage", { alias });
   },
   methods: {
-    onBuyNowClickClick() {
+    doAddToCart() {
+      this.$store.commit("cart/pushCartPlan", this.selectedPlans);
+    },
+    onAddToCartClick(event: MouseEvent) {
+      const { picUrl } = this.$product;
+      const { clientX, clientY } = event;
+      addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
+        this.doAddToCart();
+      });
+    },
+    onBuyNowClick(event: MouseEvent) {
+      const { picUrl } = this.$product;
+      const { clientX, clientY } = event;
+      addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
+        this.doAddToCart();
+      });
+    },
+    onOpenCartModalClick() {
       this.$store.commit("modal/openModal", "ADD_CART");
+    },
+    onUpdateSelectedPlan(selectedPlan: SelectedPlan) {
+      this.selectedPlans[selectedPlan.id] = selectedPlan;
     },
   },
 });
@@ -168,8 +208,10 @@ export default Vue.extend({
       bottom: 0;
       padding: 14px;
       width: 100%;
+      height: 60px;
       box-sizing: border-box;
       box-shadow: 0 -4px 10px -6px #808080;
+      background-color: #ffffff;
 
       .buyNowButton {
         width: 100%;
@@ -180,6 +222,12 @@ export default Vue.extend({
         }
       }
     }
+  }
+
+  .salePageContainer:after {
+    content: "";
+    display: block;
+    height: 60px;
   }
 }
 </style>

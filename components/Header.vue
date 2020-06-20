@@ -14,7 +14,7 @@
       <div class="rightContainer sideContainer">
         <div class="iconBox">
           <ActionButton @onClick="onClickCart">
-            <img class="cartIcon" src="~assets/images/cart.svg" />
+            <img class="headerCartIcon" src="~assets/images/cart.svg" />
           </ActionButton>
         </div>
         <div class="iconBox">
@@ -88,7 +88,7 @@ export default Vue.extend({
     height: 31px;
   }
 
-  .cartIcon {
+  .headerCartIcon {
     width: 33px;
     height: 29px;
   }

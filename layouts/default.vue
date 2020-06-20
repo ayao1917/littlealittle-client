@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Header />
-    <nuxt />
+    <Header class="header" />
+    <nuxt class="content" />
     <Footer class="footer" />
   </div>
 </template>
@@ -21,6 +21,20 @@ export default Vue.extend({
 
 <style lang="scss">
 @import "../assets/css/reset.scss";
+
+.header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.content:before {
+  content: "";
+  display: block;
+  height: 60px;
+}
+
 @media (max-width: 767px) {
   .footer {
     display: none;

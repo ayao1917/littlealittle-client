@@ -12,13 +12,22 @@
             v-for="(plan, i) in $plans"
             :key="i"
             :plan="plan"
+            @onUpdatePlan="onUpdatePlan"
           />
         </div>
         <div class="modalFooter">
-          <ActionButton class="footerButton" buttonStyle="outlineTeal">
+          <ActionButton
+            class="footerButton"
+            buttonStyle="outlineTeal"
+            @onClick="onAddToCartClick"
+          >
             放入購物車
           </ActionButton>
-          <ActionButton class="footerButton" buttonStyle="containedTeal">
+          <ActionButton
+            class="footerButton"
+            buttonStyle="containedTeal"
+            @onClick="onBuyNowClick"
+          >
             立即結帳
           </ActionButton>
         </div>
@@ -31,8 +40,10 @@
 import Vue, { PropType } from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
+import { SelectedPlan, SelectedPlans } from "~/types/cart";
 import { Plan } from "~/types/plan";
 import { SalePage } from "~/types/salePage";
+import { addToCartAnimate } from "~/utils/cart";
 
 export default Vue.extend({
   name: "AddCartModalMobile",
@@ -56,8 +67,25 @@ export default Vue.extend({
     },
   },
   methods: {
+    onAddToCartClick(event: MouseEvent) {
+      const { picUrl } = this.product;
+      const { clientX, clientY } = event;
+      addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
+        this.$emit("onAddToCart");
+      });
+    },
+    onBuyNowClick(event: MouseEvent) {
+      const { picUrl } = this.product;
+      const { clientX, clientY } = event;
+      addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
+        this.$emit("onAddToCart");
+      });
+    },
     onCloseModal() {
       this.$store.commit("modal/closeModal");
+    },
+    onUpdatePlan(selectedPlan: SelectedPlan) {
+      this.$emit("onUpdatePlan", selectedPlan);
     },
   },
 });
@@ -108,7 +136,7 @@ export default Vue.extend({
 
   .modalFooter {
     display: flex;
-    padding: 0 8px;
+    padding: 0 8px 12px;
 
     .footerButton {
       width: calc(50% - 4px);

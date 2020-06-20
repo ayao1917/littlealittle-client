@@ -70,11 +70,8 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import ItemSelector from "~/components/ItemSelector.vue";
+import { CountGroup, SelectedPlan } from "~/types/cart";
 import { Plan, PlanListDetail } from "~/types/plan";
-
-interface CountGroup {
-  [key: string]: number;
-}
 
 export default Vue.extend({
   name: "PlanDropdown",
@@ -126,6 +123,9 @@ export default Vue.extend({
     },
     $primary(): PlanListDetail[] {
       return this.plan.planDetails.filter((planDetail) => planDetail.isPrimary);
+    },
+    $selectedAccessory(): CountGroup {
+      return this.selectedAccessory
     },
     $shouldValidateAccessory(): boolean {
       const { accessoryQuantity } = this.plan;
@@ -219,6 +219,14 @@ export default Vue.extend({
     },
     onUpdateSecondaryCount(id: string, value: number): void {
       this.selectedAccessory[id] = value;
+    },
+    updateSelectPlan(): void {
+      const selectedPlan: SelectedPlan = {
+        id: this.plan.id,
+        selectedAccessory: this.selectedAccessory,
+        selectedPrimary: this.selectedPrimary,
+      };
+      this.$emit("onUpdatePlan", selectedPlan);
     },
   },
 });
