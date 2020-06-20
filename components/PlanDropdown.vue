@@ -124,9 +124,6 @@ export default Vue.extend({
     $primary(): PlanListDetail[] {
       return this.plan.planDetails.filter((planDetail) => planDetail.isPrimary);
     },
-    $selectedAccessory(): CountGroup {
-      return this.selectedAccessory
-    },
     $shouldValidateAccessory(): boolean {
       const { accessoryQuantity } = this.plan;
       return accessoryQuantity === -1 || accessoryQuantity > 1;
@@ -216,9 +213,11 @@ export default Vue.extend({
     },
     onUpdatePrimaryCount(id: string, value: number): void {
       this.selectedPrimary[id] = value;
+      this.updateSelectPlan();
     },
     onUpdateSecondaryCount(id: string, value: number): void {
       this.selectedAccessory[id] = value;
+      this.updateSelectPlan();
     },
     updateSelectPlan(): void {
       const selectedPlan: SelectedPlan = {
@@ -226,7 +225,10 @@ export default Vue.extend({
         selectedAccessory: this.selectedAccessory,
         selectedPrimary: this.selectedPrimary,
       };
-      this.$emit("onUpdatePlan", selectedPlan);
+      this.$emit("onUpdatePlan", {
+        isValid: this.$isValidAccessory && this.$isValidPrimary,
+        selectedPlan,
+      });
     },
   },
 });

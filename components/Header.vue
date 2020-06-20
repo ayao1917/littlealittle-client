@@ -13,8 +13,9 @@
       </div>
       <div class="rightContainer sideContainer">
         <div class="iconBox">
-          <ActionButton @onClick="onClickCart">
+          <ActionButton class="cartButton" @onClick="onClickCart">
             <img class="headerCartIcon" src="~assets/images/cart.svg" />
+            <div class="cartCount">{{ $cartCount }}</div>
           </ActionButton>
         </div>
         <div class="iconBox">
@@ -41,7 +42,11 @@ export default Vue.extend({
     HeaderMenuModal,
     IconLogo,
   },
-  computed: {},
+  computed: {
+    $cartCount(): number {
+      return this.$store.getters["cart/planCount"];
+    },
+  },
   methods: {
     onClickCart() {},
     onClickLogo() {
@@ -72,6 +77,27 @@ export default Vue.extend({
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+  .cartButton {
+    position: relative;
+
+    .cartCount {
+      position: absolute;
+      top: -7px;
+      right: -7px;
+      color: white;
+      font-size: 6px;
+      display: inline-block;
+      text-align: center;
+      width: 18px;
+      height: 18px;
+      line-height: 13px;
+      background: #4f9dac;
+      border: 2px solid #f7f7f7;
+      border-radius: 50%;
+      box-sizing: border-box;
+      padding-top: 1px;
+    }
   }
 
   .rightContainer {

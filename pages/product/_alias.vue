@@ -27,6 +27,7 @@
           <ActionButton
             class="cartActionButton"
             buttonStyle="outlineTeal"
+            :disabled="!$isValid"
             @onClick="onAddToCartClick"
           >
             放入購物車
@@ -34,6 +35,7 @@
           <ActionButton
             class="cartActionButton"
             buttonStyle="containedTeal"
+            :disabled="!$isValid"
             @onClick="onBuyNowClick"
           >
             立即結帳
@@ -76,10 +78,14 @@ export default Vue.extend({
   },
   data() {
     return {
+      isPlanValid: [] as boolean[],
       selectedPlans: {} as SelectedPlans,
     };
   },
   computed: {
+    $isValid(): boolean {
+      return this.isPlanValid.length > 0 && this.isPlanValid.every(Boolean);
+    },
     $plans(): Plan[] {
       return this.$product ? this.$product.plans : [];
     },
@@ -112,7 +118,12 @@ export default Vue.extend({
     onOpenCartModalClick() {
       this.$store.commit("modal/openModal", "ADD_CART");
     },
-    onUpdateSelectedPlan(selectedPlan: SelectedPlan) {
+    onUpdateSelectedPlan(data: {
+      isValid: boolean;
+      selectedPlan: SelectedPlan;
+    }) {
+      const { isValid, selectedPlan } = data;
+      this.$set(this.isPlanValid, selectedPlan.id, isValid);
       this.selectedPlans[selectedPlan.id] = selectedPlan;
     },
   },

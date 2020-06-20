@@ -86,14 +86,12 @@ export default Vue.extend({
 }
 
 .buttonOutlineTeal {
-  border-color: #4f9eac;
-  border-style: solid;
+  border: solid 1px #4f9eac;
   color: #4f9eac;
 }
 
 .buttonOutlineUrbanGrey {
-  border-color: #e6e6e6;
-  border-style: solid;
+  border: solid 1px #e6e6e6;
   color: #808080;
 }
 
