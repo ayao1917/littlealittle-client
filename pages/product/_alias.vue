@@ -113,6 +113,7 @@ export default Vue.extend({
       const { clientX, clientY } = event;
       addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
         this.doAddToCart();
+        this.$router.push("/cart");
       });
     },
     onOpenCartModalClick() {

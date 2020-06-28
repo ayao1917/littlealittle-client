@@ -9,7 +9,7 @@
         />
       </div>
       <div class="iconBox" @click="onClickLogo">
-        <IconLogo size="s" />
+        <IconLogo class="logoIcon" size="s" />
       </div>
       <div class="rightContainer sideContainer">
         <div class="iconBox">
@@ -48,7 +48,9 @@ export default Vue.extend({
     },
   },
   methods: {
-    onClickCart() {},
+    onClickCart() {
+      this.$router.push("/cart");
+    },
     onClickLogo() {
       this.$router.push("/");
     },
@@ -78,6 +80,7 @@ export default Vue.extend({
     flex-direction: column;
     justify-content: center;
   }
+
   .cartButton {
     position: relative;
 
@@ -112,6 +115,7 @@ export default Vue.extend({
   .logoIcon {
     width: 102px;
     height: 31px;
+    cursor: pointer;
   }
 
   .headerCartIcon {
