@@ -1,13 +1,13 @@
 <template>
-
+  <div></div>
 </template>
 
-<script>
-  export default {
-    name: '_id'
-  }
+<script lang="ts">
+import Vue from "vue";
+
+export default Vue.extend({
+  name: "Category",
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped lang="scss"></style>

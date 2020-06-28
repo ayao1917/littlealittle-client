@@ -70,7 +70,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import ItemSelector from "~/components/ItemSelector.vue";
-import { CountGroup, SelectedPlan } from "~/types/cart";
+import { CountGroup } from "~/types/cart";
 import { Plan, PlanListDetail } from "~/types/plan";
 
 export default Vue.extend({
@@ -220,14 +220,13 @@ export default Vue.extend({
       this.updateSelectPlan();
     },
     updateSelectPlan(): void {
-      const selectedPlan: SelectedPlan = {
-        id: this.plan.id,
-        selectedAccessory: this.selectedAccessory,
-        selectedPrimary: this.selectedPrimary,
-      };
       this.$emit("onUpdatePlan", {
         isValid: this.$isValidAccessory && this.$isValidPrimary,
-        selectedPlan,
+        selectedPlan: {
+          plan: this.plan,
+          selectedAccessory: this.selectedAccessory,
+          selectedPrimary: this.selectedPrimary,
+        },
       });
     },
   },

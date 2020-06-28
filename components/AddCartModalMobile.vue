@@ -40,7 +40,7 @@
 import Vue, { PropType } from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
-import { SelectedPlan, SelectedPlans } from "~/types/cart";
+import { SelectedPlan } from "~/types/cart";
 import { Plan } from "~/types/plan";
 import { SalePage } from "~/types/salePage";
 import { addToCartAnimate } from "~/utils/cart";

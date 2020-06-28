@@ -3,17 +3,16 @@
     <template v-for="(node, index) in nodes">
       <div
         v-if="index !== 0"
-        :key="node.progress"
+        :key="`c-${node.progress}`"
         class="progressConnectorContainer"
       >
         <div
           v-if="index !== 0"
-          :key="node.progress"
           class="progressConnector"
           :class="{ nodeActive: node.progress <= currentProgress }"
         ></div>
       </div>
-      <div :key="node.progress" class="progressNode">
+      <div :key="`n-${node.progress}`" class="progressNode">
         <div
           class="progressNodeCircle"
           :class="{ nodeActive: node.progress <= currentProgress }"

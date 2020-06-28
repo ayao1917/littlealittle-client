@@ -65,7 +65,7 @@ import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import AddCartModalMobile from "~/components/AddCartModalMobile.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
-import { SelectedPlan, SelectedPlans } from "~/types/cart";
+import { CartProduct, SelectedPlan } from "~/types/cart";
 import { Plan } from "~/types/plan";
 import { SalePage } from "~/types/salePage";
 import { addToCartAnimate } from "~/utils/cart";
@@ -78,8 +78,8 @@ export default Vue.extend({
   },
   data() {
     return {
+      cartProduct: (null as unknown) as CartProduct,
       isPlanValid: [] as boolean[],
-      selectedPlans: {} as SelectedPlans,
     };
   },
   computed: {
@@ -96,10 +96,16 @@ export default Vue.extend({
   mounted(): void {
     const alias = this.$route.params.alias;
     this.$store.dispatch("salePage/getSalePage", { alias });
+    this.cartProduct = {
+      salePage: this.$product,
+      selectedPlans: {},
+    };
   },
   methods: {
     doAddToCart() {
-      this.$store.commit("cart/pushCartPlan", this.selectedPlans);
+      this.$store.commit("cart/pushCartProduct", {
+        [this.$product.id]: this.cartProduct,
+      });
     },
     onAddToCartClick(event: MouseEvent) {
       const { picUrl } = this.$product;
@@ -124,8 +130,9 @@ export default Vue.extend({
       selectedPlan: SelectedPlan;
     }) {
       const { isValid, selectedPlan } = data;
-      this.$set(this.isPlanValid, selectedPlan.id, isValid);
-      this.selectedPlans[selectedPlan.id] = selectedPlan;
+      this.$set(this.isPlanValid, selectedPlan.plan.id, isValid);
+      this.cartProduct.salePage = this.$product;
+      this.cartProduct.selectedPlans[selectedPlan.plan.id] = selectedPlan;
     },
   },
 });
