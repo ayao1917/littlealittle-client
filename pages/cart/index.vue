@@ -68,12 +68,17 @@ export default Vue.extend({
     display: flex;
     justify-content: center;
     border-bottom: 1px solid #e6e6e6;
-    width: 100%;
     padding: 12px 24px;
 
     .cartProgress {
       width: 100%;
     }
+  }
+
+  .cartBody {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
   }
 }
 </style>

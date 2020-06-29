@@ -48,9 +48,8 @@ export default Vue.extend({
 
 @media (max-width: 767px) {
   .salePageContainer {
-    display: flex;
-
     .salePageCard {
+      float: left;
       width: 50%;
     }
   }

@@ -1,28 +1,26 @@
 <template>
-  <div>
-    <div class="container">
-      <div class="iconBox sideContainer">
-        <img
-          class="menuIcon"
-          src="~assets/images/menu.svg"
-          @click="onClickMenu"
-        />
+  <div class="headerContainer">
+    <div class="iconBox sideContainer">
+      <img
+        class="menuIcon"
+        src="~assets/images/menu.svg"
+        @click="onClickMenu"
+      />
+    </div>
+    <div class="iconBox" @click="onClickLogo">
+      <IconLogo class="logoIcon" size="s" />
+    </div>
+    <div class="rightContainer sideContainer">
+      <div class="iconBox">
+        <ActionButton class="cartButton" @onClick="onClickCart">
+          <img class="headerCartIcon" src="~assets/images/cart.svg" />
+          <div class="cartCount">{{ $cartCount }}</div>
+        </ActionButton>
       </div>
-      <div class="iconBox" @click="onClickLogo">
-        <IconLogo class="logoIcon" size="s" />
-      </div>
-      <div class="rightContainer sideContainer">
-        <div class="iconBox">
-          <ActionButton class="cartButton" @onClick="onClickCart">
-            <img class="headerCartIcon" src="~assets/images/cart.svg" />
-            <div class="cartCount">{{ $cartCount }}</div>
-          </ActionButton>
-        </div>
-        <div class="iconBox">
-          <ActionButton @onClick="onClickUser">
-            <img class="userIcon" src="~assets/images/user.svg" />
-          </ActionButton>
-        </div>
+      <div class="iconBox">
+        <ActionButton @onClick="onClickUser">
+          <img class="userIcon" src="~assets/images/user.svg" />
+        </ActionButton>
       </div>
     </div>
     <HeaderMenuModal />
@@ -63,7 +61,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.container {
+.headerContainer {
   height: 60px;
   padding: 0 20px;
   background-color: #ffffff;
