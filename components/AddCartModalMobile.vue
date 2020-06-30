@@ -6,14 +6,16 @@
         <div class="contentHeader">
           <img class="pullBarIcon" src="~assets/images/pullBar.svg" />
         </div>
-        <div class="planList" v-if="$plans.length > 0">
+        <div v-if="$selectedPlans.length > 0" class="planList">
           <PlanDropdown
-            class="planDropdown"
-            v-for="(plan, i) in $plans"
+            v-for="(selectedPlan, i) in $selectedPlans"
             :key="i"
-            :plan="plan"
+            class="planDropdown"
+            :plan="selectedPlan.plan"
+            :selectedAccessory="selectedPlan.selectedAccessory"
+            :selectedPrimary="selectedPlan.selectedPrimary"
             @onUpdatePlan="onUpdatePlan"
-          />
+          ></PlanDropdown>
         </div>
         <div class="modalFooter">
           <ActionButton
@@ -41,7 +43,6 @@ import Vue, { PropType } from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
 import { SelectedPlan } from "~/types/cart";
-import { Plan } from "~/types/plan";
 import { SalePage } from "~/types/salePage";
 import { addToCartAnimate } from "~/utils/cart";
 
@@ -53,17 +54,24 @@ export default Vue.extend({
   },
   props: {
     product: {
-      default: null,
-      required: false,
+      required: true,
       type: Object as PropType<SalePage>,
+    },
+    selectedPlans: {
+      required: true,
+      type: Object as PropType<{
+        [key: string]: SelectedPlan;
+      }>,
     },
   },
   computed: {
     $isModalActive(): boolean {
       return this.$store.state.modal.activeModal === "ADD_CART";
     },
-    $plans(): Plan[] {
-      return this.product ? this.product.plans : [];
+    $selectedPlans(): SelectedPlan[] {
+      return Object.keys(this.selectedPlans).map(
+        (key) => this.selectedPlans[key],
+      );
     },
   },
   methods: {
@@ -72,6 +80,7 @@ export default Vue.extend({
       const { clientX, clientY } = event;
       addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
         this.$emit("onAddToCart");
+        this.$store.commit("modal/closeModal");
       });
     },
     onBuyNowClick(event: MouseEvent) {
@@ -79,6 +88,8 @@ export default Vue.extend({
       const { clientX, clientY } = event;
       addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
         this.$emit("onAddToCart");
+        this.$store.commit("modal/closeModal");
+        this.$router.push("/cart");
       });
     },
     onCloseModal() {

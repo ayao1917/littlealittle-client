@@ -17,12 +17,14 @@
       </div>
       <div class="planSelection" v-if="$product">
         <PlanDropdown
-          class="planDropdown"
-          v-for="(plan, i) in $plans"
+          v-for="(selectedPlan, i) in $selectedPlans"
           :key="i"
-          :plan="plan"
+          class="planDropdown"
+          :plan="selectedPlan.plan"
+          :selectedAccessory="selectedPlan.selectedAccessory"
+          :selectedPrimary="selectedPlan.selectedPrimary"
           @onUpdatePlan="onUpdateSelectedPlan"
-        />
+        ></PlanDropdown>
         <div class="cartActionButtonContainer">
           <ActionButton
             class="cartActionButton"
@@ -53,10 +55,12 @@
       </div>
     </div>
     <AddCartModalMobile
+      v-if="$product"
       :product="$product"
+      :selectedPlans="cartProduct.selectedPlans"
       @onAddToCart="doAddToCart"
       @onUpdatePlan="onUpdateSelectedPlan"
-    />
+    ></AddCartModalMobile>
   </div>
 </template>
 
@@ -86,20 +90,40 @@ export default Vue.extend({
     $isValid(): boolean {
       return this.isPlanValid.length > 0 && this.isPlanValid.every(Boolean);
     },
-    $plans(): Plan[] {
-      return this.$product ? this.$product.plans : [];
-    },
     $product(): SalePage {
       return this.$store.getters["salePage/salePage"];
+    },
+    $selectedPlans(): SelectedPlan[] {
+      return this.cartProduct
+        ? Object.keys(this.cartProduct.selectedPlans).map(
+            (key) => this.cartProduct.selectedPlans[key],
+          )
+        : [];
+    },
+  },
+  watch: {
+    $product(newProduct, oldProduct) {
+      if (!oldProduct && !!newProduct) {
+        const selectedPlans: {
+          [key: string]: SelectedPlan;
+        } = {};
+        newProduct.plans.forEach((plan: Plan) => {
+          selectedPlans[plan.id] = {
+            plan,
+            selectedAccessory: {},
+            selectedPrimary: {},
+          };
+        });
+        this.cartProduct = {
+          salePage: newProduct,
+          selectedPlans,
+        };
+      }
     },
   },
   mounted(): void {
     const alias = this.$route.params.alias;
     this.$store.dispatch("salePage/getSalePage", { alias });
-    this.cartProduct = {
-      salePage: this.$product,
-      selectedPlans: {},
-    };
   },
   methods: {
     doAddToCart() {
@@ -131,7 +155,6 @@ export default Vue.extend({
     }) {
       const { isValid, selectedPlan } = data;
       this.$set(this.isPlanValid, selectedPlan.plan.id, isValid);
-      this.cartProduct.salePage = this.$product;
       this.cartProduct.selectedPlans[selectedPlan.plan.id] = selectedPlan;
     },
   },

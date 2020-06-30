@@ -62,6 +62,7 @@
         </div>
       </div>
     </div>
+    <div v-if="isActive"></div>
   </div>
 </template>
 

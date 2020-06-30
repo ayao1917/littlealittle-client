@@ -60,7 +60,7 @@
           :key="planDetail.goodsId"
           :planListDetail="planDetail"
           :count="selectedAccessory[planDetail.goodsId]"
-          @onChangeCount="onUpdateSecondaryCount"
+          @onChangeCount="onUpdateAccessoryCount"
         />
       </div>
     </div>
@@ -83,12 +83,18 @@ export default Vue.extend({
       required: true,
       type: Object as PropType<Plan>,
     },
+    selectedAccessory: {
+      required: true,
+      type: Object as PropType<CountGroup>,
+    },
+    selectedPrimary: {
+      required: true,
+      type: Object as PropType<CountGroup>,
+    },
   },
   data() {
     return {
       isActive: false,
-      selectedAccessory: {} as CountGroup,
-      selectedPrimary: {} as CountGroup,
     };
   },
   computed: {
@@ -211,21 +217,30 @@ export default Vue.extend({
     onDropdownClick(): void {
       this.isActive = !this.isActive;
     },
-    onUpdatePrimaryCount(id: string, value: number): void {
-      this.selectedPrimary[id] = value;
-      this.updateSelectPlan();
-    },
-    onUpdateSecondaryCount(id: string, value: number): void {
+    onUpdateAccessoryCount(id: string, value: number): void {
       this.selectedAccessory[id] = value;
-      this.updateSelectPlan();
+      this.$emit("onUpdatePlan", {
+        isValid: this.$isValidAccessory && this.$isValidPrimary,
+        selectedPlan: {
+          plan: this.plan,
+          selectedAccessory: {
+            ...this.selectedAccessory,
+            [id]: value,
+          },
+          selectedPrimary: this.selectedPrimary,
+        },
+      });
     },
-    updateSelectPlan(): void {
+    onUpdatePrimaryCount(id: string, value: number): void {
       this.$emit("onUpdatePlan", {
         isValid: this.$isValidAccessory && this.$isValidPrimary,
         selectedPlan: {
           plan: this.plan,
           selectedAccessory: this.selectedAccessory,
-          selectedPrimary: this.selectedPrimary,
+          selectedPrimary: {
+            ...this.selectedPrimary,
+            [id]: value,
+          },
         },
       });
     },
