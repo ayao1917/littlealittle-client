@@ -8,9 +8,10 @@
     </div>
     <div class="cartBody">
       <CartPlanEditFrom
-        v-for="cartProduct in $cartProducts"
+        v-for="cartProduct in cartProducts"
         :key="cartProduct.salePage.id"
         :cartProduct="cartProduct"
+        @onUpdateCartProducts="onUpdateCartProducts"
       ></CartPlanEditFrom>
     </div>
   </div>
@@ -23,21 +24,42 @@ import CartProgress from "~/components/CartProgress.vue";
 import { CartProduct } from "~/types/cart";
 
 export default Vue.extend({
+  name: "Cart",
   components: {
     CartPlanEditFrom,
     CartProgress,
   },
   data() {
     return {
+      cartProducts: (null as unknown) as { [key: string]: CartProduct },
       currentProgress: 1,
     };
   },
   computed: {
-    $cartProducts(): CartProduct[] {
-      const cartProductObject = this.$store.getters["cart/cartProducts"];
-      return cartProductObject
-        ? Object.keys(cartProductObject).map((key) => cartProductObject[key])
+    $cartList(): CartProduct[] {
+      return this.cartProducts
+        ? Object.keys(this.cartProducts).map((key) => this.cartProducts[key])
         : [];
+    },
+    $cartProducts(): { [key: string]: CartProduct } {
+      return this.$store.getters["cart/cartProducts"];
+    },
+  },
+  watch: {
+    $cartProducts(newProduct, _) {
+      if (newProduct) {
+        this.cartProducts = newProduct;
+      }
+    },
+  },
+  mounted(): void {
+    this.cartProducts = {
+      ...this.$cartProducts,
+    };
+  },
+  methods: {
+    onUpdateCartProducts(cartProduct: CartProduct): void {
+      this.cartProducts[cartProduct.salePage.id] = cartProduct;
     },
   },
 });

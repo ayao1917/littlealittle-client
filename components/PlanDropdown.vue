@@ -210,9 +210,7 @@ export default Vue.extend({
       this.isActive = !this.isActive;
     },
     onUpdateAccessoryCount(id: string, value: number): void {
-      this.selectedAccessory[id] = value;
       this.$emit("onUpdatePlan", {
-        isValid: this.$isValidAccessory && this.$isValidPrimary,
         selectedPlan: {
           plan: this.plan,
           selectedAccessory: {
@@ -225,7 +223,6 @@ export default Vue.extend({
     },
     onUpdatePrimaryCount(id: string, value: number): void {
       this.$emit("onUpdatePlan", {
-        isValid: this.$isValidAccessory && this.$isValidPrimary,
         selectedPlan: {
           plan: this.plan,
           selectedAccessory: this.selectedAccessory,

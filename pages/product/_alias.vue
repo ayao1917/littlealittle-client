@@ -55,7 +55,7 @@
       </div>
     </div>
     <AddCartModalMobile
-      v-if="$product"
+      v-if="$product && cartProduct"
       :product="$product"
       :selectedPlans="cartProduct.selectedPlans"
       @onAddToCart="doAddToCart"
@@ -72,7 +72,11 @@ import PlanDropdown from "~/components/PlanDropdown.vue";
 import { CartProduct, SelectedPlan } from "~/types/cart";
 import { Plan } from "~/types/plan";
 import { SalePage } from "~/types/salePage";
-import { addToCartAnimate, initSelectedPlans } from "~/utils/cart";
+import {
+  addToCartAnimate,
+  initSelectedPlans,
+  isValidSelect,
+} from "~/utils/cart";
 
 export default Vue.extend({
   components: {
@@ -145,11 +149,13 @@ export default Vue.extend({
     onOpenCartModalClick() {
       this.$store.commit("modal/openModal", "ADD_CART");
     },
-    onUpdateSelectedPlan(data: {
-      isValid: boolean;
-      selectedPlan: SelectedPlan;
-    }) {
-      const { isValid, selectedPlan } = data;
+    onUpdateSelectedPlan(data: { selectedPlan: SelectedPlan }) {
+      const { selectedPlan } = data;
+      const isValid = isValidSelect(
+        selectedPlan.plan,
+        selectedPlan.selectedPrimary,
+        selectedPlan.selectedAccessory,
+      );
       this.$set(this.isPlanValid, selectedPlan.plan.id, isValid);
       this.cartProduct.selectedPlans[selectedPlan.plan.id] = selectedPlan;
     },

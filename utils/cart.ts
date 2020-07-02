@@ -1,4 +1,4 @@
-import { SelectedPlan } from "~/types/cart";
+import { CountGroup, SelectedPlan } from "~/types/cart";
 import { Plan } from "~/types/plan";
 
 interface Coordinate {
@@ -70,4 +70,87 @@ export const initSelectedPlans = (plan: Plan): SelectedPlan => {
     selectedAccessory,
     selectedPrimary,
   };
+};
+
+export const totalPrimaryAmount = (selectedPrimary: CountGroup): number => {
+  return Object.keys(selectedPrimary).reduce(
+    (a, c) => a + selectedPrimary[c],
+    0,
+  );
+};
+
+export const totalAccessoryAmount = (selectedAccessory: CountGroup): number => {
+  return Object.keys(selectedAccessory).reduce(
+    (a, c) => a + selectedAccessory[c],
+    0,
+  );
+};
+
+export const targetPrimaryQuantity = (plan: Plan): number => {
+  const { primaryItemQuantity } = plan;
+  if (primaryItemQuantity > 1) {
+    return primaryItemQuantity;
+  } else {
+    return 0;
+  }
+};
+
+export const targetAccessoryQuantity = (
+  plan: Plan,
+  selectedPrimary: CountGroup,
+): number => {
+  const {
+    accessoryQuantity,
+    accessorySyncQuantity,
+    primaryItemQuantity,
+  } = plan;
+  if (accessoryQuantity === -1) {
+    return (
+      (totalPrimaryAmount(selectedPrimary) / primaryItemQuantity) *
+      accessorySyncQuantity
+    );
+  } else if (accessoryQuantity > 1) {
+    return accessoryQuantity;
+  } else {
+    return 0;
+  }
+};
+
+export const isValidPrimary = (
+  plan: Plan,
+  selectedPrimary: CountGroup,
+): boolean => {
+  const { primaryItemQuantity } = plan;
+  if (primaryItemQuantity === 1) {
+    return true;
+  } else {
+    return targetPrimaryQuantity(plan) === totalPrimaryAmount(selectedPrimary);
+  }
+};
+
+export const isValidAccessory = (
+  plan: Plan,
+  selectedPrimary: CountGroup,
+  selectedAccessory: CountGroup,
+): boolean => {
+  const { accessoryQuantity } = plan;
+  if (accessoryQuantity === -1 || accessoryQuantity === 1) {
+    return (
+      targetAccessoryQuantity(plan, selectedPrimary) ===
+      totalAccessoryAmount(selectedAccessory)
+    );
+  } else {
+    return true;
+  }
+};
+
+export const isValidSelect = (
+  plan: Plan,
+  selectedPrimary: CountGroup,
+  selectedAccessory: CountGroup,
+): boolean => {
+  return (
+    isValidPrimary(plan, selectedPrimary) &&
+    isValidAccessory(plan, selectedPrimary, selectedAccessory)
+  );
 };

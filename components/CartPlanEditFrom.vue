@@ -113,7 +113,19 @@ export default Vue.extend({
     onDropdownClick(): void {
       this.isActive = !this.isActive;
     },
-    onUpdateSelectedPlan(): void {},
+    onUpdateSelectedPlan(data: {
+      isValid: boolean;
+      selectedPlan: SelectedPlan;
+    }): void {
+      const { selectedPlan } = data;
+      this.$emit("onUpdateCartProducts", {
+        salePage: this.cartProduct.salePage,
+        selectedPlans: {
+          ...this.cartProduct.selectedPlans,
+          [selectedPlan.plan.id]: selectedPlan,
+        },
+      });
+    },
   },
 });
 </script>

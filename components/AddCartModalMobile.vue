@@ -95,7 +95,7 @@ export default Vue.extend({
     onCloseModal() {
       this.$store.commit("modal/closeModal");
     },
-    onUpdatePlan(data: { isValid: boolean; selectedPlan: SelectedPlan }) {
+    onUpdatePlan(data: { selectedPlan: SelectedPlan }) {
       this.$emit("onUpdatePlan", data);
     },
   },
