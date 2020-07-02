@@ -62,19 +62,31 @@
         </div>
       </div>
     </div>
-    <div v-if="isActive"></div>
+    <div v-if="isActive">
+      <PlanDropdown
+        v-for="(selectedPlan, i) in $selectedPlans"
+        :key="i"
+        class="planDropdown"
+        :plan="selectedPlan.plan"
+        :selectedAccessory="selectedPlan.selectedAccessory"
+        :selectedPrimary="selectedPlan.selectedPrimary"
+        @onUpdatePlan="onUpdateSelectedPlan"
+      ></PlanDropdown>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import ActionButton from "~/components/ActionButton.vue";
-import { CartProduct } from "~/types/cart";
+import PlanDropdown from "~/components/PlanDropdown.vue";
+import { CartProduct, SelectedPlan } from "~/types/cart";
 
 export default Vue.extend({
   name: "CartPlanEditFrom",
   components: {
     ActionButton,
+    PlanDropdown,
   },
   props: {
     cartProduct: {
@@ -89,12 +101,19 @@ export default Vue.extend({
       quantity: 0,
     };
   },
-  mounted(): void {},
+  computed: {
+    $selectedPlans(): SelectedPlan[] {
+      return Object.keys(this.cartProduct.selectedPlans).map(
+        (key) => this.cartProduct.selectedPlans[key],
+      );
+    },
+  },
   methods: {
     onDeleteProduct(): void {},
     onDropdownClick(): void {
       this.isActive = !this.isActive;
     },
+    onUpdateSelectedPlan(): void {},
   },
 });
 </script>
@@ -185,5 +204,9 @@ export default Vue.extend({
       }
     }
   }
+}
+
+.planDropdown {
+  margin-bottom: 12px;
 }
 </style>

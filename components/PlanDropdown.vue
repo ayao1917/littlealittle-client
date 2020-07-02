@@ -39,7 +39,7 @@
         :planListDetail="planDetail"
         :count="selectedPrimary[planDetail.goodsId]"
         @onChangeCount="onUpdatePrimaryCount"
-      />
+      ></ItemSelector>
       <div v-if="$accessory.length > 0">
         <div class="planListDetailTitle">
           <div>
@@ -61,7 +61,7 @@
           :planListDetail="planDetail"
           :count="selectedAccessory[planDetail.goodsId]"
           @onChangeCount="onUpdateAccessoryCount"
-        />
+        ></ItemSelector>
       </div>
     </div>
   </div>
@@ -204,14 +204,6 @@ export default Vue.extend({
         return 0;
       }
     },
-  },
-  mounted(): void {
-    this.$primary.forEach((planDetail) => {
-      this.$set(this.selectedPrimary, planDetail.goodsId, 0);
-    });
-    this.$accessory.forEach((planDetail) => {
-      this.$set(this.selectedAccessory, planDetail.goodsId, 0);
-    });
   },
   methods: {
     onDropdownClick(): void {

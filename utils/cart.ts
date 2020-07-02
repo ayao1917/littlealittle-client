@@ -1,3 +1,6 @@
+import { SelectedPlan } from "~/types/cart";
+import { Plan } from "~/types/plan";
+
 interface Coordinate {
   x: number;
   y: number;
@@ -46,5 +49,25 @@ export const addToCartAnimate = (
     if (callback) {
       callback();
     }
+  };
+};
+
+export const initSelectedPlans = (plan: Plan): SelectedPlan => {
+  const primary = plan.planDetails.filter((planDetail) => planDetail.isPrimary);
+  const accessory = plan.planDetails.filter(
+    (planDetail) => !planDetail.isPrimary,
+  );
+  const selectedPrimary: { [key: string]: number } = {};
+  const selectedAccessory: { [key: string]: number } = {};
+  primary.forEach((planDetail) => {
+    selectedPrimary[planDetail.goodsId] = 0;
+  });
+  accessory.forEach((planDetail) => {
+    selectedAccessory[planDetail.goodsId] = 0;
+  });
+  return {
+    plan,
+    selectedAccessory,
+    selectedPrimary,
   };
 };

@@ -72,7 +72,7 @@ import PlanDropdown from "~/components/PlanDropdown.vue";
 import { CartProduct, SelectedPlan } from "~/types/cart";
 import { Plan } from "~/types/plan";
 import { SalePage } from "~/types/salePage";
-import { addToCartAnimate } from "~/utils/cart";
+import { addToCartAnimate, initSelectedPlans } from "~/utils/cart";
 
 export default Vue.extend({
   components: {
@@ -108,11 +108,7 @@ export default Vue.extend({
           [key: string]: SelectedPlan;
         } = {};
         newProduct.plans.forEach((plan: Plan) => {
-          selectedPlans[plan.id] = {
-            plan,
-            selectedAccessory: {},
-            selectedPrimary: {},
-          };
+          selectedPlans[plan.id] = initSelectedPlans(plan);
         });
         this.cartProduct = {
           salePage: newProduct,
