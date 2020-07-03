@@ -13,12 +13,20 @@
         :cartProduct="cartProduct"
         @onUpdateCartProducts="onUpdateCartProducts"
       ></CartPlanEditFrom>
+      <ActionButton
+        class="editButton"
+        buttonStyle="containedTeal"
+        @onClick="onUpdateCart"
+      >
+        修改
+      </ActionButton>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import ActionButton from "~/components/ActionButton.vue";
 import CartPlanEditFrom from "~/components/CartPlanEditFrom.vue";
 import CartProgress from "~/components/CartProgress.vue";
 import { CartProduct } from "~/types/cart";
@@ -26,6 +34,7 @@ import { CartProduct } from "~/types/cart";
 export default Vue.extend({
   name: "Cart",
   components: {
+    ActionButton,
     CartPlanEditFrom,
     CartProgress,
   },
@@ -58,6 +67,9 @@ export default Vue.extend({
     };
   },
   methods: {
+    onUpdateCart(): void {
+      this.$store.commit("cart/setCart", this.cartProducts);
+    },
     onUpdateCartProducts(cartProduct: CartProduct): void {
       this.cartProducts[cartProduct.salePage.id] = cartProduct;
     },
@@ -82,6 +94,14 @@ export default Vue.extend({
   .cartBody {
     width: 768px;
     margin: 0 auto;
+
+    .editButton {
+      width: 100%;
+      margin: 12px 0;
+      padding: 12px 0;
+      font-size: 21px;
+      font-weight: 500;
+    }
   }
 }
 
@@ -101,6 +121,14 @@ export default Vue.extend({
     width: 100%;
     padding: 12px;
     box-sizing: border-box;
+
+    .editButton {
+      width: 100%;
+      margin: 12px 0;
+      padding: 12px 0;
+      font-size: 21px;
+      font-weight: 500;
+    }
   }
 }
 </style>

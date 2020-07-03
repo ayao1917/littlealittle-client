@@ -154,3 +154,65 @@ export const isValidSelect = (
     isValidAccessory(plan, selectedPrimary, selectedAccessory)
   );
 };
+
+export const totalPrimaryFee = (
+  plan: Plan,
+  selectedPrimary: CountGroup,
+): number => {
+  const { primaryItemPrice, primaryItemQuantity } = plan;
+  if (primaryItemQuantity === 1) {
+    return primaryItemPrice * totalPrimaryAmount(selectedPrimary);
+  } else if (primaryItemQuantity > 1) {
+    return (
+      primaryItemPrice *
+      (totalPrimaryAmount(selectedPrimary) / primaryItemQuantity)
+    );
+  } else {
+    return 0;
+  }
+};
+
+export const totalAccessoryFee = (
+  plan: Plan,
+  selectedPrimary: CountGroup,
+  selectedAccessory: CountGroup,
+): number => {
+  const { accessoryPrice, accessoryQuantity } = plan;
+  if (accessoryQuantity === -1) {
+    return accessoryPrice * targetAccessoryQuantity(plan, selectedPrimary);
+  } else if (accessoryQuantity === 0) {
+    return accessoryPrice * accessoryQuantity;
+  } else if (accessoryQuantity === 1) {
+    return accessoryPrice * totalAccessoryAmount(selectedAccessory);
+  } else {
+    return (
+      accessoryPrice *
+      (totalAccessoryAmount(selectedAccessory) / accessoryQuantity)
+    );
+  }
+};
+
+export const selectedAmount = (
+  plan: Plan,
+  selectedPrimary: CountGroup,
+): number => {
+  const { primaryItemQuantity } = plan;
+  if (primaryItemQuantity === 1) {
+    return totalPrimaryAmount(selectedPrimary);
+  } else if (primaryItemQuantity > 1) {
+    return totalPrimaryAmount(selectedPrimary) / primaryItemQuantity;
+  } else {
+    return 0;
+  }
+};
+
+export const totalFee = (
+  plan: Plan,
+  selectedPrimary: CountGroup,
+  selectedAccessory: CountGroup,
+): number => {
+  return (
+    totalPrimaryFee(plan, selectedPrimary) +
+    totalAccessoryFee(plan, selectedPrimary, selectedAccessory)
+  );
+};

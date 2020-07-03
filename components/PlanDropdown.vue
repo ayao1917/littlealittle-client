@@ -72,6 +72,16 @@ import Vue, { PropType } from "vue";
 import ItemSelector from "~/components/ItemSelector.vue";
 import { CountGroup } from "~/types/cart";
 import { Plan, PlanListDetail } from "~/types/plan";
+import {
+  isValidAccessory,
+  isValidPrimary,
+  targetAccessoryQuantity,
+  targetPrimaryQuantity,
+  totalAccessoryAmount,
+  totalAccessoryFee,
+  totalPrimaryAmount,
+  totalPrimaryFee,
+} from "~/utils/cart";
 
 export default Vue.extend({
   name: "PlanDropdown",
@@ -112,20 +122,14 @@ export default Vue.extend({
       }
     },
     $isValidAccessory(): boolean {
-      const { accessoryQuantity } = this.plan;
-      if (accessoryQuantity === -1 || accessoryQuantity === 1) {
-        return this.$targetAccessoryQuantity === this.$totalAccessoryAmount;
-      } else {
-        return true;
-      }
+      return isValidAccessory(
+        this.plan,
+        this.selectedPrimary,
+        this.selectedAccessory,
+      );
     },
     $isValidPrimary(): boolean {
-      const { primaryItemQuantity } = this.plan;
-      if (primaryItemQuantity === 1) {
-        return true;
-      } else {
-        return this.$targetPrimaryQuantity === this.$totalPrimaryAmount;
-      }
+      return isValidPrimary(this.plan, this.selectedPrimary);
     },
     $primary(): PlanListDetail[] {
       return this.plan.planDetails.filter((planDetail) => planDetail.isPrimary);
@@ -139,70 +143,29 @@ export default Vue.extend({
       return primaryItemQuantity > 1;
     },
     $targetAccessoryQuantity(): number {
-      const {
-        accessoryQuantity,
-        accessorySyncQuantity,
-        primaryItemQuantity,
-      } = this.plan;
-      if (accessoryQuantity === -1) {
-        return (
-          (this.$totalPrimaryAmount / primaryItemQuantity) *
-          accessorySyncQuantity
-        );
-      } else if (accessoryQuantity > 1) {
-        return accessoryQuantity;
-      } else {
-        return 0;
-      }
+      return targetAccessoryQuantity(this.plan, this.selectedPrimary);
     },
     $targetPrimaryQuantity(): number {
-      const { primaryItemQuantity } = this.plan;
-      if (primaryItemQuantity > 1) {
-        return primaryItemQuantity;
-      } else {
-        return 0;
-      }
+      return targetPrimaryQuantity(this.plan);
     },
     $totalAccessoryAmount(): number {
-      return Object.keys(this.selectedAccessory).reduce(
-        (a, c) => a + this.selectedAccessory[c],
-        0,
-      );
+      return totalAccessoryAmount(this.selectedAccessory);
     },
     $totalAccessoryFee(): number {
-      const { accessoryPrice, accessoryQuantity } = this.plan;
-      if (accessoryQuantity === -1) {
-        return accessoryPrice * this.$targetAccessoryQuantity;
-      } else if (accessoryQuantity === 0) {
-        return accessoryPrice * accessoryQuantity;
-      } else if (accessoryQuantity === 1) {
-        return accessoryPrice * this.$totalAccessoryAmount;
-      } else {
-        return (
-          accessoryPrice * (this.$totalAccessoryAmount / accessoryQuantity)
-        );
-      }
+      return totalAccessoryFee(
+        this.plan,
+        this.selectedPrimary,
+        this.selectedAccessory,
+      );
     },
     $totalPlanFee(): number {
       return this.$totalPrimaryFee + this.$totalAccessoryFee;
     },
     $totalPrimaryAmount(): number {
-      return Object.keys(this.selectedPrimary).reduce(
-        (a, c) => a + this.selectedPrimary[c],
-        0,
-      );
+      return totalPrimaryAmount(this.selectedPrimary);
     },
     $totalPrimaryFee(): number {
-      const { primaryItemPrice, primaryItemQuantity } = this.plan;
-      if (primaryItemQuantity === 1) {
-        return primaryItemPrice * this.$totalPrimaryAmount;
-      } else if (primaryItemQuantity > 1) {
-        return (
-          primaryItemPrice * (this.$totalPrimaryAmount / primaryItemQuantity)
-        );
-      } else {
-        return 0;
-      }
+      return totalPrimaryFee(this.plan, this.selectedPrimary);
     },
   },
   methods: {

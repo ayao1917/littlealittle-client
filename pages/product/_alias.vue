@@ -106,18 +106,12 @@ export default Vue.extend({
     },
   },
   watch: {
-    $product(newProduct, oldProduct) {
-      if (!oldProduct && !!newProduct) {
-        const selectedPlans: {
-          [key: string]: SelectedPlan;
-        } = {};
-        newProduct.plans.forEach((plan: Plan) => {
-          selectedPlans[plan.id] = initSelectedPlans(plan);
-        });
-        this.cartProduct = {
-          salePage: newProduct,
-          selectedPlans,
-        };
+    $product(newProduct, _) {
+      if (newProduct) {
+        const cartProducts = this.$store.getters["cart/cartProducts"];
+        if (!cartProducts[newProduct.id]) {
+          this.initCart(newProduct);
+        }
       }
     },
   },
@@ -130,6 +124,18 @@ export default Vue.extend({
       this.$store.commit("cart/pushCartProduct", {
         [this.$product.id]: this.cartProduct,
       });
+    },
+    initCart(product: SalePage) {
+      const selectedPlans: {
+        [key: string]: SelectedPlan;
+      } = {};
+      product.plans.forEach((plan: Plan) => {
+        selectedPlans[plan.id] = initSelectedPlans(plan);
+      });
+      this.cartProduct = {
+        salePage: product,
+        selectedPlans,
+      };
     },
     onAddToCartClick(event: MouseEvent) {
       const { picUrl } = this.$product;

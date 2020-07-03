@@ -53,7 +53,10 @@ export const getters: GetterTree<CartState, RootState> = {
 
 export const mutations: MutationTree<CartState> = {
   dropCartProduct: (state, id: number) => {
-    delete state.cartProducts[id];
+    const { [id]: _, ...rest } = state.cartProducts;
+    state.cartProducts = {
+      ...rest,
+    };
   },
   pushCartProduct: (state, object: { [key: string]: CartProduct }) => {
     // TODO: simplify this logic
@@ -101,6 +104,11 @@ export const mutations: MutationTree<CartState> = {
       }
     });
     state.cartProducts = { ...products };
+  },
+  setCart: (state, cart: { [key: string]: CartProduct }) => {
+    state.cartProducts = {
+      ...cart,
+    };
   },
   setForm: (state, form: CartForm) => {
     state.form = {

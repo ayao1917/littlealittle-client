@@ -5,16 +5,22 @@
         <img
           class="closeIcon"
           src="~assets/images/close.svg"
-          @click="onDeleteProduct"
+          @click="
+            () => {
+              onDeleteClick(cartProduct.salePage.id);
+            }
+          "
         />
       </div>
       <div class="cartDetailBody">
         <img :src="cartProduct.salePage.picUrl" class="productImage" />
         <div class="planQuantityContainer">
-          <span>{{ `${cartProduct.salePage.name} ${quantity} 組` }}</span>
+          <span>
+            {{ `${cartProduct.salePage.name} ${$selectedAmount} 組` }}
+          </span>
         </div>
         <div class="planTotalFee">
-          {{ `${cartProduct.salePage.currency.isoCode} ${fee}` }}
+          {{ `${cartProduct.salePage.currency.isoCode} ${$totalFee}` }}
         </div>
       </div>
       <div class="cartDetailFooter">
@@ -41,11 +47,15 @@
           <img
             class="closeIcon"
             src="~assets/images/close.svg"
-            @click="onDeleteProduct"
+            @click="
+              () => {
+                onDeleteClick(cartProduct.salePage.id);
+              }
+            "
           />
         </div>
         <div class="cartDetailRow">
-          <span>{{ `${quantity} 組` }}</span>
+          <span>{{ `${$selectedAmount} 組` }}</span>
           <ActionButton buttonStyle="pure" @onClick="onDropdownClick">
             <span>展開明細/修改</span>
             <img
@@ -73,19 +83,26 @@
         @onUpdatePlan="onUpdateSelectedPlan"
       ></PlanDropdown>
     </div>
+    <DeletePlanConfirmModal
+      type="Default"
+      @onConfirm="onDeleteProduct"
+    ></DeletePlanConfirmModal>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import ActionButton from "~/components/ActionButton.vue";
+import DeletePlanConfirmModal from "~/components/DeletePlanConfirmModal.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
 import { CartProduct, SelectedPlan } from "~/types/cart";
+import { selectedAmount, totalFee } from "~/utils/cart";
 
 export default Vue.extend({
   name: "CartPlanEditFrom",
   components: {
     ActionButton,
+    DeletePlanConfirmModal,
     PlanDropdown,
   },
   props: {
@@ -96,20 +113,40 @@ export default Vue.extend({
   },
   data() {
     return {
-      fee: 0,
       isActive: false,
-      quantity: 0,
+      toBeDelete: (null as unknown) as number,
     };
   },
   computed: {
+    $selectedAmount(): number {
+      return this.$selectedPlans.reduce((acc, selectedPlan) => {
+        const { plan, selectedPrimary } = selectedPlan;
+        return acc + selectedAmount(plan, selectedPrimary);
+      }, 0);
+    },
     $selectedPlans(): SelectedPlan[] {
       return Object.keys(this.cartProduct.selectedPlans).map(
         (key) => this.cartProduct.selectedPlans[key],
       );
     },
+    $totalFee(): number {
+      return this.$selectedPlans.reduce((acc, selectedPlan) => {
+        const { plan, selectedAccessory, selectedPrimary } = selectedPlan;
+        return acc + totalFee(plan, selectedPrimary, selectedAccessory);
+      }, 0);
+    },
   },
   methods: {
-    onDeleteProduct(): void {},
+    onDeleteClick(id: number): void {
+      this.toBeDelete = id;
+      this.$store.commit("modal/openModal", "DELETE_PLAN_CONFIRM");
+    },
+    onDeleteProduct(): void {
+      if (this.toBeDelete) {
+        this.$store.commit("cart/dropCartProduct", this.toBeDelete);
+        this.$store.commit("modal/closeModal");
+      }
+    },
     onDropdownClick(): void {
       this.isActive = !this.isActive;
     },
