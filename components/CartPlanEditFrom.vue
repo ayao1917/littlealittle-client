@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cartPlanEditFromContainer">
     <div class="cartPlanDetailDesktop">
       <div class="cartDetailHeader">
         <img
@@ -96,7 +96,7 @@ import ActionButton from "~/components/ActionButton.vue";
 import DeletePlanConfirmModal from "~/components/DeletePlanConfirmModal.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
 import { CartProduct, SelectedPlan } from "~/types/cart";
-import { selectedAmount, totalFee } from "~/utils/cart";
+import { selectedAmount, totalPlanFee } from "~/utils/cart";
 
 export default Vue.extend({
   name: "CartPlanEditFrom",
@@ -132,7 +132,7 @@ export default Vue.extend({
     $totalFee(): number {
       return this.$selectedPlans.reduce((acc, selectedPlan) => {
         const { plan, selectedAccessory, selectedPrimary } = selectedPlan;
-        return acc + totalFee(plan, selectedPrimary, selectedAccessory);
+        return acc + totalPlanFee(plan, selectedPrimary, selectedAccessory);
       }, 0);
     },
   },
@@ -168,6 +168,10 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
+.cartPlanEditFromContainer {
+  border-bottom: 1px solid #e6e6e6;
+}
+
 @media (min-width: 768px) {
   .cartPlanDetailDesktop {
     padding: 24px 0 12px;

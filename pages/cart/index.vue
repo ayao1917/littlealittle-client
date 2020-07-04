@@ -7,19 +7,29 @@
       ></CartProgress>
     </div>
     <div class="cartBody">
-      <CartPlanEditFrom
-        v-for="cartProduct in cartProducts"
-        :key="cartProduct.salePage.id"
-        :cartProduct="cartProduct"
-        @onUpdateCartProducts="onUpdateCartProducts"
-      ></CartPlanEditFrom>
-      <ActionButton
-        class="editButton"
-        buttonStyle="containedTeal"
-        @onClick="onUpdateCart"
-      >
-        修改
-      </ActionButton>
+      <div class="stepOne">
+        <CartPlanEditFrom
+          v-for="cartProduct in cartProducts"
+          :key="cartProduct.salePage.id"
+          :cartProduct="cartProduct"
+          @onUpdateCartProducts="onUpdateCartProducts"
+        ></CartPlanEditFrom>
+        <div class="editButtonContainer">
+          <ActionButton
+            class="editButton"
+            buttonStyle="containedTeal"
+            @onClick="onUpdateCart"
+          >
+            修改
+          </ActionButton>
+        </div>
+        <CartFeeSummary
+          class="cartFeeSummary"
+          :cartProducts="$cartList"
+        ></CartFeeSummary>
+      </div>
+      <div class="stepTwo"></div>
+      <div class="stepThree"></div>
     </div>
   </div>
 </template>
@@ -27,6 +37,7 @@
 <script lang="ts">
 import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
+import CartFeeSummary from "~/components/CartFeeSummary.vue";
 import CartPlanEditFrom from "~/components/CartPlanEditFrom.vue";
 import CartProgress from "~/components/CartProgress.vue";
 import { CartProduct } from "~/types/cart";
@@ -35,6 +46,7 @@ export default Vue.extend({
   name: "Cart",
   components: {
     ActionButton,
+    CartFeeSummary,
     CartPlanEditFrom,
     CartProgress,
   },
@@ -95,12 +107,22 @@ export default Vue.extend({
     width: 768px;
     margin: 0 auto;
 
-    .editButton {
-      width: 100%;
-      margin: 12px 0;
-      padding: 12px 0;
-      font-size: 21px;
-      font-weight: 500;
+    .stepOne {
+      .editButtonContainer {
+        border-bottom: 1px solid #e6e6e6;
+
+        .editButton {
+          width: 100%;
+          margin: 12px 0;
+          padding: 12px 0;
+          font-size: 21px;
+          font-weight: 500;
+        }
+      }
+
+      .cartFeeSummary {
+        margin: 12px 0;
+      }
     }
   }
 }
@@ -122,12 +144,22 @@ export default Vue.extend({
     padding: 12px;
     box-sizing: border-box;
 
-    .editButton {
-      width: 100%;
-      margin: 12px 0;
-      padding: 12px 0;
-      font-size: 21px;
-      font-weight: 500;
+    .stepOne {
+      .editButtonContainer {
+        border-bottom: 1px solid #e6e6e6;
+
+        .editButton {
+          width: 100%;
+          margin: 12px 0;
+          padding: 12px 0;
+          font-size: 21px;
+          font-weight: 500;
+        }
+      }
+
+      .cartFeeSummary {
+        margin: 12px 0;
+      }
     }
   }
 }

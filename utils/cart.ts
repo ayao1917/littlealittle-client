@@ -1,4 +1,4 @@
-import { CountGroup, SelectedPlan } from "~/types/cart";
+import { CartProduct, CountGroup, SelectedPlan } from "~/types/cart";
 import { Plan } from "~/types/plan";
 
 interface Coordinate {
@@ -206,7 +206,7 @@ export const selectedAmount = (
   }
 };
 
-export const totalFee = (
+export const totalPlanFee = (
   plan: Plan,
   selectedPrimary: CountGroup,
   selectedAccessory: CountGroup,
@@ -215,4 +215,12 @@ export const totalFee = (
     totalPrimaryFee(plan, selectedPrimary) +
     totalAccessoryFee(plan, selectedPrimary, selectedAccessory)
   );
+};
+
+export const totalProductFee = (cartProduct: CartProduct): number => {
+  return Object.keys(cartProduct.selectedPlans).reduce((acc, key) => {
+    const selectedPlan = cartProduct.selectedPlans[key];
+    const { plan, selectedPrimary, selectedAccessory } = selectedPlan;
+    return acc + totalPlanFee(plan, selectedPrimary, selectedAccessory);
+  }, 0);
 };
