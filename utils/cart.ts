@@ -1,5 +1,5 @@
 import { CartProduct, CountGroup, SelectedPlan } from "~/types/cart";
-import { Plan } from "~/types/plan";
+import { Plan, PlanListDetail } from "~/types/plan";
 
 interface Coordinate {
   x: number;
@@ -70,6 +70,14 @@ export const initSelectedPlans = (plan: Plan): SelectedPlan => {
     selectedAccessory,
     selectedPrimary,
   };
+};
+
+export const primaryPlan = (plan: Plan): PlanListDetail[] => {
+  return plan.planDetails.filter((planDetail) => planDetail.isPrimary);
+};
+
+export const accessoryPlan = (plan: Plan): PlanListDetail[] => {
+  return plan.planDetails.filter((planDetail) => !planDetail.isPrimary);
 };
 
 export const totalPrimaryAmount = (selectedPrimary: CountGroup): number => {
@@ -160,8 +168,10 @@ export const totalPrimaryFee = (
   selectedPrimary: CountGroup,
 ): number => {
   const { primaryItemPrice, primaryItemQuantity } = plan;
+  const planDetails = primaryPlan(plan);
+  const planDetailPrice = planDetails.length > 0 ? planDetails[0].price : 0;
   if (primaryItemQuantity === 1) {
-    return primaryItemPrice * totalPrimaryAmount(selectedPrimary);
+    return planDetailPrice * totalPrimaryAmount(selectedPrimary);
   } else if (primaryItemQuantity > 1) {
     return (
       primaryItemPrice *
@@ -178,12 +188,14 @@ export const totalAccessoryFee = (
   selectedAccessory: CountGroup,
 ): number => {
   const { accessoryPrice, accessoryQuantity } = plan;
+  const planDetails = accessoryPlan(plan);
+  const planDetailPrice = planDetails.length > 0 ? planDetails[0].price : 0;
   if (accessoryQuantity === -1) {
-    return accessoryPrice * targetAccessoryQuantity(plan, selectedPrimary);
+    return planDetailPrice * targetAccessoryQuantity(plan, selectedPrimary);
   } else if (accessoryQuantity === 0) {
-    return accessoryPrice * accessoryQuantity;
+    return 0;
   } else if (accessoryQuantity === 1) {
-    return accessoryPrice * totalAccessoryAmount(selectedAccessory);
+    return planDetailPrice * totalAccessoryAmount(selectedAccessory);
   } else {
     return (
       accessoryPrice *

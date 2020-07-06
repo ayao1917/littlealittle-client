@@ -73,8 +73,10 @@ import ItemSelector from "~/components/ItemSelector.vue";
 import { CountGroup } from "~/types/cart";
 import { Plan, PlanListDetail } from "~/types/plan";
 import {
+  accessoryPlan,
   isValidAccessory,
   isValidPrimary,
+  primaryPlan,
   targetAccessoryQuantity,
   targetPrimaryQuantity,
   totalAccessoryAmount,
@@ -109,9 +111,7 @@ export default Vue.extend({
   },
   computed: {
     $accessory(): PlanListDetail[] {
-      return this.plan.planDetails.filter(
-        (planDetail) => !planDetail.isPrimary,
-      );
+      return accessoryPlan(this.plan);
     },
     $currency(): string {
       const product = this.$store.getters["salePage/salePage"];
@@ -132,7 +132,7 @@ export default Vue.extend({
       return isValidPrimary(this.plan, this.selectedPrimary);
     },
     $primary(): PlanListDetail[] {
-      return this.plan.planDetails.filter((planDetail) => planDetail.isPrimary);
+      return primaryPlan(this.plan);
     },
     $shouldValidateAccessory(): boolean {
       const { accessoryQuantity } = this.plan;
