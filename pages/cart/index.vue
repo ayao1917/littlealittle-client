@@ -23,17 +23,11 @@
             修改
           </ActionButton>
         </div>
-        <CartFeeSummary
-          class="cartFeeSummary"
-          :cartProducts="$cartList"
-        ></CartFeeSummary>
+        <CartFeeSummary class="cartFeeSummary"></CartFeeSummary>
       </div>
       <div v-if="currentProgress === 2" class="stepTwo">
         <CartForm />
-        <CartFeeSummary
-          class="cartFeeSummary"
-          :cartProducts="$cartList"
-        ></CartFeeSummary>
+        <CartFeeSummary class="cartFeeSummary"></CartFeeSummary>
       </div>
       <div v-if="currentProgress === 3" class="stepThree"></div>
       <ActionButton

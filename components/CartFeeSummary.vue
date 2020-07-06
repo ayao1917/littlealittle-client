@@ -24,25 +24,23 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
+import Vue from "vue";
 import { CartProduct } from "~/types/cart";
 import { SalePage } from "~/types/salePage";
 import { totalProductFee } from "~/utils/cart";
 
 export default Vue.extend({
   name: "CartFeeSummary",
-  props: {
-    cartProducts: {
-      required: true,
-      type: Array as PropType<CartProduct[]>,
-    },
-  },
   data() {
     return {
+      cartProducts: [] as CartProduct[],
       shippingFee: 150,
     };
   },
   computed: {
+    $cartProducts(): { [key: string]: CartProduct } {
+      return this.$store.getters["cart/cartProducts"];
+    },
     $currency(): string {
       return this.cartProducts.length > 0
         ? this.cartProducts[0].salePage.currency.isoCode
@@ -65,6 +63,20 @@ export default Vue.extend({
     $totalFee(): number {
       return this.$subTotalFee + this.shippingFee;
     },
+  },
+  watch: {
+    $cartProducts(newProduct, _) {
+      if (newProduct) {
+        this.cartProducts = Object.keys(newProduct).map(
+          (key) => newProduct[key],
+        );
+      }
+    },
+  },
+  mounted(): void {
+    this.cartProducts = Object.keys(this.$cartProducts).map(
+      (key) => this.$cartProducts[key],
+    );
   },
 });
 </script>
