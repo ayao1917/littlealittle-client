@@ -7,7 +7,7 @@
       ></CartProgress>
     </div>
     <div class="cartBody">
-      <div class="stepOne">
+      <div v-if="currentProgress === 1" class="stepOne">
         <CartPlanEditFrom
           v-for="cartProduct in cartProducts"
           :key="cartProduct.salePage.id"
@@ -28,8 +28,22 @@
           :cartProducts="$cartList"
         ></CartFeeSummary>
       </div>
-      <div class="stepTwo"></div>
-      <div class="stepThree"></div>
+      <div v-if="currentProgress === 2" class="stepTwo">
+        <CartForm />
+        <CartFeeSummary
+          class="cartFeeSummary"
+          :cartProducts="$cartList"
+        ></CartFeeSummary>
+      </div>
+      <div v-if="currentProgress === 3" class="stepThree"></div>
+      <ActionButton
+        v-if="currentProgress < 3"
+        class="nextStepButton"
+        buttonStyle="containedTeal"
+        @onClick="onClickNextStep"
+      >
+        {{ actions[currentProgress] }}
+      </ActionButton>
     </div>
   </div>
 </template>
@@ -38,6 +52,7 @@
 import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import CartFeeSummary from "~/components/CartFeeSummary.vue";
+import CartForm from "~/components/CartForm.vue";
 import CartPlanEditFrom from "~/components/CartPlanEditFrom.vue";
 import CartProgress from "~/components/CartProgress.vue";
 import { CartProduct } from "~/types/cart";
@@ -47,11 +62,16 @@ export default Vue.extend({
   components: {
     ActionButton,
     CartFeeSummary,
+    CartForm,
     CartPlanEditFrom,
     CartProgress,
   },
   data() {
     return {
+      actions: {
+        1: "下一步",
+        2: "送出訂單",
+      },
       cartProducts: (null as unknown) as { [key: string]: CartProduct },
       currentProgress: 1,
     };
@@ -74,11 +94,18 @@ export default Vue.extend({
     },
   },
   mounted(): void {
+    this.currentProgress = 1;
     this.cartProducts = {
       ...this.$cartProducts,
     };
   },
   methods: {
+    onClickNextStep(): void {
+      if (this.currentProgress < 3) {
+        this.currentProgress++;
+        window.scrollTo(0, 0);
+      }
+    },
     onUpdateCart(): void {
       this.$store.commit("cart/setCart", this.cartProducts);
     },
@@ -124,6 +151,14 @@ export default Vue.extend({
         margin: 12px 0;
       }
     }
+
+    .nextStepButton {
+      width: 100%;
+      margin: 12px 0 72px;
+      padding: 12px 0;
+      font-size: 21px;
+      font-weight: 500;
+    }
   }
 }
 
@@ -160,6 +195,14 @@ export default Vue.extend({
       .cartFeeSummary {
         margin: 12px 0;
       }
+    }
+
+    .nextStepButton {
+      width: 100%;
+      margin: 12px 0;
+      padding: 12px 0;
+      font-size: 21px;
+      font-weight: 500;
     }
   }
 }
