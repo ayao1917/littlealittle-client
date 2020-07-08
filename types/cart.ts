@@ -20,6 +20,7 @@ export interface CartForm {
   mobile: string;
   country: string;
   address: string;
+  area: string;
   email: string;
   deliveryType: number;
   paymentMethod: number;
@@ -28,6 +29,36 @@ export interface CartForm {
   note: string;
   storeId: number;
   currencyId: number;
+}
+
+export interface FormData {
+  address: string;
+  city: string;
+  deliveryType: number;
+  district: string;
+  donateType: number;
+  donateValue: string;
+  email: string;
+  isDonate: number;
+  mobile: string;
+  name: string;
+  paymentMethod: number;
+  title: number;
+}
+
+export interface FormError {
+  address: string | null;
+  city: string | null;
+  deliveryType: string | null;
+  district: string | null;
+  donateValue: string | null;
+  email: string | null;
+  invoiceType: string | null;
+  invoiceValue: string | null;
+  mobile: string | null;
+  name: string | null;
+  paymentMethod: string | null;
+  title: string | null;
 }
 
 export interface CountGroup {

@@ -8,13 +8,21 @@
         <div class="gridColumn gridColumnMd75 gridColumnSm100">
           <input
             v-model="formData.name"
+            :class="{ isInvalid: !!errors.name }"
             class="formField"
             placeholder="*收件人姓名 請填寫真實姓名"
             type="text"
           />
+          <div v-if="errors.name" class="invalidFeedback">
+            {{ errors.name }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd25 gridColumnSm100">
-          <select v-model="formData.title" class="formField">
+          <select
+            v-model="formData.title"
+            :class="{ isInvalid: !!errors.title }"
+            class="formField"
+          >
             <option
               v-for="option in genderOptions"
               :key="option.key"
@@ -23,26 +31,38 @@
               {{ option.key }}
             </option>
           </select>
+          <div v-if="errors.title" class="invalidFeedback">
+            {{ errors.title }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd50 gridColumnSm100">
           <input
             v-model="formData.mobile"
+            :class="{ isInvalid: !!errors.mobile }"
             class="formField"
             placeholder="*手機號碼"
             type="text"
           />
+          <div v-if="errors.mobile" class="invalidFeedback">
+            {{ errors.mobile }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd50 gridColumnSm100">
           <input
             v-model="formData.email"
+            :class="{ isInvalid: !!errors.email }"
             class="formField"
             placeholder="電子信箱"
             type="text"
           />
+          <div v-if="errors.email" class="invalidFeedback">
+            {{ errors.email }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd25 gridColumnSm50">
           <select
             v-model="formData.city"
+            :class="{ isInvalid: !!errors.city }"
             class="formField"
             @change="onSelectCity"
           >
@@ -54,9 +74,16 @@
               {{ option.name }}
             </option>
           </select>
+          <div v-if="errors.city" class="invalidFeedback">
+            {{ errors.city }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd25 gridColumnSm50">
-          <select v-model="formData.district" class="formField">
+          <select
+            v-model="formData.district"
+            :class="{ isInvalid: !!errors.district }"
+            class="formField"
+          >
             <option
               v-for="option in districtOptions"
               :key="option.name"
@@ -65,14 +92,21 @@
               {{ option.name }}
             </option>
           </select>
+          <div v-if="errors.district" class="invalidFeedback">
+            {{ errors.district }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd50 gridColumnSm100">
           <input
             v-model="formData.address"
+            :class="{ isInvalid: !!errors.address }"
             class="formField"
             placeholder="*街道地址"
             type="text"
           />
+          <div v-if="errors.address" class="invalidFeedback">
+            {{ errors.address }}
+          </div>
         </div>
       </div>
       <div class="userInfoContainer">
@@ -80,7 +114,11 @@
       </div>
       <div class="gridRow">
         <div class="gridColumn gridColumnMd50 gridColumnSm100">
-          <select v-model="formData.deliveryType" class="formField">
+          <select
+            v-model="formData.deliveryType"
+            :class="{ isInvalid: !!errors.deliveryType }"
+            class="formField"
+          >
             <option
               v-for="option in deliveryOptions"
               :key="option.key"
@@ -89,9 +127,16 @@
               {{ option.key }}
             </option>
           </select>
+          <div v-if="errors.deliveryType" class="invalidFeedback">
+            {{ errors.deliveryType }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd50 gridColumnSm100">
-          <select v-model="formData.paymentMethod" class="formField">
+          <select
+            v-model="formData.paymentMethod"
+            :class="{ isInvalid: !!errors.paymentMethod }"
+            class="formField"
+          >
             <option
               v-for="option in paymentOptions"
               :key="option.key"
@@ -100,11 +145,14 @@
               {{ option.key }}
             </option>
           </select>
+          <div v-if="errors.paymentMethod" class="invalidFeedback">
+            {{ errors.paymentMethod }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd25 gridColumnSm100">
           <div class="formCheck">
             <input
-              v-model="donate"
+              v-model="formData.isDonate"
               class="formCheckInput"
               type="radio"
               :value="0"
@@ -117,17 +165,21 @@
         </div>
         <div class="gridColumn gridColumnMd75 gridColumnSm100">
           <input
-            v-model="donateValue"
-            :disabled="donate === 1"
+            v-model="formData.donateValue"
+            :disabled="formData.isDonate === 1"
+            :class="{ isInvalid: !!errors.donateValue }"
             class="formField"
             placeholder="指定單位(可不填)預設捐贈「流浪貓保護協會」"
             type="text"
           />
+          <div v-if="errors.donateValue" class="invalidFeedback">
+            {{ errors.donateValue }}
+          </div>
         </div>
         <div class="gridColumn gridColumnMd25 gridColumnSm100">
           <div class="formCheck">
             <input
-              v-model="donate"
+              v-model="formData.isDonate"
               class="formCheckInput"
               type="radio"
               :value="1"
@@ -138,8 +190,12 @@
             </label>
           </div>
         </div>
-        <div class="gridColumn gridColumnMd25 gridColumnSm100">
-          <select v-if="donate === 1" v-model="donateType" class="formField">
+        <div v-if="formData.isDonate === 1" class="gridColumn gridColumnMd25 gridColumnSm100">
+          <select
+            v-model="formData.invoiceType"
+            :class="{ isInvalid: !!errors.invoiceType }"
+            class="formField"
+          >
             <option
               v-for="option in invoiceOptions"
               :key="option.key"
@@ -148,23 +204,59 @@
               {{ option.key }}
             </option>
           </select>
+          <div v-if="errors.invoiceType" class="invalidFeedback">
+            {{ errors.invoiceType }}
+          </div>
         </div>
-        <div class="gridColumn gridColumnMd50 gridColumnSm100">
+        <div
+          v-if="formData.isDonate === 1 && formData.invoiceType !== 1"
+          class="gridColumn gridColumnMd50 gridColumnSm100"
+        >
           <input
-            v-if="donate === 1 && donateType !== 1"
-            v-model="donateValue"
+            v-model="formData.invoiceValue"
+            :class="{ isInvalid: !!errors.invoiceValue }"
             class="formField"
             placeholder="請輸入數值"
             type="text"
           />
+          <div v-if="errors.invoiceValue" class="invalidFeedback">
+            {{ errors.invoiceValue }}
+          </div>
+        </div>
+        <div class="gridColumn gridColumnMd100 gridColumnSm100">
+          <textarea
+            v-model="formData.note"
+            class="formField"
+            placeholder="備註"
+            rows="3"
+          ></textarea>
         </div>
       </div>
+      <CartFeeSummary></CartFeeSummary>
+      <div class="userTerms">
+        <div class="formCheck">
+          <input class="formCheckInput" type="checkbox" />
+          <label class="formCheckLabel">
+            同意遵守使用者條款
+          </label>
+        </div>
+      </div>
+      <ActionButton
+        class="submitButton"
+        buttonStyle="containedTeal"
+        @onClick="onSubmitForm"
+      >
+        送出訂單
+      </ActionButton>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import ActionButton from "~/components/ActionButton.vue";
+import CartFeeSummary from "~/components/CartFeeSummary.vue";
+import { INVOICE_TYPE } from "~/constants";
 import {
   CITY_OPTIONS,
   DELIVERY_OPTIONS,
@@ -172,25 +264,46 @@ import {
   INVOICE_OPTIONS,
   PAYMENT_OPTIONS,
 } from "~/constants/form";
+import { FormError } from "~/types/cart";
 
 export default Vue.extend({
   name: "CartForm",
+  components: {
+    ActionButton,
+    CartFeeSummary,
+  },
   data() {
     return {
       cityOptions: CITY_OPTIONS,
       deliveryOptions: DELIVERY_OPTIONS,
       districtOptions: CITY_OPTIONS[0].area,
-      donate: 0,
-      donateType: 1,
-      donateValue: "",
+      errors: {
+        address: null,
+        city: null,
+        deliveryType: null,
+        district: null,
+        donateValue: null,
+        email: null,
+        invoiceType: null,
+        invoiceValue: null,
+        mobile: null,
+        name: null,
+        paymentMethod: null,
+        title: null,
+      } as FormError,
       formData: {
         address: "",
         city: "",
         deliveryType: 1,
         district: "",
+        donateValue: "",
         email: "",
+        invoiceType: 1,
+        invoiceValue: "",
+        isDonate: 0,
         mobile: "",
         name: "",
+        note: "",
         paymentMethod: 1,
         title: 0,
       },
@@ -205,7 +318,7 @@ export default Vue.extend({
   },
   methods: {
     onChangeDonate() {
-      this.donateValue = "";
+      this.formData.invoiceValue = "";
     },
     onSelectCity() {
       const selectedCityOption = CITY_OPTIONS.find(
@@ -213,6 +326,146 @@ export default Vue.extend({
       );
       this.districtOptions = selectedCityOption ? selectedCityOption.area : [];
       this.formData.district = this.districtOptions[0].name;
+    },
+    onSubmitForm() {
+      this.validateForm();
+      const hasError = Object.values(this.errors).some(Boolean);
+      if (hasError) {
+        return null;
+      }
+    },
+    validateForm() {
+      const {
+        address,
+        city,
+        deliveryType,
+        district,
+        donateValue,
+        invoiceType,
+        invoiceValue,
+        isDonate,
+        mobile,
+        name,
+        paymentMethod,
+        title,
+      } = this.formData;
+      const namePattern = new RegExp("[%~=!?]");
+      const phonePattern = new RegExp("^09[0-9]{8}$");
+      const addressPattern = new RegExp("[%~=!?]");
+      const mobilePattern = /^\/([0-9]|[A-Z]|\+|-){7,8}$/;
+      const naturePattern = /^[A-Z]{2}[0-9]{14}$/;
+      const unitPattern = /^[X]?\d{3,9}$/;
+      this.errors = {
+        address: null,
+        city: null,
+        deliveryType: null,
+        district: null,
+        donateValue: null,
+        email: null,
+        invoiceType: null,
+        invoiceValue: null,
+        mobile: null,
+        name: null,
+        paymentMethod: null,
+        title: null,
+      };
+
+      if (!address) {
+        this.errors.address = "請輸入地址";
+      } else if (addressPattern.test(address)) {
+        this.errors.address = "地址不得含特殊字元%~=!?";
+      }
+
+      if (!city) {
+        this.errors.city = "請選擇縣市";
+      }
+
+      if (!deliveryType) {
+        this.errors.deliveryType = "請選擇送貨方式";
+      }
+
+      if (!district) {
+        this.errors.district = "請選擇縣市區";
+      }
+
+      if (!mobile) {
+        this.errors.mobile = "請輸入電話";
+      } else if (!phonePattern.test(mobile)) {
+        this.errors.mobile = "電話需為09開頭，並為10個數字所組成";
+      }
+
+      if (!name) {
+        this.errors.name = "請輸入姓名";
+      } else if (namePattern.test(name)) {
+        this.errors.name = "名字不得含特殊字元%~=!?";
+      }
+
+      if (!paymentMethod) {
+        this.errors.paymentMethod = "請選擇付款方式";
+      }
+
+      if (!title) {
+        this.errors.title = "請選擇稱謂";
+      }
+
+      if (isDonate === 0 && donateValue && !unitPattern.test(donateValue)) {
+        this.errors.donateValue = "捐贈發票格式錯誤";
+      }
+
+      if (isDonate === 1 && !invoiceType) {
+        this.errors.invoiceType = "請選擇發票類型";
+      }
+
+      if (isDonate === 1) {
+        if (invoiceType !== INVOICE_TYPE.EMAIL.key && !invoiceValue) {
+          this.errors.invoiceValue = "請輸入數值";
+        }
+
+        if (
+          invoiceType === INVOICE_TYPE.MOBILE.key &&
+          !mobilePattern.test(invoiceValue)
+        ) {
+          this.errors.invoiceValue = "手機條碼格式錯誤";
+        } else if (
+          invoiceType === INVOICE_TYPE.NATURE.key &&
+          !naturePattern.test(invoiceValue)
+        ) {
+          this.errors.invoiceValue = "自然人憑證格式錯誤";
+        } else if (invoiceType === INVOICE_TYPE.UNIFORM.key) {
+          this.errors.invoiceValue = this.validateUniform(invoiceValue);
+        }
+      }
+    },
+    validateUniform(input: string): null | string {
+      const cc = (n: number) => {
+        if (n > 9) {
+          const s: string = `${n}`;
+          const n1: number = parseInt(s.substring(0, 1));
+          const n2: number = parseInt(s.substring(1, 2));
+          n = n1 + n2;
+        }
+        return n;
+      };
+
+      const cx = [1, 2, 1, 2, 1, 2, 4, 1];
+      let sum = 0;
+      if (input.length !== 8) {
+        return "統編錯誤，要有 8 個數字";
+      }
+      const cNum = input.split("");
+      for (let i = 0; i <= 7; i++) {
+        if (input.charCodeAt(0) < 48 || input.charCodeAt(0) > 57) {
+          return "統編錯誤，要有 8 個 0-9 數字組合";
+        }
+        sum += cc(parseInt(cNum[i]) * cx[i]);
+      }
+      if (sum % 10 === 0) {
+        return null;
+      } else if (cNum[6] === "7" && (sum + 1) % 10 === 0) {
+        return `統一編號：${input} 正確!`;
+      } else {
+        return `統一編號：${input} 錯誤!`;
+      }
     },
   },
 });
@@ -233,6 +486,19 @@ export default Vue.extend({
 
   .cartForm {
     margin-bottom: 20px;
+
+    .userTerms {
+      display: flex;
+      justify-content: center;
+    }
+
+    .submitButton {
+      width: 100%;
+      margin: 12px 0;
+      padding: 12px 0;
+      font-size: 21px;
+      font-weight: 500;
+    }
   }
 }
 
@@ -243,6 +509,23 @@ export default Vue.extend({
     padding: 13px;
 
     span {
+      font-size: 21px;
+      font-weight: 500;
+    }
+  }
+
+  .cartForm {
+    margin-bottom: 20px;
+
+    .userTerms {
+      display: flex;
+      justify-content: center;
+    }
+
+    .submitButton {
+      width: 100%;
+      margin: 12px 0;
+      padding: 12px 0;
       font-size: 21px;
       font-weight: 500;
     }
@@ -347,5 +630,21 @@ export default Vue.extend({
   .formCheckLabel {
     margin-bottom: 0;
   }
+}
+
+.isInvalid {
+  border-color: #dc3545;
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("../assets/images/invalid.svg");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.invalidFeedback {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
 }
 </style>

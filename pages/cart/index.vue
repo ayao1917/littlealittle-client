@@ -24,20 +24,18 @@
           </ActionButton>
         </div>
         <CartFeeSummary class="cartFeeSummary"></CartFeeSummary>
+        <ActionButton
+          class="nextStepButton"
+          buttonStyle="containedTeal"
+          @onClick="onClickNextStep"
+        >
+          下一步
+        </ActionButton>
       </div>
       <div v-if="currentProgress === 2" class="stepTwo">
         <CartForm />
-        <CartFeeSummary class="cartFeeSummary"></CartFeeSummary>
       </div>
       <div v-if="currentProgress === 3" class="stepThree"></div>
-      <ActionButton
-        v-if="currentProgress < 3"
-        class="nextStepButton"
-        buttonStyle="containedTeal"
-        @onClick="onClickNextStep"
-      >
-        {{ actions[currentProgress] }}
-      </ActionButton>
     </div>
   </div>
 </template>
@@ -62,10 +60,6 @@ export default Vue.extend({
   },
   data() {
     return {
-      actions: {
-        1: "下一步",
-        2: "送出訂單",
-      },
       cartProducts: (null as unknown) as { [key: string]: CartProduct },
       currentProgress: 1,
     };
