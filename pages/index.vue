@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <MenuBarDesktop class="menuBar" />
-    <CategoryMobile class="categoryMobile" />
-    <Slider class="slider" :banners="$banners" />
+    <MenuBarDesktop class="menuBar"></MenuBarDesktop>
+    <CategoryMobile class="categoryMobile"></CategoryMobile>
+    <Slider class="slider" :banners="$banners"></Slider>
     <div class="headerContainer">
       <span class="topTenHeader">熱銷排行TOP10</span>
     </div>
-    <SalePageRow :salePages="$salePages" />
+    <SalePageRow :salePages="$salePages"></SalePageRow>
   </div>
 </template>
 

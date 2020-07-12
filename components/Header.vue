@@ -9,7 +9,7 @@
         />
       </div>
       <div class="iconBox" @click="onClickLogo">
-        <IconLogo class="logoIcon" size="s" />
+        <IconLogo class="logoIcon" size="s"></IconLogo>
       </div>
       <div class="rightContainer sideContainer">
         <div class="iconBox">
@@ -25,7 +25,7 @@
         </div>
       </div>
     </div>
-    <HeaderMenuModal />
+    <HeaderMenuModal></HeaderMenuModal>
   </div>
 </template>
 
