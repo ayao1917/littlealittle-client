@@ -43,7 +43,7 @@
       <img
         class="arrowIconMobile"
         src="../assets/images/arrowRight.svg"
-        @click="onClickLeft"
+        @click="onClickRight"
       />
     </div>
     <div class="dotsWrapper">
@@ -102,6 +102,17 @@ export default Vue.extend({
       return this.banners.length > 0 ? `${100 / this.banners.length}%` : "100%";
     },
   },
+  mounted(): void {
+    if (this.auto) {
+      this.timerInstance = window.setInterval(
+        this.reverse ? this.onClickLeft : this.onClickRight,
+        this.timer * 1000,
+      );
+    }
+  },
+  beforeDestroy(): void {
+    clearInterval(this.timerInstance);
+  },
   methods: {
     changeSlider(): void {
       const refSlider = this.$refs.slider as HTMLElement;
@@ -125,17 +136,6 @@ export default Vue.extend({
       this.position = index;
       this.changeSlider();
     },
-  },
-  mounted(): void {
-    if (this.auto) {
-      this.timerInstance = window.setInterval(
-        this.reverse ? this.onClickLeft : this.onClickRight,
-        this.timer * 1000,
-      );
-    }
-  },
-  beforeDestroy(): void {
-    clearInterval(this.timerInstance);
   },
 });
 </script>
