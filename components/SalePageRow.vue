@@ -1,13 +1,11 @@
 <template>
   <div class="salePageContainer">
-    <div class="desktopView">
-      <SalePageCard
-        v-for="salePage in salePages"
-        :key="salePage.id"
-        :salePage="salePage"
-        class="salePageCard"
-      ></SalePageCard>
-    </div>
+    <SalePageCard
+      v-for="salePage in salePages"
+      :key="salePage.id"
+      :salePage="salePage"
+      class="salePageCard"
+    ></SalePageCard>
     <div class="mobileView">
       <div class="salePageCardRow">
         <SalePageCard
@@ -62,13 +60,12 @@ export default Vue.extend({
     margin: 0 auto;
     padding-bottom: 20px;
 
-    .desktopView {
-      .salePageCard:not(:last-child) {
-        margin-right: 12px;
-      }
-    }
     .salePageCard {
       width: 232px;
+    }
+
+    .salePageCard:not(:last-child) {
+      margin-right: 12px;
     }
 
     .mobileView {
@@ -79,7 +76,7 @@ export default Vue.extend({
 
 @media (max-width: 767px) {
   .salePageContainer {
-    .desktopView {
+    .salePageCard {
       display: none;
     }
 
