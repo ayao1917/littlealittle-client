@@ -6,7 +6,17 @@
     <div class="headerContainer">
       <span class="topTenHeader">熱銷排行TOP10</span>
     </div>
-    <SalePageRow :salePages="$salePages"></SalePageRow>
+    <SalePageRow :salePages="$topTen"></SalePageRow>
+    <div class="extra">
+      <div class="headerContainer">
+        <span class="topTenHeader">新品上架</span>
+      </div>
+      <SalePageRow :salePages="$newItems"></SalePageRow>
+      <div class="headerContainer">
+        <span class="topTenHeader">更多優惠</span>
+      </div>
+      <SalePageRow :salePages="$recentPriceOff"></SalePageRow>
+    </div>
   </div>
 </template>
 
@@ -30,13 +40,21 @@ export default Vue.extend({
     $banners(): Banner[] {
       return this.$store.getters["banner/sortedBanners"];
     },
-    $salePages(): SalePage[] {
-      return this.$store.getters["salePage/salePages"];
+    $newItems(): SalePage[] {
+      return this.$store.getters["salePage/newItems"];
+    },
+    $recentPriceOff(): SalePage[] {
+      return this.$store.getters["salePage/recentPriceOff"];
+    },
+    $topTen(): SalePage[] {
+      return this.$store.getters["salePage/topTen"];
     },
   },
   mounted(): void {
     this.$store.dispatch("banner/getBanners");
-    this.$store.dispatch("salePage/getSalePages", { random: 10 });
+    this.$store.dispatch("salePage/getNewItems", { random: 10 });
+    this.$store.dispatch("salePage/getRecentPriceOff", { random: 10 });
+    this.$store.dispatch("salePage/getTopTen", { random: 10 });
   },
 });
 </script>
@@ -54,6 +72,10 @@ export default Vue.extend({
 
   @media (max-width: 767px) {
     .menuBar {
+      display: none;
+    }
+
+    .extra {
       display: none;
     }
   }

@@ -87,7 +87,6 @@ export default Vue.extend({
     },
     onClickNext() {
       this.page = this.page < this.$pageSize - 1 ? this.page + 1 : 0;
-      console.log(this.page);
       this.changeSlider();
     },
     onClickPrev() {
