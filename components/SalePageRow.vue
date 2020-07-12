@@ -1,11 +1,29 @@
 <template>
   <div class="salePageContainer">
-    <SalePageCard
-      v-for="salePage in salePages"
-      :key="salePage.id"
-      :salePage="salePage"
-      class="salePageCard"
-    />
+    <div class="desktopView">
+      <SalePageCard
+        v-for="salePage in salePages"
+        :key="salePage.id"
+        :salePage="salePage"
+        class="salePageCard"
+      ></SalePageCard>
+    </div>
+    <div class="mobileView">
+      <div class="salePageCardRow">
+        <SalePageCard
+          v-for="salePage in $event"
+          :key="salePage.id"
+          :salePage="salePage"
+        ></SalePageCard>
+      </div>
+      <div class="salePageCardRow">
+        <SalePageCard
+          v-for="salePage in $odd"
+          :key="salePage.id"
+          :salePage="salePage"
+        ></SalePageCard>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -25,6 +43,14 @@ export default Vue.extend({
       type: Array as PropType<SalePage[]>,
     },
   },
+  computed: {
+    $event(): SalePage[] {
+      return this.salePages.filter((_, i: number) => i % 2 === 0);
+    },
+    $odd(): SalePage[] {
+      return this.salePages.filter((_, i: number) => i % 2 !== 0);
+    },
+  },
 });
 </script>
 
@@ -36,21 +62,35 @@ export default Vue.extend({
     margin: 0 auto;
     padding-bottom: 20px;
 
+    .desktopView {
+      .salePageCard:not(:last-child) {
+        margin-right: 12px;
+      }
+    }
     .salePageCard {
       width: 232px;
     }
 
-    .salePageCard:not(:last-child) {
-      margin-right: 12px;
+    .mobileView {
+      display: none;
     }
   }
 }
 
 @media (max-width: 767px) {
   .salePageContainer {
-    .salePageCard {
-      float: left;
-      width: 50%;
+    .desktopView {
+      display: none;
+    }
+
+    .mobileView {
+      display: flex;
+
+      .salePageCardRow {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+      }
     }
   }
 }
