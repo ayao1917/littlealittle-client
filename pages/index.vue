@@ -59,7 +59,7 @@ export default Vue.extend({
   }
 
   .menuBar {
-    max-width: 768px;
+    padding: 12px;
     margin: 0 auto;
   }
 

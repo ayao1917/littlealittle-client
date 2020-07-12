@@ -20,16 +20,18 @@ export default Vue.extend({
       return this.$store.getters["category/sortedCategories"];
     },
   },
-  methods: {},
   mounted(): void {
     this.$store.dispatch("category/getCategories");
   },
+  methods: {},
 });
 </script>
 
 <style scoped lang="scss">
 .categoryContainer {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   height: 68px;
 
