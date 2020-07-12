@@ -86,8 +86,8 @@
           >
             <option
               v-for="option in districtOptions"
-              :key="option.name"
-              :value="option.name"
+              :key="option.code"
+              :value="option.code"
             >
               {{ option.name }}
             </option>
@@ -190,7 +190,10 @@
             </label>
           </div>
         </div>
-        <div v-if="formData.isDonate === 1" class="gridColumn gridColumnMd25 gridColumnSm100">
+        <div
+          v-if="formData.isDonate === 1"
+          class="gridColumn gridColumnMd25 gridColumnSm100"
+        >
           <select
             v-model="formData.invoiceType"
             :class="{ isInvalid: !!errors.invoiceType }"
@@ -244,6 +247,7 @@
       <ActionButton
         class="submitButton"
         buttonStyle="containedTeal"
+        :disabled="$canSubmit"
         @onClick="onSubmitForm"
       >
         送出訂單
@@ -265,6 +269,7 @@ import {
   PAYMENT_OPTIONS,
 } from "~/constants/form";
 import { FormError } from "~/types/cart";
+import { OrderForm } from "~/types/order";
 
 export default Vue.extend({
   name: "CartForm",
@@ -312,6 +317,11 @@ export default Vue.extend({
       paymentOptions: PAYMENT_OPTIONS,
     };
   },
+  computed: {
+    $canSubmit(): boolean {
+      return this.$store.getters["order/orderCreatePending"];
+    },
+  },
   mounted(): void {
     this.formData.city = this.cityOptions[0].name;
     this.formData.district = this.districtOptions[0].name;
@@ -328,11 +338,48 @@ export default Vue.extend({
       this.formData.district = this.districtOptions[0].name;
     },
     onSubmitForm() {
+      const STORE = process.env.STORE;
       this.validateForm();
       const hasError = Object.values(this.errors).some(Boolean);
-      if (hasError) {
+      if (hasError || !STORE) {
         return null;
       }
+      const currencyId = this.$store.getters["cart/cartCurrency"];
+      const cartPlans = this.$store.getters["cart/planFrom"];
+
+      const {
+        address,
+        city,
+        deliveryType,
+        district,
+        email,
+        invoiceType,
+        invoiceValue,
+        isDonate,
+        mobile,
+        name,
+        note,
+        paymentMethod,
+        title,
+      } = this.formData;
+      const cartForm: OrderForm = {
+        address: `${district}${address}`,
+        area: city,
+        country: "TWN",
+        currencyId,
+        deliveryType,
+        details: cartPlans,
+        email,
+        invoiceInfo: invoiceValue,
+        invoiceType: isDonate ? 0 : invoiceType,
+        mobile,
+        name,
+        note,
+        paymentMethod,
+        storeId: parseInt(STORE),
+        title,
+      };
+      this.$emit("onSubmitForm", cartForm);
     },
     validateForm() {
       const {

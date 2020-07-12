@@ -1,18 +1,25 @@
 import { GetterTree, MutationTree } from "vuex";
 import { RootState } from "~/store";
 
-import { CartForm, CartPlan, CartProduct } from "~/types/cart";
+import { CartPlan, CartProduct } from "~/types/cart";
 
 export const state = () => ({
   cartProducts: {} as { [key: string]: CartProduct },
-  form: (null as unknown) as CartForm,
 });
 
 export type CartState = ReturnType<typeof state>;
 
 export const getters: GetterTree<CartState, RootState> = {
+  cartCurrency: (state): number | null => {
+    const key = Object.keys(state.cartProducts)[0];
+    if (!key) {
+      return null;
+    }
+
+    const salePage = state.cartProducts[key].salePage;
+    return salePage.currency.id;
+  },
   cartProducts: (state): { [key: string]: CartProduct } => state.cartProducts,
-  form: (state): CartForm => state.form,
   planCount: (state): number => Object.keys(state.cartProducts).length,
   planFrom: (state): CartPlan[] => {
     // TODO: simplify this logic
@@ -53,6 +60,7 @@ export const getters: GetterTree<CartState, RootState> = {
 
 export const mutations: MutationTree<CartState> = {
   dropCartProduct: (state, id: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [id]: _, ...rest } = state.cartProducts;
     state.cartProducts = {
       ...rest,
@@ -108,11 +116,6 @@ export const mutations: MutationTree<CartState> = {
   setCart: (state, cart: { [key: string]: CartProduct }) => {
     state.cartProducts = {
       ...cart,
-    };
-  },
-  setForm: (state, form: CartForm) => {
-    state.form = {
-      ...form,
     };
   },
 };

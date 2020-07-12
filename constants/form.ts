@@ -34,6 +34,7 @@ export const INVOICE_OPTIONS = [
 
 export const CITY_OPTIONS = [
   {
+    code: "TW-TPE",
     name: "臺北市",
     area: [
       {
@@ -87,6 +88,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-KEE",
     name: "基隆市",
     area: [
       {
@@ -120,6 +122,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-NWT",
     name: "新北市",
     area: [
       {
@@ -241,6 +244,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-LIE",
     name: "連江縣",
     area: [
       {
@@ -262,6 +266,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-ILA",
     name: "宜蘭縣",
     area: [
       {
@@ -315,6 +320,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-HSZ",
     name: "新竹市",
     area: [
       {
@@ -332,6 +338,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-HSQ",
     name: "新竹縣",
     area: [
       {
@@ -389,6 +396,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-TAO",
     name: "桃園市",
     area: [
       {
@@ -446,6 +454,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-MIA",
     name: "苗栗縣",
     area: [
       {
@@ -523,6 +532,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-TXG",
     name: "臺中市",
     area: [
       {
@@ -644,6 +654,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-CHA",
     name: "彰化縣",
     area: [
       {
@@ -753,6 +764,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-NAN",
     name: "南投縣",
     area: [
       {
@@ -810,6 +822,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-CYI",
     name: "嘉義市",
     area: [
       {
@@ -823,6 +836,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-CYQ",
     name: "嘉義縣",
     area: [
       {
@@ -900,6 +914,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-YUN",
     name: "雲林縣",
     area: [
       {
@@ -985,6 +1000,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-TNN",
     name: "臺南市",
     area: [
       {
@@ -1138,6 +1154,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-KHH",
     name: "高雄市",
     area: [
       {
@@ -1303,6 +1320,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-PEN",
     name: "澎湖縣",
     area: [
       {
@@ -1332,6 +1350,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-KIN",
     name: "金門縣",
     area: [
       {
@@ -1361,6 +1380,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-PIF",
     name: "屏東縣",
     area: [
       {
@@ -1498,6 +1518,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-TTT",
     name: "臺東縣",
     area: [
       {
@@ -1567,6 +1588,7 @@ export const CITY_OPTIONS = [
     ],
   },
   {
+    code: "TW-HUA",
     name: "花蓮縣",
     area: [
       {

@@ -14,7 +14,7 @@ export interface CartPlanDetail {
 }
 
 export interface CartForm {
-  memberId: string;
+  memberId?: string;
   name: string;
   title: number;
   mobile: string;

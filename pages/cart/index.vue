@@ -33,7 +33,7 @@
         </ActionButton>
       </div>
       <div v-if="currentProgress === 2" class="stepTwo">
-        <CartForm />
+        <CartForm @onSubmitForm="onSubmitForm"></CartForm>
       </div>
       <div v-if="currentProgress === 3" class="stepThree"></div>
     </div>
@@ -48,6 +48,7 @@ import CartForm from "~/components/CartForm.vue";
 import CartPlanEditFrom from "~/components/CartPlanEditFrom.vue";
 import CartProgress from "~/components/CartProgress.vue";
 import { CartProduct } from "~/types/cart";
+import { OrderForm } from "~/types/order";
 
 export default Vue.extend({
   name: "Cart",
@@ -75,7 +76,7 @@ export default Vue.extend({
     },
   },
   watch: {
-    $cartProducts(newProduct, _) {
+    $cartProducts(newProduct) {
       if (newProduct) {
         this.cartProducts = newProduct;
       }
@@ -89,10 +90,17 @@ export default Vue.extend({
   },
   methods: {
     onClickNextStep(): void {
-      if (this.currentProgress < 3) {
-        this.currentProgress++;
-        window.scrollTo(0, 0);
-      }
+      this.currentProgress = 2;
+      window.scrollTo(0, 0);
+    },
+    onSubmitForm(cartForm: OrderForm): void {
+      this.$store.dispatch("order/createOrder", {
+        callback: () => {
+          this.currentProgress = 3;
+          window.scrollTo(0, 0);
+        },
+        data: cartForm,
+      });
     },
     onUpdateCart(): void {
       this.$store.commit("cart/setCart", this.cartProducts);
