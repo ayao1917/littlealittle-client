@@ -8,3 +8,11 @@ export interface ActionCreateOrderPayload {
   callback: () => void;
   data: OrderForm;
 }
+
+export interface ActionCreateOrderResponse {
+  status: number;
+  msg: string;
+  result: {
+    orderNo: string;
+  };
+}
