@@ -96,7 +96,6 @@ export default Vue.extend({
     onSubmitForm(cartForm: OrderForm): void {
       this.$store.dispatch("order/createOrder", {
         callback: () => {
-          this.currentProgress = 3;
           window.scrollTo(0, 0);
         },
         data: cartForm,

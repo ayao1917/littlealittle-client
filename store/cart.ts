@@ -30,27 +30,34 @@ export const getters: GetterTree<CartState, RootState> = {
           const { selectedAccessory, selectedPrimary } = state.cartProducts[
             salePageId
           ].selectedPlans[id];
-          const details = Object.keys(selectedPrimary).map((goodsId) => {
-            return {
-              goodsId: parseInt(goodsId, 10),
-              quantity: selectedPrimary[goodsId],
-            };
-          });
-          const accessories = Object.keys(selectedAccessory).map((goodsId) => {
-            return {
-              goodsId: parseInt(goodsId, 10),
-              quantity: selectedAccessory[goodsId],
-            };
-          });
-          plans = [
-            ...plans,
-            {
-              accessories,
-              details,
-              id: parseInt(id, 10),
-              type: 0,
-            },
-          ];
+          const details = Object.keys(selectedPrimary)
+            .filter((goodsId) => selectedPrimary[goodsId] > 0)
+            .map((goodsId) => {
+              return {
+                goodsId: parseInt(goodsId, 10),
+                quantity: selectedPrimary[goodsId],
+              };
+            });
+          const accessories = Object.keys(selectedAccessory)
+            .filter((goodsId) => selectedAccessory[goodsId] > 0)
+            .map((goodsId) => {
+              return {
+                goodsId: parseInt(goodsId, 10),
+                quantity: selectedAccessory[goodsId],
+              };
+            });
+
+          if (accessories.length > 0 && details.length > 0) {
+            plans = [
+              ...plans,
+              {
+                accessories,
+                details,
+                id: parseInt(id, 10),
+                type: 0,
+              },
+            ];
+          }
         },
       );
     });

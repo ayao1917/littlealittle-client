@@ -104,7 +104,7 @@ export const actions: ActionTree<SalePageState, RootState> = {
     const BRANCH = process.env.BRANCH;
     if (!BASE_URL || !BRANCH) return;
     const { alias } = payload;
-    commit("setSalePagesGetPending", true);
+    commit("setSalePageGetPending", true);
     this.$axios
       .$get(`${BASE_URL}/branches/${BRANCH}/salePages/${alias}`)
       .then((response: ActionGetSalePageResponse) => {

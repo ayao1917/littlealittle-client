@@ -32,13 +32,14 @@ export const actions: ActionTree<OrderState, RootState> = {
     const BASE_URL = process.env.BASE_URL;
     const BRANCH = process.env.BRANCH;
     if (!BASE_URL || !BRANCH) return;
-    const { data } = payload;
+    const { callback, data } = payload;
     commit("setOrderCreatePending", true);
     this.$axios
       .$post(`${BASE_URL}/branches/${BRANCH}/orders/`, data)
       .then((response: ActionCreateOrderResponse) => {
         commit("setOrderCreatePending", false);
         commit("setCreatedOrderId", response.result.orderNo);
+        callback();
       })
       .catch((error) => {
         console.log("error", error);

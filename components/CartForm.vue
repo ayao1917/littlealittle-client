@@ -86,8 +86,8 @@
           >
             <option
               v-for="option in districtOptions"
-              :key="option.code"
-              :value="option.code"
+              :key="option.name"
+              :value="option.name"
             >
               {{ option.name }}
             </option>
@@ -155,7 +155,7 @@
               v-model="formData.isDonate"
               class="formCheckInput"
               type="radio"
-              :value="0"
+              :value="1"
               @change="onChangeDonate"
             />
             <label class="formCheckLabel">
@@ -166,7 +166,7 @@
         <div class="gridColumn gridColumnMd75 gridColumnSm100">
           <input
             v-model="formData.donateValue"
-            :disabled="formData.isDonate === 1"
+            :disabled="formData.isDonate === 0"
             :class="{ isInvalid: !!errors.donateValue }"
             class="formField"
             placeholder="指定單位(可不填)預設捐贈「流浪貓保護協會」"
@@ -182,7 +182,7 @@
               v-model="formData.isDonate"
               class="formCheckInput"
               type="radio"
-              :value="1"
+              :value="0"
               @change="onChangeDonate"
             />
             <label class="formCheckLabel">
@@ -191,7 +191,7 @@
           </div>
         </div>
         <div
-          v-if="formData.isDonate === 1"
+          v-if="formData.isDonate === 0"
           class="gridColumn gridColumnMd25 gridColumnSm100"
         >
           <select
@@ -212,7 +212,7 @@
           </div>
         </div>
         <div
-          v-if="formData.isDonate === 1 && formData.invoiceType !== 1"
+          v-if="formData.isDonate === 0 && formData.invoiceType !== 1"
           class="gridColumn gridColumnMd50 gridColumnSm100"
         >
           <input
@@ -305,7 +305,7 @@ export default Vue.extend({
         email: "",
         invoiceType: 1,
         invoiceValue: "",
-        isDonate: 0,
+        isDonate: 1,
         mobile: "",
         name: "",
         note: "",
@@ -371,7 +371,7 @@ export default Vue.extend({
         details: cartPlans,
         email,
         invoiceInfo: invoiceValue,
-        invoiceType: isDonate ? 0 : invoiceType,
+        invoiceType: isDonate === 1 ? 0 : invoiceType,
         mobile,
         name,
         note,
@@ -451,19 +451,19 @@ export default Vue.extend({
         this.errors.paymentMethod = "請選擇付款方式";
       }
 
-      if (!title) {
+      if (title == null) {
         this.errors.title = "請選擇稱謂";
       }
 
-      if (isDonate === 0 && donateValue && !unitPattern.test(donateValue)) {
+      if (isDonate === 1 && donateValue && !unitPattern.test(donateValue)) {
         this.errors.donateValue = "捐贈發票格式錯誤";
       }
 
-      if (isDonate === 1 && !invoiceType) {
+      if (isDonate === 0 && !invoiceType) {
         this.errors.invoiceType = "請選擇發票類型";
       }
 
-      if (isDonate === 1) {
+      if (isDonate === 0) {
         if (invoiceType !== INVOICE_TYPE.EMAIL.key && !invoiceValue) {
           this.errors.invoiceValue = "請輸入數值";
         }
