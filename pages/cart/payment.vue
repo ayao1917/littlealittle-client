@@ -10,12 +10,14 @@
     <div class="formContainer">
       <iframe
         id="hitrustIframe"
+        ref="hitrustIframe"
         class="hitrustIframe"
         :src="iframeSource"
       ></iframe>
       <ActionButton
         class="submitButton"
         buttonStyle="containedTeal"
+        :diabled="submitDisabled"
         @onClick="onSubmitPayment"
       >
         確認付款
@@ -50,7 +52,8 @@ export default Vue.extend({
   data() {
     return {
       followPayToken: (null as unknown) as string,
-      iframeSource: (null as unknown) as string,
+      iframeSource: "",
+      submitDisabled: false,
     };
   },
   computed: {
@@ -59,13 +62,14 @@ export default Vue.extend({
     },
   },
   mounted(): void {
+    window.addEventListener("message", this.handleMessage);
     this.doFolllowPay();
   },
   methods: {
     doFolllowPay() {
       const params: FormObject = {
         Type: "FOLLOW_PAY",
-        amount: 100,
+        amount: "100",
         depositflag: "0",
         e03: "0",
         // e04: null,
@@ -76,8 +80,9 @@ export default Vue.extend({
         merUpdateURL: "http://littlealittle.com/merUpdateURL",
         orderdesc: "",
         ordernumber: this.$orderId,
+        queryflag: "1",
         returnURL: "http://littlealittle.com/returnURL",
-        storeid: "62079",
+        storeid: "62380",
       };
 
       const formBody: string[] = [];
@@ -98,12 +103,20 @@ export default Vue.extend({
         .then((data) => {
           if (data.status === "success" && this.$orderId === data.ordernumber) {
             this.followPayToken = data.followPayToken;
-            this.iframeSource = data.followPayToken;
+            // this.iframeSource = data.followPayToken;
           }
         })
         .catch((error: FollowError) => {
           console.log(error);
         });
+    },
+    handleMessage(event: MessageEvent) {
+      console.log(event);
+      if (event.data === "btn_open") {
+        this.submitDisabled = false;
+      } else if (event.data === "btn_close") {
+        this.submitDisabled = true;
+      }
     },
     onSubmitPayment() {
       const postData = {
@@ -148,7 +161,9 @@ export default Vue.extend({
 }
 
 .formContainer {
-  width: 386px;
+  display: flex;
+  flex-direction: column;
+  max-width: 768px;
   margin: 0 auto;
 
   .hitrustIframe {
@@ -156,8 +171,8 @@ export default Vue.extend({
   }
 
   .submitButton {
-    width: 100%;
-    margin: 12px 0;
+    width: 386px;
+    margin: 12px auto;
     padding: 12px 0;
     font-size: 21px;
     font-weight: 500;
