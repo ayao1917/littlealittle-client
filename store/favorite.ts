@@ -41,26 +41,26 @@ export const mutations: MutationTree<FavoriteState> = {
 
 export const actions: ActionTree<FavoriteState, RootState> = {
   deleteFavorite({ commit }, payload: ActionDeleteFavoritesPayload) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     const { salePageId } = payload;
     commit("setFavoritesDeletePending", true);
     this.$axios
       .$delete(
-        `${BASE_URL}/branches/${BRANCH}/favorites/salepages/${salePageId}`,
+        `${SERVER_URL}/branches/${BRANCH}/favorites/salepages/${salePageId}`,
       )
       .then(() => {
         commit("setFavoritesDeletePending", false);
       });
   },
   getFavorites({ commit }) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     commit("setFavoritesGetPending", true);
     this.$axios
-      .$get(`${BASE_URL}/branches/${BRANCH}/favorites/salepages`)
+      .$get(`${SERVER_URL}/branches/${BRANCH}/favorites/salepages`)
       .then((response: ActionGetFavoritesResponse) => {
         const { result } = response;
         const { salePages } = result;
@@ -69,13 +69,15 @@ export const actions: ActionTree<FavoriteState, RootState> = {
       });
   },
   postFavorite({ commit }, payload: ActionPostFavoritesPayload) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     const { salePageId } = payload;
     commit("setFavoritesPostPending", true);
     this.$axios
-      .$post(`${BASE_URL}/branches/${BRANCH}/favorites/salepages/${salePageId}`)
+      .$post(
+        `${SERVER_URL}/branches/${BRANCH}/favorites/salepages/${salePageId}`,
+      )
       .then(() => {
         commit("setFavoritesPostPending", false);
       });

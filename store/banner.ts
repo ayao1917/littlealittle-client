@@ -29,11 +29,11 @@ export const mutations: MutationTree<BannerState> = {
 
 export const actions: ActionTree<BannerState, RootState> = {
   getBanners({ commit }) {
-    const BASE_URL = process.env.BASE_URL;
-    if (!BASE_URL) return;
+    const SERVER_URL = process.env.SERVER_URL;
+    if (!SERVER_URL) return;
     commit("setBannersGetPending", true);
     this.$axios
-      .$get(`${BASE_URL}/sliders`)
+      .$get(`${SERVER_URL}/sliders`)
       .then((response: ActionGetBannersResponse) => {
         const { result } = response;
         const { sliders } = result;

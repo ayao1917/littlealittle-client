@@ -42,12 +42,12 @@ export const mutations: MutationTree<CategoryState> = {
 
 export const actions: ActionTree<CategoryState, RootState> = {
   getCategories({ commit }) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     commit("setCategoriesGetPending", true);
     this.$axios
-      .$get(`${BASE_URL}/branches/${BRANCH}/categories`)
+      .$get(`${SERVER_URL}/branches/${BRANCH}/categories`)
       .then((response: ActionGetCategoriesResponse) => {
         const { result } = response;
         const { categories } = result;
@@ -60,12 +60,12 @@ export const actions: ActionTree<CategoryState, RootState> = {
   },
   getCategory({ commit }, payload: ActionGetCategoryPayload) {
     const { categoryId } = payload;
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     commit("setCategoryGetPending", true);
     this.$axios
-      .$get(`${BASE_URL}/branches/${BRANCH}/categories/${categoryId}`)
+      .$get(`${SERVER_URL}/branches/${BRANCH}/categories/${categoryId}`)
       .then((response: ActionGetCategoryResponse) => {
         const { result } = response;
         const { categories } = result;

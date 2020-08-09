@@ -14,5 +14,6 @@ export interface ActionCreateOrderResponse {
   msg: string;
   result: {
     orderNo: string;
+    price: number;
   };
 }

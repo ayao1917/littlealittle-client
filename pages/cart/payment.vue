@@ -60,6 +60,9 @@ export default Vue.extend({
     $orderId(): string {
       return this.$store.getters["order/createdOrderId"];
     },
+    $orderPrice(): string {
+      return this.$store.getters["order/createdOrderPrice"];
+    },
   },
   mounted(): void {
     window.addEventListener("message", this.handleMessage);
@@ -67,9 +70,12 @@ export default Vue.extend({
   },
   methods: {
     doFolllowPay() {
+      const SERVER_URL = process.env.SERVER_URL;
+      const SITE_URL = process.env.SITE_URL;
+      const PAYMENT_CARD_STORE_ID = process.env.PAYMENT_CARD_STORE_ID;
       const params: FormObject = {
         Type: "FOLLOW_PAY",
-        amount: "100",
+        amount: `${this.$orderPrice}`,
         depositflag: "0",
         e03: "0",
         // e04: null,
@@ -77,12 +83,12 @@ export default Vue.extend({
         // e56: null,
         // e57: null,
         // e58: null,
-        merUpdateURL: "http://littlealittle.com/merUpdateURL",
+        merUpdateURL: `${SERVER_URL}/complete`,
         orderdesc: "",
-        ordernumber: this.$orderId,
+        ordernumber: `${this.$orderId}`,
         queryflag: "1",
-        returnURL: "http://littlealittle.com/returnURL",
-        storeid: "62380",
+        returnURL: `${SITE_URL}/cart/complete`,
+        storeid: `${PAYMENT_CARD_STORE_ID}`,
       };
 
       const formBody: string[] = [];
@@ -92,7 +98,7 @@ export default Vue.extend({
         formBody.push(`${encodedKey}=${encodedValue}`);
       });
 
-      fetch("https://trustlink.hitrust.com.tw/TrustLink/TrxReqForJava", {
+      fetch("https://testtrustlink.hitrust.com.tw/TrustLink/TrxReqForJava", {
         body: formBody.join("&"),
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
@@ -103,7 +109,7 @@ export default Vue.extend({
         .then((data) => {
           if (data.status === "success" && this.$orderId === data.ordernumber) {
             this.followPayToken = data.followPayToken;
-            // this.iframeSource = data.followPayToken;
+            this.iframeSource = data.followPayToken;
           }
         })
         .catch((error: FollowError) => {
@@ -111,7 +117,6 @@ export default Vue.extend({
         });
     },
     handleMessage(event: MessageEvent) {
-      console.log(event);
       if (event.data === "btn_open") {
         this.submitDisabled = false;
       } else if (event.data === "btn_close") {
@@ -164,6 +169,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   max-width: 768px;
+  padding: 0 12px;
   margin: 0 auto;
 
   .hitrustIframe {
@@ -171,6 +177,7 @@ export default Vue.extend({
   }
 
   .submitButton {
+    max-width: 100%;
     width: 386px;
     margin: 12px auto;
     padding: 12px 0;

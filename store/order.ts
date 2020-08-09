@@ -8,6 +8,7 @@ import {
 
 export const state = () => ({
   createdOrderId: (null as unknown) as string,
+  createdOrderPrice: (null as unknown) as number,
   orderCreatePending: false as boolean,
 });
 
@@ -15,12 +16,16 @@ export type OrderState = ReturnType<typeof state>;
 
 export const getters: GetterTree<OrderState, RootState> = {
   createdOrderId: (state): string => state.createdOrderId,
+  createdOrderPrice: (state): number => state.createdOrderPrice,
   orderCreatePending: (state): boolean => state.orderCreatePending,
 };
 
 export const mutations: MutationTree<OrderState> = {
   setCreatedOrderId: (state, createdOrderId: string) => {
     state.createdOrderId = createdOrderId;
+  },
+  setCreatedOrderPrice: (state, createdOrderPrice: number) => {
+    state.createdOrderPrice = createdOrderPrice;
   },
   setOrderCreatePending: (state, orderCreatePending: boolean) => {
     state.orderCreatePending = orderCreatePending;
@@ -29,16 +34,18 @@ export const mutations: MutationTree<OrderState> = {
 
 export const actions: ActionTree<OrderState, RootState> = {
   createOrder({ commit }, payload: ActionCreateOrderPayload) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     const { callback, data } = payload;
     commit("setOrderCreatePending", true);
     this.$axios
-      .$post(`${BASE_URL}/branches/${BRANCH}/orders/`, data)
+      .$post(`${SERVER_URL}/branches/${BRANCH}/orders/`, data)
       .then((response: ActionCreateOrderResponse) => {
+        const { orderNo, price } = response.result;
         commit("setOrderCreatePending", false);
-        commit("setCreatedOrderId", response.result.orderNo);
+        commit("setCreatedOrderId", orderNo);
+        commit("setCreatedOrderPrice", price);
         callback();
       })
       .catch((error) => {

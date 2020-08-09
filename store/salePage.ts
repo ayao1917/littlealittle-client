@@ -62,12 +62,12 @@ export const mutations: MutationTree<SalePageState> = {
 
 export const actions: ActionTree<SalePageState, RootState> = {
   getNewItems({ commit }, payload: ActionGetSalePagesPayload) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     commit("setNewItemsGetPending", true);
     this.$axios
-      .$get(`${BASE_URL}/branches/${BRANCH}/salePages`, {
+      .$get(`${SERVER_URL}/branches/${BRANCH}/salePages`, {
         params: { ...payload },
       })
       .then((response: ActionGetSalePagesResponse) => {
@@ -81,12 +81,12 @@ export const actions: ActionTree<SalePageState, RootState> = {
       });
   },
   getRecentPriceOff({ commit }, payload: ActionGetSalePagesPayload) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     commit("setRecentPriceOffGetPending", true);
     this.$axios
-      .$get(`${BASE_URL}/branches/${BRANCH}/salePages`, {
+      .$get(`${SERVER_URL}/branches/${BRANCH}/salePages`, {
         params: { ...payload },
       })
       .then((response: ActionGetSalePagesResponse) => {
@@ -100,13 +100,13 @@ export const actions: ActionTree<SalePageState, RootState> = {
       });
   },
   getSalePage({ commit }, payload: ActionGetSalePagePayload) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     const { alias } = payload;
     commit("setSalePageGetPending", true);
     this.$axios
-      .$get(`${BASE_URL}/branches/${BRANCH}/salePages/${alias}`)
+      .$get(`${SERVER_URL}/branches/${BRANCH}/salePages/${alias}`)
       .then((response: ActionGetSalePageResponse) => {
         const { result } = response;
         const { salePage } = result;
@@ -118,12 +118,12 @@ export const actions: ActionTree<SalePageState, RootState> = {
       });
   },
   getTopTen({ commit }, payload: ActionGetSalePagesPayload) {
-    const BASE_URL = process.env.BASE_URL;
+    const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
-    if (!BASE_URL || !BRANCH) return;
+    if (!SERVER_URL || !BRANCH) return;
     commit("setTopTenGetPending", true);
     this.$axios
-      .$get(`${BASE_URL}/branches/${BRANCH}/salePages`, {
+      .$get(`${SERVER_URL}/branches/${BRANCH}/salePages`, {
         params: { ...payload },
       })
       .then((response: ActionGetSalePagesResponse) => {

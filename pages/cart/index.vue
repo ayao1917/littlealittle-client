@@ -97,6 +97,11 @@ export default Vue.extend({
       this.$store.dispatch("order/createOrder", {
         callback: () => {
           window.scrollTo(0, 0);
+          if (cartForm.paymentMethod === 2) {
+            this.$router.push("payment");
+          } else {
+            this.$router.push(`complete?type=default`);
+          }
         },
         data: cartForm,
       });
