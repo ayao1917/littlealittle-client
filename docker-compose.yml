@@ -1,0 +1,21 @@
+version: "3.2"
+services:
+  nuxt:
+    container_name: nuxt-container
+    restart: always
+    build: .
+    ports:
+      - 80:3000
+    networks:
+      - web
+    command:
+      "yarn start"
+    #labels:
+      #- "traefik.http.routers.webserver.entrypoints=websecure"
+      #- "traefik.http.routers.webserver.rule=Host(`${SITE_NAME}`,`www.${SITE_NAME}`)"
+      #- "traefik.http.routers.webserver.tls=true"
+      #- "traefik.http.routers.webserver.tls.certresolver=lazyworker"
+  
+networks:
+  web:
+    external: true
