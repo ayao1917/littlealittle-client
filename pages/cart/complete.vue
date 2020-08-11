@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="cartHeader">
-      <CartProgress class="cartProgress" currentProgress="3"></CartProgress>
+      <CartProgress class="cartProgress" :currentProgress="3"></CartProgress>
     </div>
     <div class="rowContainer bottomLine">
       <div>

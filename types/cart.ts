@@ -59,6 +59,7 @@ export interface FormError {
   name: string | null;
   paymentMethod: string | null;
   title: string | null;
+  userTermsCheck: string | null;
 }
 
 export interface CountGroup {

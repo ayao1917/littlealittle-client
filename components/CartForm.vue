@@ -238,10 +238,20 @@
       <CartFeeSummary></CartFeeSummary>
       <div class="userTerms">
         <div class="formCheck">
-          <input class="formCheckInput" type="checkbox" />
+          <input
+            v-model="userTermsCheck"
+            class="formCheckInput"
+            type="checkbox"
+          />
           <label class="formCheckLabel">
             同意遵守使用者條款
           </label>
+        </div>
+        <div
+          v-if="errors.userTermsCheck"
+          class="invalidFeedback userTermsCheckError"
+        >
+          {{ errors.userTermsCheck }}
         </div>
       </div>
       <ActionButton
@@ -315,6 +325,7 @@ export default Vue.extend({
       genderOptions: GENDER_OPTIONS,
       invoiceOptions: INVOICE_OPTIONS,
       paymentOptions: PAYMENT_OPTIONS,
+      userTermsCheck: false,
     };
   },
   computed: {
@@ -415,6 +426,7 @@ export default Vue.extend({
         name: null,
         paymentMethod: null,
         title: null,
+        userTermsCheck: null,
       };
 
       if (!address) {
@@ -482,6 +494,10 @@ export default Vue.extend({
           this.errors.invoiceValue = this.validateUniform(invoiceValue);
         }
       }
+
+      if (!this.userTermsCheck) {
+        this.errors.userTermsCheck = "尚未同意使用者條款";
+      }
     },
     validateUniform(input: string): null | string {
       const cc = (n: number) => {
@@ -536,7 +552,9 @@ export default Vue.extend({
 
     .userTerms {
       display: flex;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
     }
 
     .submitButton {
@@ -566,7 +584,9 @@ export default Vue.extend({
 
     .userTerms {
       display: flex;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
     }
 
     .submitButton {
@@ -693,5 +713,9 @@ export default Vue.extend({
   margin-top: 0.25rem;
   font-size: 80%;
   color: #dc3545;
+}
+
+.userTermsCheckError {
+  text-align: center;
 }
 </style>

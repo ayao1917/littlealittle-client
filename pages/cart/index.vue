@@ -97,10 +97,11 @@ export default Vue.extend({
       this.$store.dispatch("order/createOrder", {
         callback: () => {
           window.scrollTo(0, 0);
+          this.$store.commit("cart/clearCart");
           if (cartForm.paymentMethod === 2) {
-            this.$router.push("payment");
+            this.$router.push("cart/payment");
           } else {
-            this.$router.push(`complete?type=default`);
+            this.$router.push(`cart/complete?type=default`);
           }
         },
         data: cartForm,

@@ -66,6 +66,9 @@ export const getters: GetterTree<CartState, RootState> = {
 };
 
 export const mutations: MutationTree<CartState> = {
+  clearCart: (state) => {
+    state.cartProducts = {};
+  },
   dropCartProduct: (state, id: number) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [id]: _, ...rest } = state.cartProducts;
