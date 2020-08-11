@@ -4,12 +4,12 @@ services:
     container_name: nuxt-container
     restart: always
     build: .
-    ports:
-      - 80:3000
+    #ports:
+      #- 80:3000
     networks:
       - web
     command:
-      "yarn start"
+      "pm2 start"
     labels:
       - "traefik.http.routers.webserver.entrypoints=websecure"
       - "traefik.http.routers.webserver.rule=Host(`${SITE_NAME}`)"
