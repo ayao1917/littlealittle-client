@@ -10,11 +10,11 @@ services:
       - web
     command:
       "yarn start"
-    #labels:
-      #- "traefik.http.routers.webserver.entrypoints=websecure"
-      #- "traefik.http.routers.webserver.rule=Host(`${SITE_NAME}`,`www.${SITE_NAME}`)"
-      #- "traefik.http.routers.webserver.tls=true"
-      #- "traefik.http.routers.webserver.tls.certresolver=lazyworker"
+    labels:
+      - "traefik.http.routers.webserver.entrypoints=websecure"
+      - "traefik.http.routers.webserver.rule=Host(`${SITE_NAME}`)"
+      - "traefik.http.routers.webserver.tls=true"
+      - "traefik.http.routers.webserver.tls.certresolver=lazyworker"
   
 networks:
   web:
