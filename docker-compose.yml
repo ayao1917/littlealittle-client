@@ -9,7 +9,7 @@ services:
     networks:
       - web
     command:
-      "pm2 start"
+      "yarn start"
     labels:
       - "traefik.http.routers.webserver.entrypoints=websecure"
       - "traefik.http.routers.webserver.rule=Host(`${SITE_NAME}`)"
