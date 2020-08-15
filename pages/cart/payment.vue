@@ -60,8 +60,9 @@ export default Vue.extend({
     $orderId(): string {
       return this.$store.getters["order/createdOrderId"];
     },
-    $orderPrice(): string {
-      return this.$store.getters["order/createdOrderPrice"];
+    $orderPrice(): number {
+      const price = this.$store.getters["order/createdOrderPrice"];
+      return price ? price * 100 : 0;
     },
   },
   mounted(): void {
