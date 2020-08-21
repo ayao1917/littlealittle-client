@@ -21,7 +21,7 @@
       </div>
       <div class="salePageRowControl">
         <img
-          v-if="page < ($pageSize - 1)"
+          v-if="page < $pageSize - 1"
           class="arrowIcon"
           src="../assets/images/circleRight.svg"
           @click="onClickNext"

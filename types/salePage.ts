@@ -14,6 +14,24 @@ export interface SalePage {
   plans: Plan[];
 }
 
+export interface AddPurchase {
+  id: number;
+  name: string;
+  picUrl: string;
+  title: string;
+  gooodsId: string;
+  price: number;
+  sort: number;
+}
+
+export interface ActionGetAddPurchasesResponse {
+  status: number;
+  msg: string;
+  result: {
+    addPurchases: AddPurchase[];
+  };
+}
+
 export interface ActionGetSalePageResponse {
   status: number;
   msg: string;

@@ -23,6 +23,19 @@
             修改
           </ActionButton>
         </div>
+        <div class="addPurchasesBlock">
+          <div class="addPurchasesTitle">
+            <p>您可能也會喜歡...</p>
+          </div>
+          <AddPurchasesRowDesktop
+            class="addPurchasesDesktop"
+            :addPurchases="$addPurchases"
+          />
+          <AddPurchasesRowMobile
+            class="addPurchasesMobile"
+            :addPurchases="$addPurchases"
+          />
+        </div>
         <CartFeeSummary class="cartFeeSummary"></CartFeeSummary>
         <ActionButton
           class="nextStepButton"
@@ -43,17 +56,22 @@
 <script lang="ts">
 import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
+import AddPurchasesRowDesktop from "~/components/AddPurchasesRowDesktop.vue";
+import AddPurchasesRowMobile from "~/components/AddPurchasesRowMobile.vue";
 import CartFeeSummary from "~/components/CartFeeSummary.vue";
 import CartForm from "~/components/CartForm.vue";
 import CartPlanEditFrom from "~/components/CartPlanEditFrom.vue";
 import CartProgress from "~/components/CartProgress.vue";
 import { CartProduct } from "~/types/cart";
 import { OrderForm } from "~/types/order";
+import { AddPurchase } from "~/types/salePage";
 
 export default Vue.extend({
   name: "Cart",
   components: {
     ActionButton,
+    AddPurchasesRowDesktop,
+    AddPurchasesRowMobile,
     CartFeeSummary,
     CartForm,
     CartPlanEditFrom,
@@ -66,6 +84,9 @@ export default Vue.extend({
     };
   },
   computed: {
+    $addPurchases(): AddPurchase[] {
+      return this.$store.getters["salePage/addPurchases"];
+    },
     $cartList(): CartProduct[] {
       return this.cartProducts
         ? Object.keys(this.cartProducts).map((key) => this.cartProducts[key])
@@ -83,6 +104,7 @@ export default Vue.extend({
     },
   },
   mounted(): void {
+    this.$store.dispatch("salePage/getAddPurchases");
     this.currentProgress = 1;
     this.cartProducts = {
       ...this.$cartProducts,
@@ -148,6 +170,24 @@ export default Vue.extend({
         }
       }
 
+      .addPurchasesBlock {
+        .addPurchasesTitle {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 132px;
+
+          p {
+            font-size: 28px;
+            font-weight: 500;
+          }
+        }
+
+        .addPurchasesMobile {
+          display: none;
+        }
+      }
+
       .cartFeeSummary {
         margin: 12px 0;
       }
@@ -190,6 +230,21 @@ export default Vue.extend({
           padding: 12px 0;
           font-size: 21px;
           font-weight: 500;
+        }
+      }
+
+      .addPurchasesBlock {
+        .addPurchasesTitle {
+          padding: 12px 24px;
+
+          p {
+            font-size: 21px;
+            font-weight: 500;
+          }
+        }
+
+        .addPurchasesDesktop {
+          display: none;
         }
       }
 
