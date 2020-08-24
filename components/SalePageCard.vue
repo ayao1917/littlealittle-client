@@ -4,7 +4,7 @@
       <img :src="salePage.picUrl" class="productImage" @click="onClickCard" />
       <div class="productContent">
         <p class="productTitle">{{ salePage.name }}</p>
-        <p class="productDescription">不用去韓國也能在家做臉</p>
+        <p class="productDescription">{{ salePage.metaDescription }}</p>
         <div class="discount">
           <span class="discountAfter">NT$2,990</span>
           <span class="discountBefore">NT$7,089</span>
