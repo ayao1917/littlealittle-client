@@ -22,6 +22,10 @@ export default Vue.extend({
 <style lang="scss">
 @import "../assets/css/reset.scss";
 
+body {
+  font-family: PingFangTC-Regular;
+}
+
 .header {
   position: fixed;
   width: 100%;
