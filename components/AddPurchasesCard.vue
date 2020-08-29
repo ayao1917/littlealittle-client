@@ -2,7 +2,7 @@
   <div class="addPurchasesCardContainer">
     <img :src="addPurchase.picUrl" class="productImage" />
     <p class="productTitle">{{ addPurchase.title }}</p>
-    <button class="addToCartButton" @onClick="addToCart">
+    <button class="addToCartButton" @click="addToCart">
       {{ `$${addPurchase.price} 加購` }}
     </button>
   </div>
@@ -11,6 +11,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { AddPurchase } from "~/types/salePage";
+import { addToCartAnimate } from "~/utils/cart";
 
 export default Vue.extend({
   name: "AddPurchasesCard",
@@ -21,7 +22,13 @@ export default Vue.extend({
     },
   },
   methods: {
-    addToCart(): void {},
+    addToCart(event: MouseEvent): void {
+      const { picUrl } = this.addPurchase;
+      const { clientX, clientY } = event;
+      addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
+        this.$store.commit("cart/pushAddPurchase", this.addPurchase);
+      });
+    },
   },
 });
 </script>

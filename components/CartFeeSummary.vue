@@ -34,7 +34,7 @@ export default Vue.extend({
   data() {
     return {
       cartProducts: [] as CartProduct[],
-      shippingFee: 150,
+      shippingFee: 0,
     };
   },
   computed: {

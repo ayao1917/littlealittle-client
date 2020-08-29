@@ -13,11 +13,19 @@
           :key="cartProduct.salePage.id"
           :cartProduct="cartProduct"
           @onUpdateCartProducts="onUpdateCartProducts"
-        ></CartPlanEditFrom>
+        />
+        <CartAddPurchaseEditFrom
+          v-for="cartAddPurchase in cartAddPurchases"
+          :key="cartAddPurchase.addPurchase.id"
+          :cartAddPurchase="cartAddPurchase"
+          @onUpdateAddPurchase="onUpdateAddPurchase"
+          @onValidatePlan="onValidatePlan"
+        />
         <div class="editButtonContainer">
           <ActionButton
             class="editButton"
             buttonStyle="containedTeal"
+            :disabled="!isValidPlan"
             @onClick="onUpdateCart"
           >
             修改
@@ -58,11 +66,12 @@ import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
 import AddPurchasesRowDesktop from "~/components/AddPurchasesRowDesktop.vue";
 import AddPurchasesRowMobile from "~/components/AddPurchasesRowMobile.vue";
+import CartAddPurchaseEditFrom from "~/components/CartAddPurchaseEditFrom.vue";
 import CartFeeSummary from "~/components/CartFeeSummary.vue";
 import CartForm from "~/components/CartForm.vue";
 import CartPlanEditFrom from "~/components/CartPlanEditFrom.vue";
 import CartProgress from "~/components/CartProgress.vue";
-import { CartProduct } from "~/types/cart";
+import { CartAddPurchase, CartProduct } from "~/types/cart";
 import { OrderForm } from "~/types/order";
 import { AddPurchase } from "~/types/salePage";
 
@@ -72,6 +81,7 @@ export default Vue.extend({
     ActionButton,
     AddPurchasesRowDesktop,
     AddPurchasesRowMobile,
+    CartAddPurchaseEditFrom,
     CartFeeSummary,
     CartForm,
     CartPlanEditFrom,
@@ -79,13 +89,18 @@ export default Vue.extend({
   },
   data() {
     return {
+      cartAddPurchases: (null as unknown) as { [key: string]: CartAddPurchase },
       cartProducts: (null as unknown) as { [key: string]: CartProduct },
       currentProgress: 1,
+      isValidPlan: false,
     };
   },
   computed: {
     $addPurchases(): AddPurchase[] {
       return this.$store.getters["salePage/addPurchases"];
+    },
+    $cartAddPurchases(): { [key: string]: CartAddPurchase } {
+      return this.$store.getters["cart/cartAddPurchases"];
     },
     $cartList(): CartProduct[] {
       return this.cartProducts
@@ -97,9 +112,18 @@ export default Vue.extend({
     },
   },
   watch: {
+    $cartAddPurchases(newAdd) {
+      if (newAdd) {
+        this.cartAddPurchases = {
+          ...newAdd,
+        };
+      }
+    },
     $cartProducts(newProduct) {
       if (newProduct) {
-        this.cartProducts = newProduct;
+        this.cartProducts = {
+          ...newProduct,
+        };
       }
     },
   },
@@ -108,6 +132,9 @@ export default Vue.extend({
     this.currentProgress = 1;
     this.cartProducts = {
       ...this.$cartProducts,
+    };
+    this.cartAddPurchases = {
+      ...this.$cartAddPurchases,
     };
   },
   methods: {
@@ -129,11 +156,18 @@ export default Vue.extend({
         data: cartForm,
       });
     },
+    onUpdateAddPurchase(cartAddPurchase: CartAddPurchase): void {
+      this.cartAddPurchases[cartAddPurchase.addPurchase.id] = cartAddPurchase;
+    },
     onUpdateCart(): void {
-      this.$store.commit("cart/setCart", this.cartProducts);
+      this.$store.commit("cart/setCartProducts", this.cartProducts);
+      this.$store.commit("cart/setCartAddPurchase", this.cartAddPurchases);
     },
     onUpdateCartProducts(cartProduct: CartProduct): void {
       this.cartProducts[cartProduct.salePage.id] = cartProduct;
+    },
+    onValidatePlan(isValid: boolean): void {
+      this.isValidPlan = isValid;
     },
   },
 });

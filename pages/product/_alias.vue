@@ -15,7 +15,7 @@
           </p>
         </div>
       </div>
-      <div class="planSelection" v-if="$product">
+      <div v-if="$product" class="planSelection">
         <PlanDropdown
           v-for="(selectedPlan, i) in $selectedPlans"
           :key="i"

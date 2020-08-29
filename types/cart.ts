@@ -1,11 +1,11 @@
 import { Plan } from "~/types/plan";
-import { SalePage } from "~/types/salePage";
+import { AddPurchase, SalePage } from "~/types/salePage";
 
 export interface CartPlan {
   id: number;
   type: 0 | 1;
   details: CartPlanDetail[];
-  accessories: CartPlanDetail[];
+  accessories?: CartPlanDetail[];
 }
 
 export interface CartPlanDetail {
@@ -77,4 +77,9 @@ export interface CartProduct {
   selectedPlans: {
     [key: string]: SelectedPlan;
   };
+}
+
+export interface CartAddPurchase {
+  addPurchase: AddPurchase;
+  quantity: number;
 }

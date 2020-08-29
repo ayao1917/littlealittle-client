@@ -7,20 +7,24 @@
           src="~assets/images/close.svg"
           @click="
             () => {
-              onDeleteClick(cartProduct.salePage.id);
+              onDeleteClick(cartAddPurchase.addPurchase.id);
             }
           "
         />
       </div>
       <div class="cartDetailBody">
-        <img :src="cartProduct.salePage.picUrl" class="productImage" />
+        <img :src="cartAddPurchase.addPurchase.picUrl" class="productImage" />
         <div class="planQuantityContainer">
           <span>
-            {{ `${cartProduct.salePage.name} ${$selectedAmount} 組` }}
+            {{
+              `加購：${cartAddPurchase.addPurchase.name} ${cartAddPurchase.quantity} 組`
+            }}
           </span>
         </div>
         <div class="planTotalFee">
-          {{ `${cartProduct.salePage.currency.isoCode} ${$totalFee}` }}
+          {{
+            `${cartAddPurchase.quantity * cartAddPurchase.addPurchase.price}`
+          }}
         </div>
       </div>
       <div class="cartDetailFooter">
@@ -40,22 +44,22 @@
       </div>
     </div>
     <div class="cartPlanDetailMobile">
-      <img :src="cartProduct.salePage.picUrl" class="productImage" />
+      <img :src="cartAddPurchase.addPurchase.picUrl" class="productImage" />
       <div class="cartDetailBody">
         <div class="cartDetailRow">
-          <span>{{ cartProduct.salePage.name }}</span>
+          <span>{{ `加購：${cartAddPurchase.addPurchase.name}` }}</span>
           <img
             class="closeIcon"
             src="~assets/images/close.svg"
             @click="
               () => {
-                onDeleteClick(cartProduct.salePage.id);
+                onDeleteClick(cartAddPurchase.addPurchase.id);
               }
             "
           />
         </div>
         <div class="cartDetailRow">
-          <span>{{ `${$selectedAmount} 組` }}</span>
+          <span>{{ `${cartAddPurchase.quantity} 組` }}</span>
           <ActionButton buttonStyle="pure" @onClick="onDropdownClick">
             <span>展開明細/修改</span>
             <img
@@ -72,102 +76,69 @@
         </div>
       </div>
     </div>
-    <div v-if="isActive">
-      <PlanDropdown
-        v-for="(selectedPlan, i) in $selectedPlans"
-        :key="i"
-        class="planDropdown"
-        :plan="selectedPlan.plan"
-        :selectedAccessory="selectedPlan.selectedAccessory"
-        :selectedPrimary="selectedPlan.selectedPrimary"
-        @onUpdatePlan="onUpdateSelectedPlan"
-      ></PlanDropdown>
+    <div v-if="isActive" class="planListDetailRow">
+      <span>加購品</span>
+      <div class="countSelect">
+        <img
+          class="minusIcon"
+          src="~assets/images/minus.svg"
+          @click="onClickMinus"
+        />
+        {{ cartAddPurchase.quantity }}
+        <img
+          class="plusIcon"
+          src="~assets/images/plus.svg"
+          @click="onClickPlus"
+        />
+      </div>
     </div>
-    <DeletePlanConfirmModal
-      type="Default"
-      @onConfirm="onDeleteProduct"
-    ></DeletePlanConfirmModal>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import ActionButton from "~/components/ActionButton.vue";
-import DeletePlanConfirmModal from "~/components/DeletePlanConfirmModal.vue";
-import PlanDropdown from "~/components/PlanDropdown.vue";
-import { CartProduct, SelectedPlan } from "~/types/cart";
-import { isValidSelect, selectedAmount, totalPlanFee } from "~/utils/cart";
+import { CartAddPurchase } from "~/types/cart";
 
 export default Vue.extend({
-  name: "CartPlanEditFrom",
+  name: "CartAddPurchaseEditFrom",
   components: {
     ActionButton,
-    DeletePlanConfirmModal,
-    PlanDropdown,
   },
   props: {
-    cartProduct: {
+    cartAddPurchase: {
       required: true,
-      type: Object as PropType<CartProduct>,
+      type: Object as PropType<CartAddPurchase>,
     },
   },
   data() {
     return {
       isActive: false,
-      isPlanValid: [] as boolean[],
-      toBeDelete: (null as unknown) as number,
     };
   },
-  computed: {
-    $selectedAmount(): number {
-      return this.$selectedPlans.reduce((acc, selectedPlan) => {
-        const { plan, selectedPrimary } = selectedPlan;
-        return acc + selectedAmount(plan, selectedPrimary);
-      }, 0);
-    },
-    $selectedPlans(): SelectedPlan[] {
-      return Object.keys(this.cartProduct.selectedPlans).map(
-        (key) => this.cartProduct.selectedPlans[key],
-      );
-    },
-    $totalFee(): number {
-      return this.$selectedPlans.reduce((acc, selectedPlan) => {
-        const { plan, selectedAccessory, selectedPrimary } = selectedPlan;
-        return acc + totalPlanFee(plan, selectedPrimary, selectedAccessory);
-      }, 0);
-    },
-  },
   methods: {
-    onDeleteClick(id: number): void {
-      this.toBeDelete = id;
-      this.$store.commit("modal/openModal", "DELETE_PLAN_CONFIRM");
+    onClickMinus(): void {
+      const newValue =
+        this.cartAddPurchase.quantity > 1
+          ? this.cartAddPurchase.quantity - 1
+          : 1;
+      this.$emit("onUpdateAddPurchase", {
+        addPurchase: this.cartAddPurchase.addPurchase,
+        quantity: newValue,
+      });
     },
-    onDeleteProduct(): void {
-      if (this.toBeDelete) {
-        this.$store.commit("cart/dropCartProduct", this.toBeDelete);
-        this.$store.commit("cart/clearAddPurchase");
-        this.$store.commit("modal/closeModal");
-      }
+    onClickPlus(): void {
+      const newValue = this.cartAddPurchase.quantity + 1;
+      this.$emit("onUpdateAddPurchase", {
+        addPurchase: this.cartAddPurchase.addPurchase,
+        quantity: newValue,
+      });
+    },
+    onDeleteClick(id: number): void {
+      this.$store.commit("cart/dropAddPurchase", id);
     },
     onDropdownClick(): void {
       this.isActive = !this.isActive;
-    },
-    onUpdateSelectedPlan(data: { selectedPlan: SelectedPlan }): void {
-      const { selectedPlan } = data;
-      const isValid = isValidSelect(
-        selectedPlan.plan,
-        selectedPlan.selectedPrimary,
-        selectedPlan.selectedAccessory,
-      );
-      this.$set(this.isPlanValid, selectedPlan.plan.id, isValid);
-      this.$emit("onValidatePlan", this.isPlanValid);
-      this.$emit("onUpdateCartProducts", {
-        salePage: this.cartProduct.salePage,
-        selectedPlans: {
-          ...this.cartProduct.selectedPlans,
-          [selectedPlan.plan.id]: selectedPlan,
-        },
-      });
     },
   },
 });
@@ -227,6 +198,40 @@ export default Vue.extend({
   .cartPlanDetailMobile {
     display: none;
   }
+
+  .planListDetailRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 48px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    border-color: #e6e6e6;
+    border-style: solid;
+    border-width: 0.5px;
+
+    .countSelect {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 15%;
+
+      .minusIcon {
+        width: 17px;
+        height: 3px;
+        cursor: pointer;
+        margin-right: 12px;
+      }
+
+      .plusIcon {
+        width: 17px;
+        height: 18px;
+        cursor: pointer;
+        margin-left: 12px;
+      }
+    }
+  }
 }
 
 @media (max-width: 767px) {
@@ -260,6 +265,38 @@ export default Vue.extend({
           width: 20px;
           height: 11px;
         }
+      }
+    }
+  }
+
+  .planListDetailRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    border-color: #e6e6e6;
+    border-style: solid;
+    border-width: 0.5px;
+
+    .countSelect {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 30%;
+
+      .minusIcon {
+        width: 17px;
+        height: 3px;
+        cursor: pointer;
+      }
+
+      .plusIcon {
+        width: 17px;
+        height: 18px;
+        cursor: pointer;
       }
     }
   }

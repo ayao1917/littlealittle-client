@@ -1,15 +1,34 @@
 import { GetterTree, MutationTree } from "vuex";
 import { RootState } from "~/store";
 
-import { CartPlan, CartProduct } from "~/types/cart";
+import { CartAddPurchase, CartPlan, CartProduct } from "~/types/cart";
+import { AddPurchase } from "~/types/salePage";
 
 export const state = () => ({
+  cartAddPurchases: {} as { [key: string]: CartAddPurchase },
   cartProducts: {} as { [key: string]: CartProduct },
 });
 
 export type CartState = ReturnType<typeof state>;
 
 export const getters: GetterTree<CartState, RootState> = {
+  addPurchaseForm: (state): CartPlan[] => {
+    return Object.keys(state.cartAddPurchases).map((key: string) => {
+      const { quantity } = state.cartAddPurchases[key];
+      return {
+        details: [
+          {
+            goodsId: parseInt(key),
+            quantity,
+          },
+        ],
+        id: parseInt(key),
+        type: 1,
+      };
+    });
+  },
+  cartAddPurchases: (state): { [key: string]: CartAddPurchase } =>
+    state.cartAddPurchases,
   cartCurrency: (state): number | null => {
     const key = Object.keys(state.cartProducts)[0];
     if (!key) {
@@ -66,14 +85,44 @@ export const getters: GetterTree<CartState, RootState> = {
 };
 
 export const mutations: MutationTree<CartState> = {
+  clearAddPurchase: (state) => {
+    state.cartAddPurchases = {};
+  },
   clearCart: (state) => {
     state.cartProducts = {};
+    state.cartAddPurchases = {};
+  },
+  dropAddPurchase: (state, id: number) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [id]: _, ...rest } = state.cartAddPurchases;
+    state.cartAddPurchases = {
+      ...rest,
+    };
   },
   dropCartProduct: (state, id: number) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [id]: _, ...rest } = state.cartProducts;
     state.cartProducts = {
       ...rest,
+    };
+  },
+  pushAddPurchase: (state, addPurchase: AddPurchase) => {
+    const { id } = addPurchase;
+    let newAddPurchase = {};
+    if (!state.cartAddPurchases[id]) {
+      newAddPurchase = {
+        addPurchase,
+        quantity: 1,
+      };
+    } else {
+      newAddPurchase = {
+        addPurchase,
+        quantity: state.cartAddPurchases[id].quantity + 1,
+      };
+    }
+    state.cartAddPurchases = {
+      ...state.cartAddPurchases,
+      [id]: newAddPurchase,
     };
   },
   pushCartProduct: (state, object: { [key: string]: CartProduct }) => {
@@ -123,7 +172,12 @@ export const mutations: MutationTree<CartState> = {
     });
     state.cartProducts = { ...products };
   },
-  setCart: (state, cart: { [key: string]: CartProduct }) => {
+  setCartAddPurchase: (state, cart: { [key: string]: CartAddPurchase }) => {
+    state.cartAddPurchases = {
+      ...cart,
+    };
+  },
+  setCartProducts: (state, cart: { [key: string]: CartProduct }) => {
     state.cartProducts = {
       ...cart,
     };

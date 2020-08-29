@@ -357,6 +357,7 @@ export default Vue.extend({
       }
       const currencyId = this.$store.getters["cart/cartCurrency"];
       const cartPlans = this.$store.getters["cart/planFrom"];
+      const cartAddPurchase = this.$store.getters["cart/addPurchaseForm"];
 
       const {
         address,
@@ -379,7 +380,7 @@ export default Vue.extend({
         country: "TWN",
         currencyId,
         deliveryType,
-        details: cartPlans,
+        details: [...cartPlans, ...cartAddPurchase],
         email,
         invoiceInfo: invoiceValue,
         invoiceType: isDonate === 1 ? 0 : invoiceType,
