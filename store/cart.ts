@@ -14,11 +14,11 @@ export type CartState = ReturnType<typeof state>;
 export const getters: GetterTree<CartState, RootState> = {
   addPurchaseForm: (state): CartPlan[] => {
     return Object.keys(state.cartAddPurchases).map((key: string) => {
-      const { quantity } = state.cartAddPurchases[key];
+      const { addPurchase, quantity } = state.cartAddPurchases[key];
       return {
         details: [
           {
-            goodsId: parseInt(key),
+            goodsId: parseInt(addPurchase.goodsId),
             quantity,
           },
         ],

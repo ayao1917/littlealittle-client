@@ -7,6 +7,19 @@
           {{ `${fee.salePage.currency.isoCode} ${fee.subtotal}` }}
         </span>
       </div>
+      <div
+        v-for="cartAddPurchase in $cartAddPurchases"
+        :key="cartAddPurchase.addPurchase.id"
+        class="cartFeeRow"
+      >
+        <span class="feeText">{{ cartAddPurchase.addPurchase.name }}</span>
+        <span class="feeText">
+          {{
+            `${$currency} ${cartAddPurchase.addPurchase.price *
+              cartAddPurchase.quantity}`
+          }}
+        </span>
+      </div>
       <div class="cartFeeRow">
         <span class="feeText">小計</span>
         <span class="feeText">{{ `${$currency} ${$subTotalFee}` }}</span>
@@ -25,7 +38,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { CartProduct } from "~/types/cart";
+import { CartAddPurchase, CartProduct } from "~/types/cart";
 import { SalePage } from "~/types/salePage";
 import { totalProductFee } from "~/utils/cart";
 
@@ -38,6 +51,12 @@ export default Vue.extend({
     };
   },
   computed: {
+    $cartAddPurchases(): CartAddPurchase[] {
+      const cartAddPurchases = this.$store.getters["cart/cartAddPurchases"];
+      return Object.keys(cartAddPurchases).map(
+        (key: string) => cartAddPurchases[key],
+      );
+    },
     $cartProducts(): { [key: string]: CartProduct } {
       return this.$store.getters["cart/cartProducts"];
     },
@@ -58,7 +77,16 @@ export default Vue.extend({
       });
     },
     $subTotalFee(): number {
-      return this.$fees.reduce((acc, fee) => acc + fee.subtotal, 0);
+      const totalProduct = this.$fees.reduce(
+        (acc, fee) => acc + fee.subtotal,
+        0,
+      );
+      const totalAddPurchase = this.$cartAddPurchases.reduce(
+        (acc, cartAddPurchase) =>
+          acc + cartAddPurchase.addPurchase.price * cartAddPurchase.quantity,
+        0,
+      );
+      return totalProduct + totalAddPurchase;
     },
     $totalFee(): number {
       return this.$subTotalFee + this.shippingFee;

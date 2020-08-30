@@ -19,7 +19,7 @@ export interface AddPurchase {
   name: string;
   picUrl: string;
   title: string;
-  gooodsId: string;
+  goodsId: string;
   price: number;
   sort: number;
 }
