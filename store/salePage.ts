@@ -15,13 +15,12 @@ export const state = () => ({
   addPurchases: [] as AddPurchase[],
   addPurchasesGetPending: false as boolean,
   newItems: [] as SalePage[],
-  newItemsGetPending: false as boolean,
   recentPriceOff: [] as SalePage[],
-  recentPriceOffGetPending: false as boolean,
   salePage: (null as unknown) as SalePage,
   salePageGetPending: false as boolean,
+  salePages: [] as SalePage[],
+  salePagesGetPending: false as boolean,
   topTen: [] as SalePage[],
-  topTenGetPending: false as boolean,
 });
 
 export type SalePageState = ReturnType<typeof state>;
@@ -30,13 +29,12 @@ export const getters: GetterTree<SalePageState, RootState> = {
   addPurchases: (state): AddPurchase[] => state.addPurchases,
   addPurchasesGetPending: (state): boolean => state.addPurchasesGetPending,
   newItems: (state): SalePage[] => state.newItems,
-  newItemsGetPending: (state): boolean => state.newItemsGetPending,
   recentPriceOff: (state): SalePage[] => state.recentPriceOff,
-  recentPriceOffGetPending: (state): boolean => state.recentPriceOffGetPending,
   salePage: (state): SalePage => state.salePage,
   salePageGetPending: (state): boolean => state.salePageGetPending,
+  salePages: (state): SalePage[] => state.salePages,
+  salePagesGetPending: (state): boolean => state.salePagesGetPending,
   topTen: (state): SalePage[] => state.topTen,
-  topTenGetPending: (state): boolean => state.topTenGetPending,
 };
 
 export const mutations: MutationTree<SalePageState> = {
@@ -49,14 +47,8 @@ export const mutations: MutationTree<SalePageState> = {
   setNewItems: (state, newItems: SalePage[]) => {
     state.newItems = newItems;
   },
-  setNewItemsGetPending: (state, newItemsGetPending: boolean) => {
-    state.newItemsGetPending = newItemsGetPending;
-  },
   setRecentPriceOff: (state, recentPriceOff: SalePage[]) => {
     state.recentPriceOff = recentPriceOff;
-  },
-  setRecentPriceOffGetPending: (state, recentPriceOffGetPending: boolean) => {
-    state.recentPriceOffGetPending = recentPriceOffGetPending;
   },
   setSalePage: (state, salePage: SalePage) => {
     state.salePage = salePage;
@@ -64,11 +56,11 @@ export const mutations: MutationTree<SalePageState> = {
   setSalePageGetPending: (state, salePageGetPending: boolean) => {
     state.salePageGetPending = salePageGetPending;
   },
+  setSalePages: (state, salePages: SalePage[]) => {
+    state.salePages = salePages;
+  },
   setTopTen: (state, topTen: SalePage[]) => {
     state.topTen = topTen;
-  },
-  setTopTenGetPending: (state, topTenGetPending: boolean) => {
-    state.topTenGetPending = topTenGetPending;
   },
 };
 
@@ -85,44 +77,6 @@ export const actions: ActionTree<SalePageState, RootState> = {
         const { addPurchases } = result;
         commit("setAddPurchases", addPurchases);
         commit("setAddPurchasesGetPending", false);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  },
-  getNewItems({ commit }, payload: ActionGetSalePagesPayload) {
-    const SERVER_URL = process.env.SERVER_URL;
-    const BRANCH = process.env.BRANCH;
-    if (!SERVER_URL || !BRANCH) return;
-    commit("setNewItemsGetPending", true);
-    this.$axios
-      .$get(`${SERVER_URL}/branches/${BRANCH}/salePages`, {
-        params: { ...payload },
-      })
-      .then((response: ActionGetSalePagesResponse) => {
-        const { result } = response;
-        const { salePages } = result;
-        commit("setNewItems", salePages);
-        commit("setNewItemsGetPending", false);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  },
-  getRecentPriceOff({ commit }, payload: ActionGetSalePagesPayload) {
-    const SERVER_URL = process.env.SERVER_URL;
-    const BRANCH = process.env.BRANCH;
-    if (!SERVER_URL || !BRANCH) return;
-    commit("setRecentPriceOffGetPending", true);
-    this.$axios
-      .$get(`${SERVER_URL}/branches/${BRANCH}/salePages`, {
-        params: { ...payload },
-      })
-      .then((response: ActionGetSalePagesResponse) => {
-        const { result } = response;
-        const { salePages } = result;
-        commit("setRecentPriceOff", salePages);
-        commit("setRecentPriceOffGetPending", false);
       })
       .catch((error) => {
         console.log("error", error);
@@ -146,20 +100,37 @@ export const actions: ActionTree<SalePageState, RootState> = {
         console.log("error", error);
       });
   },
-  getTopTen({ commit }, payload: ActionGetSalePagesPayload) {
+  getSalePages({ commit }, payload: ActionGetSalePagesPayload) {
     const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
+    const { type, ...params } = payload;
     if (!SERVER_URL || !BRANCH) return;
-    commit("setTopTenGetPending", true);
+    commit("setSalePageGetPending", true);
     this.$axios
       .$get(`${SERVER_URL}/branches/${BRANCH}/salePages`, {
-        params: { ...payload },
+        params: { ...params },
       })
       .then((response: ActionGetSalePagesResponse) => {
         const { result } = response;
         const { salePages } = result;
-        commit("setTopTen", salePages);
-        commit("setTopTenGetPending", false);
+        switch (type) {
+          case "NewItems":
+            commit("setNewItems", salePages);
+            break;
+
+          case "RecentPriceOff":
+            commit("setRecentPriceOff", salePages);
+            break;
+
+          case "TopTen":
+            commit("setTopTen", salePages);
+            break;
+
+          case "Default":
+          default:
+            commit("setSalePages", salePages);
+        }
+        commit("setSalePageGetPending", false);
       })
       .catch((error) => {
         console.log("error", error);

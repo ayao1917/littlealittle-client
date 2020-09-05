@@ -52,9 +52,18 @@ export default Vue.extend({
   },
   mounted(): void {
     this.$store.dispatch("banner/getBanners");
-    this.$store.dispatch("salePage/getNewItems", { random: 10 });
-    this.$store.dispatch("salePage/getRecentPriceOff", { random: 10 });
-    this.$store.dispatch("salePage/getTopTen", { random: 10 });
+    this.$store.dispatch("salePage/getSalePages", {
+      random: 10,
+      type: "NewItems",
+    });
+    this.$store.dispatch("salePage/getSalePages", {
+      random: 10,
+      type: "RecentPriceOff",
+    });
+    this.$store.dispatch("salePage/getSalePages", {
+      random: 10,
+      type: "TopTen",
+    });
   },
 });
 </script>
@@ -78,11 +87,6 @@ export default Vue.extend({
     .extra {
       display: none;
     }
-  }
-
-  .menuBar {
-    padding: 12px;
-    margin: 0 auto;
   }
 
   .slider {

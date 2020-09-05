@@ -18,6 +18,7 @@ export const state = () => ({
 export type CategoryState = ReturnType<typeof state>;
 
 export const getters: GetterTree<CategoryState, RootState> = {
+  category: (state): Category => state.category,
   sortedCategories: (state): Category[] => {
     const categoryList = state.categories.slice();
     categoryList.sort((a: Category, b: Category) => a.sort - b.sort);
@@ -68,8 +69,8 @@ export const actions: ActionTree<CategoryState, RootState> = {
       .$get(`${SERVER_URL}/branches/${BRANCH}/categories/${categoryId}`)
       .then((response: ActionGetCategoryResponse) => {
         const { result } = response;
-        const { categories } = result;
-        commit("setCategory", categories);
+        const { category } = result;
+        commit("setCategory", category);
         commit("setCategoryGetPending", false);
       });
   },

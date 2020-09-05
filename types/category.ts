@@ -12,7 +12,7 @@ export interface ActionGetCategoriesResponse {
   status: number;
   msg: string;
   result: {
-    categories: Category;
+    categories: Category[];
   };
 }
 
@@ -24,6 +24,6 @@ export interface ActionGetCategoryResponse {
   status: number;
   msg: string;
   result: {
-    categories: Category;
+    category: Category;
   };
 }

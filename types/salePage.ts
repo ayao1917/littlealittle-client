@@ -55,6 +55,7 @@ export interface ActionGetSalePagesResponse {
 export interface ActionGetSalePagesPayload {
   category: string | null;
   random: number | null;
+  type?: "Default" | "NewItems" | "RecentPriceOff" | "TopTen";
 }
 
 export interface ActionGetFavoritesResponse {

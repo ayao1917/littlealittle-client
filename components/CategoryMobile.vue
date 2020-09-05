@@ -40,13 +40,16 @@ export default Vue.extend({
       return this.$store.getters["category/sortedCategories"];
     },
   },
+  mounted(): void {
+    const id = this.$route.params.id;
+    this.selected = parseInt(id, 10);
+    this.$store.dispatch("category/getCategories");
+  },
   methods: {
     onClickCategory(category: Category): void {
       this.selected = category.id;
+      this.$router.push(`/category/${category.id}`);
     },
-  },
-  mounted(): void {
-    this.$store.dispatch("category/getCategories");
   },
 });
 </script>

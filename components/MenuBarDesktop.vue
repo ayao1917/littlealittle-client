@@ -1,11 +1,24 @@
 <template>
-  <div class="categoryContainer">
-    <span>熱銷排行TOP10</span>
-    <span v-for="category in $categories" :key="category.id">
-      {{ category.name }}
-    </span>
-    <span>部落格</span>
-    <span>訂單查詢</span>
+  <div>
+    <div class="menuBarContainer">
+      <span>熱銷排行TOP10</span>
+      <span
+        v-for="category in $categories"
+        :key="category.id"
+        @click="
+          () => {
+            onClickCategory(category.id);
+          }
+        "
+      >
+        {{ category.name }}
+      </span>
+      <span>部落格</span>
+      <span>訂單查詢</span>
+    </div>
+    <div class="categoryContainer">
+      <!-- TODO: Add subcategory here -->
+    </div>
   </div>
 </template>
 
@@ -23,17 +36,24 @@ export default Vue.extend({
   mounted(): void {
     this.$store.dispatch("category/getCategories");
   },
-  methods: {},
+  methods: {
+    onClickCategory(categoryId: number): void {
+      this.$router.push(`/category/${categoryId}`);
+    },
+  },
 });
 </script>
 
 <style scoped lang="scss">
-.categoryContainer {
+.menuBarContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  padding: 12px;
+  margin: 0 auto;
   height: 68px;
+  border-bottom: 1px solid #e6e6e6;
 
   span {
     color: #333333;
@@ -47,5 +67,9 @@ export default Vue.extend({
   span:not(:last-child) {
     margin-right: 12px;
   }
+}
+
+.categoryContainer {
+  display: none;
 }
 </style>
