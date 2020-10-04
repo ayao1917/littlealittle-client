@@ -77,6 +77,11 @@ export default Vue.extend({
     .categoryMobile {
       display: none;
     }
+
+    .slider {
+      width: 100%;
+      height: 573px;
+    }
   }
 
   @media (max-width: 767px) {
@@ -87,11 +92,11 @@ export default Vue.extend({
     .extra {
       display: none;
     }
-  }
 
-  .slider {
-    width: 100%;
-    height: 250px;
+    .slider {
+      width: 100%;
+      height: 238px;
+    }
   }
 
   .headerContainer {

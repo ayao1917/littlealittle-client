@@ -5,7 +5,7 @@ ADD . /app/
 
 # global install & update
 RUN npm i -g yarn
-#RUN npm i -g pm2
+RUN npm i -g pm2
 
 RUN rm yarn.lock
 RUN yarn

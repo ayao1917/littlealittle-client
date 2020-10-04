@@ -15,7 +15,9 @@
           :key="menuItem.title"
           class="modalRow"
         >
-          {{ menuItem.title }}
+          <nuxt-link :to="menuItem.url">
+            {{ menuItem.title }}
+          </nuxt-link>
         </div>
       </div>
     </div>
@@ -31,16 +33,16 @@ export default Vue.extend({
     return {
       menuItems: [
         {
-          title: "關於我們",
-          url: "",
+          title: "關於一點",
+          url: "/about",
         },
         {
-          title: "Q&A",
-          url: "",
+          title: "隱私權政策",
+          url: "/policy",
         },
         {
-          title: "部落格",
-          url: "",
+          title: "服務條款",
+          url: "/shoppingTerms",
         },
       ],
     };
@@ -96,6 +98,11 @@ export default Vue.extend({
     .modalRow {
       padding: 20px;
       box-shadow: 0 2px #e6e6e6;
+
+      a {
+        text-decoration: none;
+        color: #333333;
+      }
     }
   }
 }

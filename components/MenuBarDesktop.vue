@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="menuBarContainer">
-      <span>熱銷排行TOP10</span>
       <span
         v-for="category in $categories"
         :key="category.id"
@@ -13,8 +12,6 @@
       >
         {{ category.name }}
       </span>
-      <span>部落格</span>
-      <span>訂單查詢</span>
     </div>
     <div class="categoryContainer">
       <!-- TODO: Add subcategory here -->

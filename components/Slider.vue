@@ -1,5 +1,5 @@
 <template>
-  <div v-if="banners.length > 0" ref="slider" class="slider">
+  <div v-if="banners.length > 0" ref="slider" class="outerSlider">
     <div
       ref="innerSlider"
       :style="{ width: `${$innerSliderWidth}` }"
@@ -141,7 +141,7 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.slider {
+.outerSlider {
   position: relative;
   width: 100%;
   text-align: center;

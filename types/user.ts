@@ -1,11 +1,19 @@
 export interface User {
   id: string;
-  userName: string;
-  nickname: string;
-  email: string;
-  userGroupId: number;
-  isDisable: number;
-  createdAt: string;
-  updatedAt: string;
-  UserGroupId: number;
+  name: string;
+}
+
+export interface ActionLoginPayload {
+  provider: string;
+  code: string;
+  state: string;
+}
+
+export interface ActionLoginResponse {
+  status: number;
+  msg: string;
+  result: {
+    user: User;
+    token: string;
+  };
 }

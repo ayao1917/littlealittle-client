@@ -1,23 +1,23 @@
 <template>
   <div class="footerContainer">
     <div class="footerContent">
-      <div>
+      <div class="footerRow">
         <p class="blackHeader">關於我們</p>
-        <p class="blackContent">關於一點</p>
-        <p class="blackContent">隱私權政策</p>
-        <p class="blackContent">服務條款</p>
+        <nuxt-link class="blackContent" to="/about">關於一點</nuxt-link>
+        <nuxt-link class="blackContent" to="/policy">隱私權政策</nuxt-link>
+        <nuxt-link class="blackContent" to="/shoppingTerms">服務條款</nuxt-link>
       </div>
-      <div>
+      <div class="footerRow">
         <p class="blackHeader">聯絡我們</p>
         <p class="blackContent">(02)2578-1285</p>
         <p class="blackContent">台北市松山區八德路三段186-1號2F</p>
       </div>
-      <div>
+      <div class="footerRow">
         <p class="blackHeader">自助查詢</p>
         <p class="blackContent">訂單查詢</p>
         <p class="blackContent">配送進度查詢</p>
       </div>
-      <div>
+      <div class="footerRow">
         <p class="blackHeader">顧客服務</p>
         <p class="blackContent">退換貨說明</p>
         <p class="blackContent">客服中心</p>
@@ -54,18 +54,24 @@ export default Vue.extend({
       margin: 0 auto;
       padding-bottom: 40px;
 
-      .blackHeader {
-        color: #333333;
-        font-size: 23px;
-        font-weight: 500;
-        margin-bottom: 8px;
-      }
+      .footerRow {
+        display: flex;
+        flex-direction: column;
 
-      .blackContent {
-        color: #808080;
-        font-size: 19px;
-        font-weight: 400;
-        margin-bottom: 8px;
+        .blackHeader {
+          color: #333333;
+          font-size: 23px;
+          font-weight: 500;
+          margin-bottom: 8px;
+        }
+
+        .blackContent {
+          color: #808080;
+          font-size: 19px;
+          font-weight: 400;
+          margin-bottom: 8px;
+          text-decoration: none;
+        }
       }
     }
 
