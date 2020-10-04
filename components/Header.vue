@@ -18,11 +18,13 @@
             <div class="cartCount">{{ $cartCount }}</div>
           </ActionButton>
         </div>
+        <!--
         <div class="iconBox">
           <ActionButton @onClick="onClickUser">
             <img class="userIcon" src="~assets/images/user.svg" />
           </ActionButton>
         </div>
+        -->
       </div>
     </div>
     <HeaderMenuModal></HeaderMenuModal>
@@ -105,6 +107,7 @@ export default Vue.extend({
 
   .rightContainer {
     display: flex;
+    justify-content: flex-end;
   }
 
   .menuIcon {

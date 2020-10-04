@@ -11,7 +11,9 @@
         </div>
       </div>
       <div class="footer">
+        <!--
         <img class="iconLike" src="~assets/images/likeEmpty.svg" />
+        -->
         <img class="iconCart" src="~assets/images/cart.svg" />
       </div>
     </div>

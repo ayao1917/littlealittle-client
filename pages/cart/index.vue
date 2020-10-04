@@ -58,6 +58,7 @@
       </div>
       <div v-if="currentProgress === 3" class="stepThree"></div>
     </div>
+    <EmptyCartModal />
   </div>
 </template>
 
@@ -71,6 +72,7 @@ import CartFeeSummary from "~/components/CartFeeSummary.vue";
 import CartForm from "~/components/CartForm.vue";
 import CartPlanEditFrom from "~/components/CartPlanEditFrom.vue";
 import CartProgress from "~/components/CartProgress.vue";
+import EmptyCartModal from "~/components/EmptyCartModal.vue";
 import { CartAddPurchase, CartProduct } from "~/types/cart";
 import { OrderForm } from "~/types/order";
 import { AddPurchase } from "~/types/salePage";
@@ -86,6 +88,7 @@ export default Vue.extend({
     CartForm,
     CartPlanEditFrom,
     CartProgress,
+    EmptyCartModal,
   },
   data() {
     return {
@@ -128,6 +131,9 @@ export default Vue.extend({
     },
   },
   mounted(): void {
+    if (this.$store.getters["cart/planCount"] === 0) {
+      this.$store.commit("modal/openModal", "EMPTY_CART_CONFIRM");
+    }
     this.$store.dispatch("salePage/getAddPurchases");
     this.currentProgress = 1;
     this.cartProducts = {
