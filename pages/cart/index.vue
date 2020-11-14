@@ -48,6 +48,7 @@
         <ActionButton
           class="nextStepButton"
           buttonStyle="containedTeal"
+          :disabled="$store.getters['cart/planCount'] === 0"
           @onClick="onClickNextStep"
         >
           下一步

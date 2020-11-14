@@ -79,10 +79,20 @@ export default Vue.extend({
   color: #e6e6e6;
 }
 
+.buttonContainedTeal:disabled {
+  background-color: #dbdada;
+  color: #ffffff;
+}
+
 .buttonContainedUrbanGrey {
   background-color: #e6e6e6;
   border-style: none;
   color: #808080;
+}
+
+.buttonContainedUrbanGrey:disabled {
+  background-color: #dbdada;
+  color: #ffffff;
 }
 
 .buttonOutlineTeal {
@@ -90,9 +100,19 @@ export default Vue.extend({
   color: #4f9eac;
 }
 
+.buttonOutlineTeal:disabled {
+  background-color: #dbdada;
+  color: #ffffff;
+}
+
 .buttonOutlineUrbanGrey {
   border: solid 1px #e6e6e6;
   color: #808080;
+}
+
+.buttonOutlineUrbanGrey:disabled {
+  background-color: #dbdada;
+  color: #ffffff;
 }
 
 .buttonPure {

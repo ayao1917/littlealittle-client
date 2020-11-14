@@ -12,6 +12,7 @@
         <p class="blackContent">(02)2578-1285</p>
         <p class="blackContent">台北市松山區八德路三段186-1號2F</p>
       </div>
+      <!--
       <div class="footerRow">
         <p class="blackHeader">自助查詢</p>
         <p class="blackContent">訂單查詢</p>
@@ -22,6 +23,7 @@
         <p class="blackContent">退換貨說明</p>
         <p class="blackContent">客服中心</p>
       </div>
+      -->
     </div>
     <div class="copyrightContainer">
       <span>

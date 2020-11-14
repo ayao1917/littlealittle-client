@@ -325,7 +325,7 @@ export default Vue.extend({
       genderOptions: GENDER_OPTIONS,
       invoiceOptions: INVOICE_OPTIONS,
       paymentOptions: PAYMENT_OPTIONS,
-      userTermsCheck: false,
+      userTermsCheck: true,
     };
   },
   computed: {
