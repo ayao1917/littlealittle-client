@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <Alert />
     <MenuBarDesktop class="menuBar"></MenuBarDesktop>
     <CategoryMobile class="categoryMobile"></CategoryMobile>
     <Slider class="slider" :banners="$banners"></Slider>
@@ -22,6 +23,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import Alert from "~/components/Alert.vue";
 import CategoryMobile from "~/components/CategoryMobile.vue";
 import MenuBarDesktop from "~/components/MenuBarDesktop.vue";
 import SalePageRow from "~/components/SalePageRow.vue";
@@ -31,6 +33,7 @@ import { SalePage } from "~/types/salePage";
 
 export default Vue.extend({
   components: {
+    Alert,
     CategoryMobile,
     MenuBarDesktop,
     SalePageRow,

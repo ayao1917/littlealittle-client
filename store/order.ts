@@ -33,7 +33,7 @@ export const mutations: MutationTree<OrderState> = {
 };
 
 export const actions: ActionTree<OrderState, RootState> = {
-  createOrder({ commit }, payload: ActionCreateOrderPayload) {
+  createOrder({ commit, dispatch }, payload: ActionCreateOrderPayload) {
     const SERVER_URL = process.env.SERVER_URL;
     const BRANCH = process.env.BRANCH;
     if (!SERVER_URL || !BRANCH) return;
@@ -48,8 +48,13 @@ export const actions: ActionTree<OrderState, RootState> = {
         commit("setCreatedOrderPrice", price);
         callback();
       })
-      .catch((error) => {
-        console.log("error", error);
+      .catch(() => {
+        // TODO: show errors to user
+        commit("setOrderCreatePending", false);
+        dispatch("alert/triggerAlert", {
+          title: "新增訂單失敗",
+          type: "error",
+        });
       });
   },
 };

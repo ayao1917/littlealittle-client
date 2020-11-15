@@ -29,12 +29,12 @@ export default Vue.extend({
   },
   computed: {
     $isModalActive(): boolean {
-      return this.$store.state.modal.activeModal === "EMPTY_CART_CONFIRM";
+      return this.$store.state.modal.activeModal === "GENERAL_CONFIRM";
     },
   },
   methods: {
     onConfirmClick() {
-      this.$router.push("/");
+      this.$store.commit("modal/closeModal");
     },
   },
 });
