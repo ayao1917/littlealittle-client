@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="$isModalActive" class="modal" @click.self="onConfirmClick">
+    <div v-show="$isModalActive" class="modal">
       <!-- Modal content -->
       <div class="modalContent">
         <p class="modalText">您的購物車內沒有商品</p>
@@ -29,12 +29,13 @@ export default Vue.extend({
   },
   computed: {
     $isModalActive(): boolean {
-      return this.$store.state.modal.activeModal === "GENERAL_CONFIRM";
+      return this.$store.state.modal.activeModal === "EMPTY_CART_CONFIRM";
     },
   },
   methods: {
     onConfirmClick() {
       this.$store.commit("modal/closeModal");
+      this.$router.push("/");
     },
   },
 });
