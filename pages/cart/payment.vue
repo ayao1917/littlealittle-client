@@ -74,6 +74,7 @@ export default Vue.extend({
       const SERVER_URL = process.env.SERVER_URL;
       const SITE_URL = process.env.SITE_URL;
       const PAYMENT_CARD_STORE_ID = process.env.PAYMENT_CARD_STORE_ID;
+      const PAYMENT_CARD_SITE = process.env.PAYMENT_CARD_SITE;
       const params: FormObject = {
         Type: "FOLLOW_PAY",
         amount: `${this.$orderPrice}`,
@@ -99,7 +100,7 @@ export default Vue.extend({
         formBody.push(`${encodedKey}=${encodedValue}`);
       });
 
-      fetch("https://testtrustlink.hitrust.com.tw/TrustLink/TrxReqForJava", {
+      fetch(`${PAYMENT_CARD_SITE}/TrustLink/TrxReqForJava`, {
         body: formBody.join("&"),
         headers: {
           "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
