@@ -4,6 +4,9 @@ WORKDIR /app
 ADD . /app/
 
 # global install & update
+RUN apt-get -y update --fix-missing
+RUN apt-get upgrade -y
+RUN apt-get -y install vim
 RUN npm i -g yarn
 RUN npm i -g pm2
 
