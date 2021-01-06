@@ -400,6 +400,7 @@ export default Vue.extend({
         deliveryType,
         district,
         donateValue,
+        email,
         invoiceType,
         invoiceValue,
         isDonate,
