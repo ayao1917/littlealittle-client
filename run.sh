@@ -1,3 +1,3 @@
 yarn install
 yarn build
-yarn start
+pm2 start npm --name "LittleNew" -- run start

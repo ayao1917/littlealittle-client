@@ -1,7 +1,7 @@
 FROM node:12.6.0
 # Create app directory
-WORKDIR /app
-ADD . /app/
+#WORKDIR /app
+#ADD . /app/
 
 # global install & update
 RUN apt-get -y update --fix-missing

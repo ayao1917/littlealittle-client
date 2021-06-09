@@ -2,22 +2,23 @@ version: "3.2"
 services:
   nuxt:
     container_name: nuxt-container
-    #restart: always
+    restart: always
     build: .
     #ports:
       #- 80:3000
     networks:
       - web
-    #volumes:
-      #- .:/app
+    volumes:
+      - .:/app
     command:
-      "./run.sh"
+      "tail -f /dev/null"
+      #"./run.sh"
     labels:
-      - "traefik.http.routers.nuxt.entrypoints=web"
+      - "traefik.http.routers.nuxt.entrypoints=websecure"
       - "traefik.http.routers.nuxt.rule=Host(`${SITE_NAME}`)"
       - "traefik.port=3000"
-      #- "traefik.http.routers.nuxt.tls=true"
-      #- "traefik.http.routers.nuxt.tls.certresolver=lazyworker"
+      - "traefik.http.routers.nuxt.tls=true"
+      - "traefik.http.routers.nuxt.tls.certresolver=lazyworker"
   
 networks:
   web:
