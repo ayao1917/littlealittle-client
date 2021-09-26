@@ -21,6 +21,7 @@ export interface AddPurchase {
   title: string;
   goodsId: string;
   price: number;
+  salePicUrl: string;
   sort: number;
 }
 
