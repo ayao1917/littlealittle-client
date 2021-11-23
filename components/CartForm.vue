@@ -453,7 +453,6 @@ export default Vue.extend({
         this.errors.email = "請輸入信箱";
       }
 
-
       if (!mobile) {
         this.errors.mobile = "請輸入電話";
       } else if (!phonePattern.test(mobile)) {

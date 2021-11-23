@@ -106,18 +106,23 @@ export const mutations: MutationTree<CartState> = {
       ...rest,
     };
   },
-  pushAddPurchase: (state, addPurchase: AddPurchase) => {
+  pushAddPurchase: (
+    state,
+    payload: { addPurchase: AddPurchase; amount: number },
+  ) => {
+    const { addPurchase, amount } = payload;
     const { id } = addPurchase;
+    const itemAmount = amount ?? 1;
     let newAddPurchase = {};
     if (!state.cartAddPurchases[id]) {
       newAddPurchase = {
         addPurchase,
-        quantity: 1,
+        quantity: itemAmount,
       };
     } else {
       newAddPurchase = {
         addPurchase,
-        quantity: state.cartAddPurchases[id].quantity + 1,
+        quantity: state.cartAddPurchases[id].quantity + itemAmount,
       };
     }
     state.cartAddPurchases = {

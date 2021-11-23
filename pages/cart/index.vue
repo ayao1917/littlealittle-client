@@ -60,12 +60,14 @@
       <div v-if="currentProgress === 3" class="stepThree"></div>
     </div>
     <EmptyCartModal />
+    <AddPurchasesModalMobile />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import ActionButton from "~/components/ActionButton.vue";
+import AddPurchasesModalMobile from "~/components/AddPurchasesModalMobile.vue";
 import AddPurchasesRowDesktop from "~/components/AddPurchasesRowDesktop.vue";
 import AddPurchasesRowMobile from "~/components/AddPurchasesRowMobile.vue";
 import CartAddPurchaseEditFrom from "~/components/CartAddPurchaseEditFrom.vue";
@@ -82,6 +84,7 @@ export default Vue.extend({
   name: "Cart",
   components: {
     ActionButton,
+    AddPurchasesModalMobile,
     AddPurchasesRowDesktop,
     AddPurchasesRowMobile,
     CartAddPurchaseEditFrom,

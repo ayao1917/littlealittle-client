@@ -1,8 +1,22 @@
 <template>
   <div class="addPurchasesCardContainer">
-    <img :src="addPurchase.picUrl" class="productImage" @click="onOpenDetail" />
+    <div class="productImageContainer" @click="onOpenDetail">
+      <div class="productImageDetailContainer">
+        <img
+          class="productImageDetailIcon"
+          src="~assets/images/check-detail.svg"
+        />
+      </div>
+      <img :src="addPurchase.picUrl" class="productImage" />
+    </div>
     <p class="productTitle">{{ addPurchase.title }}</p>
-    <button class="addToCartButton" @click="addToCart">
+    <button class="addToCartButton addPurchaseButtonDekstop" @click="addToCart">
+      {{ `$${addPurchase.price} 加購` }}
+    </button>
+    <button
+      class="addToCartButton addPurchaseButtonMobile"
+      @click="showAddModal"
+    >
       {{ `$${addPurchase.price} 加購` }}
     </button>
     <div v-if="showDetail" class="salePicModal">
@@ -41,7 +55,10 @@ export default Vue.extend({
       const { picUrl } = this.addPurchase;
       const { clientX, clientY } = event;
       addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
-        this.$store.commit("cart/pushAddPurchase", this.addPurchase);
+        this.$store.commit("cart/pushAddPurchase", {
+          addPurchase: this.addPurchase,
+          amount: 1,
+        });
       });
     },
     onCloseDetail(): void {
@@ -50,11 +67,35 @@ export default Vue.extend({
     onOpenDetail(): void {
       this.showDetail = true;
     },
+    showAddModal(): void {
+      this.$store.commit("addPurchase/setItem", this.addPurchase);
+      this.$store.commit("modal/openModal", "ADD_PURCHASE");
+    },
   },
 });
 </script>
 
 <style scoped lang="scss">
+.productImageContainer {
+  position: relative;
+}
+
+.productImageDetailContainer {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.productImageDetailIcon {
+  width: 36px;
+  height: 36px;
+}
+
 .productImage {
   width: 100%;
   cursor: pointer;
@@ -106,5 +147,25 @@ export default Vue.extend({
 .salePicImage {
   width: 90%;
   height: auto;
+}
+
+@media (min-width: 768px) {
+  .addPurchaseButtonDekstop {
+    display: block;
+  }
+
+  .addPurchaseButtonMobile {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .addPurchaseButtonDekstop {
+    display: none;
+  }
+
+  .addPurchaseButtonMobile {
+    display: block;
+  }
 }
 </style>

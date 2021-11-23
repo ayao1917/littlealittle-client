@@ -1,14 +1,12 @@
-// TODO: should refactor this component with ItemAmountField
 <template>
-  <div class="planListDetailRow">
-    <span>{{ planListDetail.goods.name }}</span>
+  <div class="fieldRow">
     <div class="countSelect">
       <img
         class="minusIcon"
         src="~assets/images/minus.svg"
         @click="onClickMinus"
       />
-      {{ count }}
+      {{ amount }}
       <img
         class="plusIcon"
         src="~assets/images/plus.svg"
@@ -19,13 +17,12 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
-import { PlanListDetail } from "~/types/plan";
+import Vue from "vue";
 
 export default Vue.extend({
   name: "ItemSelector",
   props: {
-    count: {
+    amount: {
       required: true,
       type: Number,
     },
@@ -34,20 +31,18 @@ export default Vue.extend({
       required: false,
       type: Number,
     },
-    planListDetail: {
-      required: true,
-      type: Object as PropType<PlanListDetail>,
-    },
   },
   methods: {
     onClickMinus(): void {
-      const newValue = this.count > 0 ? this.count - 1 : 0;
-      this.$emit("onChangeCount", this.planListDetail.goodsId, newValue);
+      const newValue = this.amount > 0 ? this.amount - 1 : 0;
+      this.$emit("onChange", newValue);
     },
     onClickPlus(): void {
       const newValue =
-        this.max === -1 || this.count < this.max ? this.count + 1 : this.count;
-      this.$emit("onChangeCount", this.planListDetail.goodsId, newValue);
+        this.max === -1 || this.amount < this.max
+          ? this.amount + 1
+          : this.amount;
+      this.$emit("onChange", newValue);
     },
   },
 });
@@ -55,7 +50,7 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 @media (min-width: 768px) {
-  .planListDetailRow {
+  .fieldRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -71,7 +66,7 @@ export default Vue.extend({
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      width: 15%;
+      width: 100%;
 
       .minusIcon {
         width: 17px;
@@ -91,7 +86,7 @@ export default Vue.extend({
 }
 
 @media (max-width: 767px) {
-  .planListDetailRow {
+  .fieldRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -107,7 +102,7 @@ export default Vue.extend({
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 30%;
+      width: 100%;
 
       .minusIcon {
         width: 17px;
