@@ -4,10 +4,16 @@
       <!-- Modal content -->
       <div class="modalContent">
         <div class="contentHeader">
-          <img class="pullBarIcon" src="~assets/images/pullBar.svg" />
+          <img
+            class="pullBarIcon"
+            src="~assets/images/pullBar.svg"
+            @click="onCloseModal"
+          />
         </div>
         <p class="itemTitleRow">{{ $addPurchase.name }}</p>
-        <img class="itemImage" :src="$addPurchase.salePicUrl" />
+        <div class="imageContainer">
+          <img class="itemImage" :src="$addPurchase.salePicUrl" />
+        </div>
         <div class="modalFooter">
           <ActionButton
             class="footerButton"
@@ -31,7 +37,7 @@ import { AddPurchase } from "~/types/salePage";
 import { addToCartAnimate } from "~/utils/cart";
 
 export default Vue.extend({
-  name: "AddCartModalMobile",
+  name: "AddPurchasesModalMobile",
   components: {
     ActionButton,
     ItemAmountField,
@@ -106,6 +112,11 @@ export default Vue.extend({
       padding: 12px 0;
       text-align: center;
       font-size: 24px;
+    }
+
+    .imageContainer {
+      max-height: 80vh;
+      overflow-y: auto;
     }
 
     .itemImage {

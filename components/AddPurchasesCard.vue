@@ -1,6 +1,6 @@
 <template>
   <div class="addPurchasesCardContainer">
-    <div class="productImageContainer" @click="onOpenDetail">
+    <div class="productImageContainer" @click="showAddModal">
       <div class="productImageDetailContainer">
         <img
           class="productImageDetailIcon"
