@@ -115,7 +115,7 @@ export default Vue.extend({
     }
 
     .imageContainer {
-      max-height: 80vh;
+      max-height: 70vh;
       overflow-y: auto;
     }
 
