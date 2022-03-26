@@ -1,4 +1,4 @@
-import { CartProduct, CountGroup, SelectedPlan } from "~/types/cart";
+import { CartPlan, CartProduct, CountGroup, SelectedPlan } from "~/types/cart";
 import { Plan, PlanListDetail } from "~/types/plan";
 
 interface Coordinate {
@@ -235,4 +235,91 @@ export const totalProductFee = (cartProduct: CartProduct): number => {
     const { plan, selectedPrimary, selectedAccessory } = selectedPlan;
     return acc + totalPlanFee(plan, selectedPrimary, selectedAccessory);
   }, 0);
+};
+
+export const createCartPlanData = (
+  cartProducts: Record<string, CartProduct>,
+) => {
+  // TODO: simplify this logic
+  let plans: CartPlan[] = [];
+  Object.keys(cartProducts).forEach((salePageId) => {
+    Object.keys(cartProducts[salePageId].selectedPlans).forEach((id) => {
+      const { selectedAccessory, selectedPrimary } = cartProducts[
+        salePageId
+      ].selectedPlans[id];
+      const details = Object.keys(selectedPrimary)
+        .filter((goodsId) => selectedPrimary[goodsId] > 0)
+        .map((goodsId) => {
+          return {
+            goodsId: parseInt(goodsId, 10),
+            quantity: selectedPrimary[goodsId],
+          };
+        });
+      const accessories = Object.keys(selectedAccessory)
+        .filter((goodsId) => selectedAccessory[goodsId] > 0)
+        .map((goodsId) => {
+          return {
+            goodsId: parseInt(goodsId, 10),
+            quantity: selectedAccessory[goodsId],
+          };
+        });
+
+      if (accessories.length > 0 && details.length > 0) {
+        plans = [
+          ...plans,
+          {
+            accessories,
+            details,
+            id: parseInt(id, 10),
+            type: 0,
+          },
+        ];
+      }
+    });
+  });
+
+  return plans;
+};
+
+export const mergeCartProduct = (
+  products: Record<string, CartProduct>,
+  cartProducts: Record<string, CartProduct>,
+) => {
+  // TODO: simplify this logic
+  Object.keys(cartProducts).forEach((salePageId) => {
+    if (!products[salePageId]) {
+      products[salePageId] = cartProducts[salePageId];
+    } else {
+      Object.keys(cartProducts[salePageId].selectedPlans).forEach((id) => {
+        if (!products[salePageId].selectedPlans[id]) {
+          products[salePageId].selectedPlans[id] =
+            cartProducts[salePageId].selectedPlans[id];
+        } else {
+          Object.keys(
+            cartProducts[salePageId].selectedPlans[id].selectedAccessory,
+          ).forEach((key) => {
+            if (
+              !products[salePageId].selectedPlans[id].selectedAccessory[key]
+            ) {
+              products[salePageId].selectedPlans[id].selectedAccessory[key] = 0;
+            }
+
+            products[salePageId].selectedPlans[id].selectedAccessory[key] +=
+              cartProducts[salePageId].selectedPlans[id].selectedAccessory[key];
+          });
+          Object.keys(
+            cartProducts[salePageId].selectedPlans[id].selectedPrimary,
+          ).forEach((key) => {
+            if (!products[salePageId].selectedPlans[id].selectedPrimary[key]) {
+              products[salePageId].selectedPlans[id].selectedPrimary[key] = 0;
+            }
+
+            products[salePageId].selectedPlans[id].selectedPrimary[key] +=
+              cartProducts[salePageId].selectedPlans[id].selectedPrimary[key];
+          });
+        }
+      });
+    }
+  });
+  return products;
 };
