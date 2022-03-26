@@ -86,7 +86,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      cartProduct: (null as unknown) as CartProduct,
+      cartProduct: { selectedPlans: {} } as CartProduct,
       isPlanValid: [] as boolean[],
     };
   },
@@ -108,10 +108,10 @@ export default Vue.extend({
   watch: {
     $product(newProduct, _) {
       if (newProduct) {
-        const cartProducts = this.$store.getters["cart/cartProducts"];
-        if (!cartProducts[newProduct.id]) {
-          this.initCart(newProduct);
-        }
+        // const cartProducts = this.$store.getters["cart/cartProducts"];
+        // if (!cartProducts[newProduct.id]) {
+        this.initCart(newProduct);
+        // }
       }
     },
   },
