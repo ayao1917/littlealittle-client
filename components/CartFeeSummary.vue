@@ -120,6 +120,7 @@ export default Vue.extend({
 .cartFeeRow {
   display: flex;
   justify-content: space-between;
+  padding: 5px 0;
 
   @media (min-width: 768px) {
     .feeText {

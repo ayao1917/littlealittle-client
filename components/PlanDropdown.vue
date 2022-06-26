@@ -270,6 +270,7 @@ export default Vue.extend({
 
     .dropdownText {
       display: inline;
+      font-size: 30px;
       margin-left: 24px;
     }
 
@@ -277,7 +278,7 @@ export default Vue.extend({
       float: right;
       width: 20px;
       height: 11px;
-      padding: 4px 4px 0 0;
+      padding: 12px 4px 0 0;
     }
   }
 

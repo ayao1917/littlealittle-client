@@ -259,7 +259,6 @@ export default Vue.extend({
       bottom: 0;
       padding: 14px;
       width: 100%;
-      height: 60px;
       box-sizing: border-box;
       box-shadow: 0 -4px 10px -6px #808080;
       background-color: #ffffff;
@@ -268,7 +267,7 @@ export default Vue.extend({
         width: 100%;
 
         .buyNowButtonText {
-          font-size: 21px;
+          font-size: 40px;
           font-weight: 500;
         }
       }

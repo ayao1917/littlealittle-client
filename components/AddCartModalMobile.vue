@@ -23,14 +23,14 @@
             buttonStyle="outlineTeal"
             @onClick="onAddToCartClick"
           >
-            放入購物車
+            <span class="buttonText">放入購物車</span>
           </ActionButton>
           <ActionButton
             class="footerButton"
             buttonStyle="containedTeal"
             @onClick="onBuyNowClick"
           >
-            立即結帳
+            <span class="buttonText">立即結帳</span>
           </ActionButton>
         </div>
       </div>
@@ -152,6 +152,10 @@ export default Vue.extend({
     .footerButton {
       width: calc(50% - 4px);
       padding: 8px;
+
+      .buttonText {
+        font-size: 25px;
+      }
     }
 
     .footerButton:not(:last-child) {

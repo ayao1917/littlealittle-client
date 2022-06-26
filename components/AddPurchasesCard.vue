@@ -114,7 +114,7 @@ export default Vue.extend({
   color: #333333;
   width: 100%;
   height: 60px;
-  font-size: 23px;
+  font-size: 20px;
   font-weight: 500;
 }
 
