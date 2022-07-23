@@ -66,7 +66,7 @@ export const getters: GetterTree<CartState, RootState> = {
               };
             });
 
-          if (accessories.length > 0 && details.length > 0) {
+          if (details.length > 0) {
             plans = [
               ...plans,
               {
