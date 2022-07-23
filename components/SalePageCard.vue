@@ -6,8 +6,8 @@
         <p class="productTitle">{{ salePage.name }}</p>
         <p class="productDescription">{{ salePage.metaDescription }}</p>
         <div class="discount">
-          <span class="discountAfter">NT$2,990</span>
-          <span class="discountBefore">NT$7,089</span>
+          <span class="discountAfter">{{ salePage.discount }}</span>
+          <span class="discountBefore">{{ salePage.price }}</span>
         </div>
       </div>
       <div class="footer">

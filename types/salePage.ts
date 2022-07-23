@@ -11,6 +11,8 @@ export interface SalePage {
   payments: string;
   content: string;
   currency: Currency;
+  price: number;
+  discount: number;
   plans: Plan[];
 }
 
