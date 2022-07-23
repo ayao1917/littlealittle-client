@@ -86,7 +86,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      cartProduct: (null as unknown) as CartProduct,
+      cartProduct: { selectedPlans: {} } as CartProduct,
       isPlanValid: [] as boolean[],
     };
   },
@@ -108,10 +108,10 @@ export default Vue.extend({
   watch: {
     $product(newProduct, _) {
       if (newProduct) {
-        const cartProducts = this.$store.getters["cart/cartProducts"];
-        if (!cartProducts[newProduct.id]) {
-          this.initCart(newProduct);
-        }
+        // const cartProducts = this.$store.getters["cart/cartProducts"];
+        // if (!cartProducts[newProduct.id]) {
+        this.initCart(newProduct);
+        // }
       }
     },
   },
@@ -149,6 +149,7 @@ export default Vue.extend({
       const { clientX, clientY } = event;
       addToCartAnimate(picUrl, { x: clientX, y: clientY }, () => {
         this.doAddToCart();
+        this.$store.commit("modal/closeModal");
         this.$router.push("/cart");
       });
     },
@@ -258,7 +259,6 @@ export default Vue.extend({
       bottom: 0;
       padding: 14px;
       width: 100%;
-      height: 60px;
       box-sizing: border-box;
       box-shadow: 0 -4px 10px -6px #808080;
       background-color: #ffffff;
@@ -267,7 +267,7 @@ export default Vue.extend({
         width: 100%;
 
         .buyNowButtonText {
-          font-size: 21px;
+          font-size: 40px;
           font-weight: 500;
         }
       }

@@ -3,6 +3,45 @@ import { RootState } from "~/store";
 
 import { CartAddPurchase, CartPlan, CartProduct } from "~/types/cart";
 import { AddPurchase } from "~/types/salePage";
+import { createCartPlanData, mergeCartProduct } from "~/utils/cart";
+
+const setAddPurchases = (
+  state: CartState,
+  addPurchases: Record<string, CartAddPurchase>,
+) => {
+  state.cartAddPurchases = addPurchases;
+  if (typeof window !== "undefined") {
+    localStorage.setItem("cartAddPurchases", JSON.stringify(addPurchases));
+  }
+};
+
+const getAddPurchases = (state: CartState): Record<string, CartAddPurchase> => {
+  let result = state.cartAddPurchases;
+  if (typeof window !== "undefined") {
+    const dataString = localStorage.getItem("cartAddPurchases") ?? "{}";
+    result = JSON.parse(dataString);
+  }
+  return result;
+};
+
+const setProducts = (
+  state: CartState,
+  products: Record<string, CartProduct>,
+) => {
+  state.cartProducts = products;
+  if (typeof window !== "undefined") {
+    localStorage.setItem("cartProducts", JSON.stringify(products));
+  }
+};
+
+const getProducts = (state: CartState): Record<string, CartProduct> => {
+  let result = state.cartProducts;
+  if (typeof window !== "undefined") {
+    const dataString = localStorage.getItem("cartProducts") ?? "{}";
+    result = JSON.parse(dataString);
+  }
+  return result;
+};
 
 export const state = () => ({
   cartAddPurchases: {} as { [key: string]: CartAddPurchase },
@@ -13,8 +52,9 @@ export type CartState = ReturnType<typeof state>;
 
 export const getters: GetterTree<CartState, RootState> = {
   addPurchaseForm: (state): CartPlan[] => {
-    return Object.keys(state.cartAddPurchases).map((key: string) => {
-      const { addPurchase, quantity } = state.cartAddPurchases[key];
+    const cartAddPurchases = getAddPurchases(state);
+    return Object.keys(cartAddPurchases).map((key: string) => {
+      const { addPurchase, quantity } = cartAddPurchases[key];
       return {
         details: [
           {
@@ -28,83 +68,41 @@ export const getters: GetterTree<CartState, RootState> = {
     });
   },
   cartAddPurchases: (state): { [key: string]: CartAddPurchase } =>
-    state.cartAddPurchases,
+    getAddPurchases(state),
   cartCurrency: (state): number | null => {
-    const key = Object.keys(state.cartProducts)[0];
+    const cartProducts = getProducts(state);
+    const key = Object.keys(cartProducts)[0];
     if (!key) {
       return null;
     }
 
-    const salePage = state.cartProducts[key].salePage;
+    const salePage = cartProducts[key].salePage;
     return salePage.currency.id;
   },
-  cartProducts: (state): { [key: string]: CartProduct } => state.cartProducts,
-  planCount: (state): number => Object.keys(state.cartProducts).length,
+  cartProducts: (state): { [key: string]: CartProduct } => getProducts(state),
+  planCount: (state): number => Object.keys(getProducts(state)).length,
   planFrom: (state): CartPlan[] => {
-    // TODO: simplify this logic
-    let plans: CartPlan[] = [];
-    Object.keys(state.cartProducts).forEach((salePageId) => {
-      Object.keys(state.cartProducts[salePageId].selectedPlans).forEach(
-        (id) => {
-          const { selectedAccessory, selectedPrimary } = state.cartProducts[
-            salePageId
-          ].selectedPlans[id];
-          const details = Object.keys(selectedPrimary)
-            .filter((goodsId) => selectedPrimary[goodsId] > 0)
-            .map((goodsId) => {
-              return {
-                goodsId: parseInt(goodsId, 10),
-                quantity: selectedPrimary[goodsId],
-              };
-            });
-          const accessories = Object.keys(selectedAccessory)
-            .filter((goodsId) => selectedAccessory[goodsId] > 0)
-            .map((goodsId) => {
-              return {
-                goodsId: parseInt(goodsId, 10),
-                quantity: selectedAccessory[goodsId],
-              };
-            });
-
-          if (details.length > 0) {
-            plans = [
-              ...plans,
-              {
-                accessories,
-                details,
-                id: parseInt(id, 10),
-                type: 0,
-              },
-            ];
-          }
-        },
-      );
-    });
-    return plans;
+    return createCartPlanData(getProducts(state));
   },
 };
 
 export const mutations: MutationTree<CartState> = {
   clearAddPurchase: (state) => {
-    state.cartAddPurchases = {};
+    setAddPurchases(state, {});
   },
   clearCart: (state) => {
-    state.cartProducts = {};
-    state.cartAddPurchases = {};
+    setProducts(state, {});
+    setAddPurchases(state, {});
   },
   dropAddPurchase: (state, id: number) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { [id]: _, ...rest } = state.cartAddPurchases;
-    state.cartAddPurchases = {
-      ...rest,
-    };
+    const { [id]: _, ...rest } = getAddPurchases(state);
+    setAddPurchases(state, { ...rest });
   },
   dropCartProduct: (state, id: number) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { [id]: _, ...rest } = state.cartProducts;
-    state.cartProducts = {
-      ...rest,
-    };
+    const { [id]: _, ...rest } = getProducts(state);
+    setProducts(state, { ...rest });
   },
   pushAddPurchase: (
     state,
@@ -114,7 +112,8 @@ export const mutations: MutationTree<CartState> = {
     const { id } = addPurchase;
     const itemAmount = amount ?? 1;
     let newAddPurchase = {};
-    if (!state.cartAddPurchases[id]) {
+    const cartAddPurchases = getAddPurchases(state);
+    if (!cartAddPurchases[id]) {
       newAddPurchase = {
         addPurchase,
         quantity: itemAmount,
@@ -122,69 +121,27 @@ export const mutations: MutationTree<CartState> = {
     } else {
       newAddPurchase = {
         addPurchase,
-        quantity: state.cartAddPurchases[id].quantity + itemAmount,
+        quantity: cartAddPurchases[id].quantity + itemAmount,
       };
     }
-    state.cartAddPurchases = {
-      ...state.cartAddPurchases,
+    setAddPurchases(state, {
+      ...cartAddPurchases,
       [id]: newAddPurchase,
-    };
+    });
   },
   pushCartProduct: (state, object: { [key: string]: CartProduct }) => {
-    // TODO: simplify this logic
     const cartProducts = JSON.parse(JSON.stringify(object));
-    const products = state.cartProducts;
-    Object.keys(cartProducts).forEach((salePageId) => {
-      if (!products[salePageId]) {
-        products[salePageId] = cartProducts[salePageId];
-      } else {
-        Object.keys(cartProducts[salePageId].selectedPlans).forEach((id) => {
-          if (!products[salePageId].selectedPlans[id]) {
-            products[salePageId].selectedPlans[id] =
-              cartProducts[salePageId].selectedPlans[id];
-          } else {
-            Object.keys(
-              cartProducts[salePageId].selectedPlans[id].selectedAccessory,
-            ).forEach((key) => {
-              if (
-                !products[salePageId].selectedPlans[id].selectedAccessory[key]
-              ) {
-                products[salePageId].selectedPlans[id].selectedAccessory[
-                  key
-                ] = 0;
-              }
-
-              products[salePageId].selectedPlans[id].selectedAccessory[key] +=
-                cartProducts[salePageId].selectedPlans[id].selectedAccessory[
-                  key
-                ];
-            });
-            Object.keys(
-              cartProducts[salePageId].selectedPlans[id].selectedPrimary,
-            ).forEach((key) => {
-              if (
-                !products[salePageId].selectedPlans[id].selectedPrimary[key]
-              ) {
-                products[salePageId].selectedPlans[id].selectedPrimary[key] = 0;
-              }
-
-              products[salePageId].selectedPlans[id].selectedPrimary[key] +=
-                cartProducts[salePageId].selectedPlans[id].selectedPrimary[key];
-            });
-          }
-        });
-      }
-    });
-    state.cartProducts = { ...products };
+    const products = mergeCartProduct(getProducts(state), cartProducts);
+    setProducts(state, { ...products });
   },
   setCartAddPurchase: (state, cart: { [key: string]: CartAddPurchase }) => {
-    state.cartAddPurchases = {
+    setAddPurchases(state, {
       ...cart,
-    };
+    });
   },
   setCartProducts: (state, cart: { [key: string]: CartProduct }) => {
-    state.cartProducts = {
+    setProducts(state, {
       ...cart,
-    };
+    });
   },
 };
