@@ -189,8 +189,8 @@ export default Vue.extend({
       justify-content: flex-end;
 
       .dropdownIcon {
-        width: 20px;
-        height: 11px;
+        width: 24px;
+        height: 24px;
       }
     }
   }
@@ -218,15 +218,15 @@ export default Vue.extend({
       width: 15%;
 
       .minusIcon {
-        width: 17px;
-        height: 3px;
+        width: 20px;
+        height: 20px;
         cursor: pointer;
         margin-right: 12px;
       }
 
       .plusIcon {
-        width: 17px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
         cursor: pointer;
         margin-left: 12px;
       }
@@ -262,8 +262,8 @@ export default Vue.extend({
         }
 
         .dropdownIcon {
-          width: 20px;
-          height: 11px;
+          width: 24px;
+          height: 24px;
         }
       }
     }
@@ -288,14 +288,14 @@ export default Vue.extend({
       width: 30%;
 
       .minusIcon {
-        width: 17px;
-        height: 3px;
+        width: 20px;
+        height: 20px;
         cursor: pointer;
       }
 
       .plusIcon {
-        width: 17px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
         cursor: pointer;
       }
     }

@@ -265,10 +265,11 @@ export default Vue.extend({
 
       .buyNowButton {
         width: 100%;
+        padding: 14px 0;
 
         .buyNowButtonText {
-          font-size: 40px;
-          font-weight: 500;
+          font-weight: 700;
+          font-size: 14px;
         }
       }
     }

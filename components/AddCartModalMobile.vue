@@ -3,9 +3,6 @@
     <div v-show="$isModalActive" class="modal" @click.self="onCloseModal">
       <!-- Modal content -->
       <div class="modalContent">
-        <div class="contentHeader">
-          <img class="pullBarIcon" src="~assets/images/pullBar.svg" />
-        </div>
         <div v-if="$selectedPlans.length > 0" class="planList">
           <PlanDropdown
             v-for="(selectedPlan, i) in $selectedPlans"
@@ -16,6 +13,10 @@
             :selectedPrimary="selectedPlan.selectedPrimary"
             @onUpdatePlan="onUpdatePlan"
           ></PlanDropdown>
+        </div>
+        <div v-if="totalFee > 0" class="totalFeeContainer">
+          <span calss="totalFeeText">合計</span>
+          <span class="totalFeeAmount">{{ `${$currency} ${totalFee}` }}</span>
         </div>
         <div class="modalFooter">
           <ActionButton
@@ -44,7 +45,11 @@ import ActionButton from "~/components/ActionButton.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
 import { SelectedPlan } from "~/types/cart";
 import { SalePage } from "~/types/salePage";
-import { addToCartAnimate } from "~/utils/cart";
+import {
+  addToCartAnimate,
+  totalAccessoryFee,
+  totalPrimaryFee,
+} from "~/utils/cart";
 
 export default Vue.extend({
   name: "AddCartModalMobile",
@@ -64,7 +69,20 @@ export default Vue.extend({
       }>,
     },
   },
+  data() {
+    return {
+      totalFee: 0,
+    };
+  },
   computed: {
+    $currency(): string {
+      const product = this.$store.getters["salePage/salePage"];
+      if (product) {
+        return product.currency.isoCode;
+      } else {
+        return "$";
+      }
+    },
     $isModalActive(): boolean {
       return this.$store.state.modal.activeModal === "ADD_CART";
     },
@@ -96,6 +114,17 @@ export default Vue.extend({
       this.$store.commit("modal/closeModal");
     },
     onUpdatePlan(data: { selectedPlan: SelectedPlan }) {
+      const { selectedPlan } = data;
+      const accessoryFee = totalAccessoryFee(
+        selectedPlan.plan,
+        selectedPlan.selectedPrimary,
+        selectedPlan.selectedAccessory,
+      );
+      const primaryFee = totalPrimaryFee(
+        selectedPlan.plan,
+        selectedPlan.selectedPrimary,
+      );
+      this.totalFee = accessoryFee + primaryFee;
       this.$emit("onUpdatePlan", data);
     },
   },
@@ -119,7 +148,7 @@ export default Vue.extend({
     background-color: #fefefe;
     width: 100%;
     bottom: 0;
-    border-radius: 10px 10px 0 0;
+    border-radius: 16px 16px 0 0;
 
     .contentHeader {
       display: flex;
@@ -133,7 +162,7 @@ export default Vue.extend({
     }
 
     .planList {
-      padding: 0 8px 10px;
+      padding: 28px 0px 0px;
 
       .planDropdown {
         width: 100%;
@@ -141,6 +170,25 @@ export default Vue.extend({
 
       .planDropdown:not(:last-child) {
         margin-bottom: 8px;
+      }
+    }
+
+    .totalFeeContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 28px;
+
+      .totalFeeText {
+        font-weight: 400;
+        font-size: 14px;
+        color: #000000;
+      }
+
+      .totalFeeAmount {
+        font-weight: 700;
+        font-size: 14px;
+        color: #ba6562;
       }
     }
   }
@@ -151,10 +199,11 @@ export default Vue.extend({
 
     .footerButton {
       width: calc(50% - 4px);
-      padding: 8px;
+      padding: 14px 0;
 
       .buttonText {
-        font-size: 25px;
+        font-weight: 700;
+        font-size: 14px;
       }
     }
 

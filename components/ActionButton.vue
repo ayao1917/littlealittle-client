@@ -65,7 +65,7 @@ export default Vue.extend({
 }
 
 .buttonContainer {
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -96,6 +96,7 @@ export default Vue.extend({
 }
 
 .buttonOutlineTeal {
+  background-color: #ffffff;
   border: solid 1px #4f9eac;
   color: #4f9eac;
 }

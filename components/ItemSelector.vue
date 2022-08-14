@@ -8,7 +8,9 @@
         src="~assets/images/minus.svg"
         @click="onClickMinus"
       />
-      {{ count }}
+      <div class="countSection">
+        {{ count }}
+      </div>
       <img
         class="plusIcon"
         src="~assets/images/plus.svg"
@@ -97,11 +99,26 @@ export default Vue.extend({
     align-items: center;
     width: 100%;
     height: 60px;
-    padding: 0 15px;
+    padding: 0 28px;
     box-sizing: border-box;
     border-color: #e6e6e6;
     border-style: solid;
     border-width: 0.5px;
+
+    span {
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    .countSection {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #f1f3f6;
+      border-radius: 4px;
+      width: 32px;
+      height: 25px;
+    }
 
     .countSelect {
       display: flex;
@@ -110,14 +127,14 @@ export default Vue.extend({
       width: 30%;
 
       .minusIcon {
-        width: 17px;
-        height: 3px;
+        width: 20px;
+        height: 20px;
         cursor: pointer;
       }
 
       .plusIcon {
-        width: 17px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
         cursor: pointer;
       }
     }

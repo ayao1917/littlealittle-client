@@ -16,7 +16,11 @@
         <!--
         <img class="iconLike" src="~assets/images/likeEmpty.svg" />
         -->
-        <img class="iconCart" src="~assets/images/cart.svg" />
+        <img
+          class="iconCart"
+          src="~assets/images/cart.svg"
+          @click="onOpenCartModalClick"
+        />
       </div>
     </div>
   </div>
@@ -61,6 +65,10 @@ export default Vue.extend({
   methods: {
     onClickCard(): void {
       this.$router.push(`/product/${this.salePage.alias}`);
+    },
+    onOpenCartModalClick() {
+      this.$router.push(`/product/${this.salePage.alias}`);
+      this.$store.commit("modal/openModal", "ADD_CART");
     },
   },
 });

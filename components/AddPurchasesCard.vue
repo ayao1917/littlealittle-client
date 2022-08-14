@@ -141,7 +141,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .salePicImage {

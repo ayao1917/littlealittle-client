@@ -3,9 +3,11 @@
     <button class="dropdownButton" @click="onDropdownClick">
       <div class="dropdownText">
         <span>{{ plan.name }}</span>
+        <!--
         <span v-if="$totalPlanFee > 0" class="amount">
           {{ `${$currency} ${$totalPlanFee}` }}
         </span>
+        -->
       </div>
       <img
         v-if="!isActive"
@@ -22,9 +24,11 @@
       <div class="planListDetailTitle">
         <div>
           <span>主要商品</span>
+          <!--
           <span v-if="$totalPrimaryFee > 0" class="amount">
             {{ `${$currency} ${$totalPrimaryFee}` }}
           </span>
+          -->
         </div>
         <span
           v-if="$shouldValidatePrimary"
@@ -44,9 +48,11 @@
         <div class="planListDetailTitle">
           <div>
             <span>配件商品</span>
+            <!--
             <span v-if="$totalAccessoryFee > 0" class="amount">
               {{ `${$currency} ${$totalAccessoryFee}` }}
             </span>
+            -->
           </div>
           <span
             v-if="$shouldValidateAccessory"
@@ -222,8 +228,8 @@ export default Vue.extend({
     }
 
     .dropdownIcon {
-      width: 20px;
-      height: 11px;
+      width: 24px;
+      height: 24px;
     }
   }
 
@@ -259,26 +265,28 @@ export default Vue.extend({
 
 @media (max-width: 767px) {
   .dropdownButton {
-    border-radius: 8px;
-    border-color: #e6e6e6;
-    border-style: solid;
-    color: #808080;
-    padding: 8px;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #c1c1c1;
+    color: #000000;
+    padding: 12px;
+    margin: 0 16px;
+    width: calc(100% - 32px);
     height: 60px;
     outline: none;
 
     .dropdownText {
       display: inline;
-      font-size: 30px;
-      margin-left: 24px;
+      font-weight: 400;
+      font-size: 14px;
     }
 
     .dropdownIcon {
-      float: right;
-      width: 20px;
-      height: 11px;
-      padding: 12px 4px 0 0;
+      width: 24px;
+      height: 24px;
     }
   }
 
@@ -289,13 +297,13 @@ export default Vue.extend({
     background-color: #c7dfe2;
     width: 100%;
     height: 60px;
-    padding: 0 15px;
+    padding: 0 28px;
     box-sizing: border-box;
 
     span {
-      font-size: 21px;
-      font-weight: 500;
-      color: #4d4d4d;
+      font-weight: 400;
+      font-size: 14px;
+      color: #000000;
     }
 
     .valid {
