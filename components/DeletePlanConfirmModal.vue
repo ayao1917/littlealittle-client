@@ -47,7 +47,7 @@ export default Vue.extend({
     return {
       modalContent: {
         AddPurchase: "您確定要移除加購商品？",
-        Default: "您確定要移除此商品嗎？",
+        Default: "您確定要移除？",
         Mixed: "移除主商品，加購商品也會移除，您確定要移除？",
       },
     };
@@ -128,15 +128,15 @@ export default Vue.extend({
   @media (max-width: 767px) {
     .modalContent {
       position: relative;
-      width: 328px;
-      height: 245px;
+      width: 358px;
+      padding: 32px 16px;
       background-color: #fefefe;
-      border-radius: 10px;
+      border-radius: 4px;
 
       .iconContainer {
         display: flex;
         justify-content: center;
-        margin-top: 32px;
+        margin-bottom: 16px;
 
         .trashIcon {
           width: 96px;
@@ -145,7 +145,8 @@ export default Vue.extend({
       }
 
       .modalText {
-        margin: 12px 0 28px;
+        padding: 16px 0 28px;
+        margin-bottom: 16px;
         text-align: center;
       }
 
@@ -154,7 +155,7 @@ export default Vue.extend({
         left: 0;
         bottom: 0;
         width: 100%;
-        padding: 8px;
+        padding: 8px 16px 16px;
         display: flex;
         justify-content: space-between;
         box-sizing: border-box;

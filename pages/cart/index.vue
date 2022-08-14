@@ -277,11 +277,11 @@ export default Vue.extend({
         border-bottom: 1px solid #e6e6e6;
 
         .editButton {
-          width: 100%;
-          margin: 12px 0;
-          padding: 12px 0;
-          font-size: 21px;
-          font-weight: 500;
+          width: calc(100% - 32px);
+          margin: 8px 16px;
+          padding: 14px 0;
+          font-weight: 700;
+          font-size: 14px;
         }
       }
 

@@ -109,6 +109,7 @@
           </div>
         </div>
       </div>
+      <div class="fromGapGrey" />
       <div class="userInfoContainer">
         <span>送貨及付款方式</span>
       </div>
@@ -577,15 +578,22 @@ export default Vue.extend({
   .userInfoContainer {
     display: flex;
     justify-content: center;
-    padding: 13px;
+    padding: 12px;
 
     span {
-      font-size: 21px;
-      font-weight: 500;
+      font-weight: 400;
+      font-size: 14px;
     }
   }
 
+  .fromGapGrey {
+    background-color: #fafafa;
+    width: 100%;
+    height: 16px;
+  }
+
   .cartForm {
+    background-color: #ffffff;
     margin-bottom: 20px;
 
     .userTerms {
@@ -596,8 +604,8 @@ export default Vue.extend({
     }
 
     .submitButton {
-      width: 100%;
-      margin: 12px 0;
+      width: calc(100% - 32px);
+      margin: 12px 16px;
       padding: 12px 0;
       font-size: 21px;
       font-weight: 500;
@@ -617,7 +625,7 @@ export default Vue.extend({
     flex-grow: 1;
     min-width: 0;
     max-width: 100%;
-    padding: 10px;
+    padding: 10px 16px;
     box-sizing: border-box;
   }
 
@@ -685,7 +693,8 @@ export default Vue.extend({
 
 .formCheck {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 0.375rem 1.25rem;
 
   .formCheckInput {

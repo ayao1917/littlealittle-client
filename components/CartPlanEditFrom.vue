@@ -58,7 +58,7 @@
           <span>{{ `${$selectedAmount} 組` }}</span>
           <ActionButton
             class="editItemButton"
-            :buttonType="pure"
+            buttonType="pure"
             @onClick="onDropdownClick"
           >
             <span>展開明細/修改</span>
