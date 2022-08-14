@@ -120,7 +120,7 @@ export default Vue.extend({
 .cartFeeRow {
   display: flex;
   justify-content: space-between;
-  padding: 5px 0;
+  padding: 12px 28px;
 
   @media (min-width: 768px) {
     .feeText {
@@ -131,15 +131,15 @@ export default Vue.extend({
   }
 
   @media (max-width: 767px) {
-    font-size: 21px;
-    font-weight: 500;
+    font-weight: 400;
+    font-size: 14px;
   }
 }
 
 .totalFee {
   display: flex;
   justify-content: space-between;
-  margin: 12px 0;
+  padding: 12px 28px;
 
   @media (min-width: 768px) {
     span {
@@ -151,8 +151,8 @@ export default Vue.extend({
 
   @media (max-width: 767px) {
     span {
-      font-size: 21px;
-      font-weight: 500;
+      font-weight: 400;
+      font-size: 14px;
     }
   }
 

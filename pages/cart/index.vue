@@ -6,6 +6,7 @@
         :currentProgress="currentProgress"
       ></CartProgress>
     </div>
+    <div class="cartBodyTop" />
     <div class="cartBody">
       <div v-if="currentProgress === 1" class="stepOne">
         <CartPlanEditFrom
@@ -251,7 +252,7 @@ export default Vue.extend({
   .cartHeader {
     display: flex;
     justify-content: center;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e2e2e2;
     padding: 12px 24px;
 
     .cartProgress {
@@ -259,10 +260,17 @@ export default Vue.extend({
     }
   }
 
+  .cartBodyTop {
+    background: linear-gradient(#e2e2e2, #ffffff);
+    width: 100%;
+    height: 16px;
+  }
+
   .cartBody {
     width: 100%;
-    padding: 12px;
+    padding: 0;
     box-sizing: border-box;
+    background-color: #fafafa;
 
     .stepOne {
       .editButtonContainer {
@@ -278,12 +286,16 @@ export default Vue.extend({
       }
 
       .addPurchasesBlock {
+        padding: 12px 16px;
+        background-color: #fafafa;
+
         .addPurchasesTitle {
-          padding: 12px 24px;
+          margin: 12px 0;
 
           p {
-            font-size: 21px;
-            font-weight: 500;
+            font-weight: 400;
+            font-size: 14px;
+            color: #000000;
           }
         }
 
@@ -293,16 +305,16 @@ export default Vue.extend({
       }
 
       .cartFeeSummary {
-        margin: 12px 0;
+        margin-bottom: 8px;
       }
     }
 
     .nextStepButton {
-      width: 100%;
-      margin: 12px 0;
+      width: calc(100% - 32px);
+      margin: 8px 16px;
       padding: 12px 0;
-      font-size: 21px;
-      font-weight: 500;
+      font-weight: 700;
+      font-size: 14px;
     }
   }
 }

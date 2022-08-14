@@ -56,7 +56,11 @@
         </div>
         <div class="cartDetailRow">
           <span>{{ `${$selectedAmount} 組` }}</span>
-          <ActionButton buttonStyle="pure" @onClick="onDropdownClick">
+          <ActionButton
+            class="editItemButton"
+            :buttonType="pure"
+            @onClick="onDropdownClick"
+          >
             <span>展開明細/修改</span>
             <img
               v-if="!isActive"
@@ -174,11 +178,11 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-.cartPlanEditFromContainer {
-  border-bottom: 1px solid #e6e6e6;
-}
-
 @media (min-width: 768px) {
+  .cartPlanEditFromContainer {
+    border-bottom: 1px solid #e6e6e6;
+  }
+
   .cartPlanDetailDesktop {
     padding: 24px 0 12px;
 
@@ -187,8 +191,8 @@ export default Vue.extend({
       justify-content: flex-end;
 
       .closeIcon {
-        width: 18px;
-        height: 17px;
+        width: 24px;
+        height: 24px;
       }
     }
 
@@ -230,6 +234,15 @@ export default Vue.extend({
 }
 
 @media (max-width: 767px) {
+  .cartPlanEditFromContainer {
+    background-color: #ffffff;
+    padding: 12px 16px;
+  }
+
+  .cartPlanEditFromContainer:not(:first-child) {
+    margin-top: 16px;
+  }
+
   .cartPlanDetailDesktop {
     display: none;
   }
@@ -246,19 +259,36 @@ export default Vue.extend({
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      flex-grow: 1;
+      margin-left: 28px;
 
       .cartDetailRow {
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         .closeIcon {
-          width: 18px;
-          height: 17px;
+          width: 24px;
+          height: 24px;
         }
 
         .dropdownIcon {
           width: 24px;
           height: 24px;
+        }
+
+        .editItemButton {
+          display: flex;
+          align-items: center;
+
+          span {
+            margin-right: 20px;
+          }
+        }
+
+        span {
+          font-weight: 400;
+          font-size: 14px;
         }
       }
     }

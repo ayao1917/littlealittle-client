@@ -1,6 +1,6 @@
 <template>
   <div class="addPurchasesRowContainer">
-    <div class="addPurchasesRowControl">
+    <div class="addPurchasesRowControl rowControlLeft">
       <img
         v-if="page > 0"
         class="arrowIconDesktop"
@@ -24,7 +24,7 @@
         ></AddPurchasesCard>
       </div>
     </div>
-    <div class="addPurchasesRowControl">
+    <div class="addPurchasesRowControl rowControlRight">
       <img
         v-if="page < $pageSize - 1"
         class="arrowIconDesktop"
@@ -89,6 +89,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 @media (max-width: 767px) {
   .addPurchasesRowContainer {
+    position: relative;
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -99,17 +100,30 @@ export default Vue.extend({
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 55px;
 
       .arrowIconDesktop {
         display: none;
       }
 
       .arrowIconMobile {
-        width: 10px;
-        height: 21px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
       }
+    }
+
+    .rowControlLeft {
+      position: absolute;
+      left: 0;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .rowControlRight {
+      position: absolute;
+      right: 0;
+      height: 100%;
+      z-index: 1;
     }
 
     .addPurchasesSlider {
@@ -125,9 +139,12 @@ export default Vue.extend({
 
         .addPurchasesCard {
           flex: 0 0 auto;
-          padding: 0 6px;
+          background-color: #ffffff;
+          border-radius: 8px;
           box-sizing: border-box;
-          width: calc(50% + 2px);
+          width: calc(50% - 8px);
+          padding: 8px;
+          margin-right: 16px;
         }
       }
     }

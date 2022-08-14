@@ -90,8 +90,8 @@ export default Vue.extend({
       box-shadow: 0 2px #e6e6e6;
 
       .closeIcon {
-        width: 18px;
-        height: 17px;
+        width: 24px;
+        height: 24px;
       }
     }
 

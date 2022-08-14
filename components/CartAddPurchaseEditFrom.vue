@@ -158,8 +158,8 @@ export default Vue.extend({
       justify-content: flex-end;
 
       .closeIcon {
-        width: 18px;
-        height: 17px;
+        width: 24px;
+        height: 24px;
       }
     }
 
@@ -257,8 +257,8 @@ export default Vue.extend({
         justify-content: space-between;
 
         .closeIcon {
-          width: 18px;
-          height: 17px;
+          width: 24px;
+          height: 24px;
         }
 
         .dropdownIcon {

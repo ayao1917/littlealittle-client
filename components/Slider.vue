@@ -189,8 +189,8 @@ export default Vue.extend({
     }
 
     .arrowIconMobile {
-      width: 10px;
-      height: 21px;
+      width: 24px;
+      height: 24px;
       cursor: pointer;
       margin: 0 8px;
     }

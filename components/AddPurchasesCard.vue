@@ -103,19 +103,20 @@ export default Vue.extend({
 
 .productTitle {
   margin: 12px 4px;
-  font-size: 23px;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 14px;
 }
 
 .addToCartButton {
   background-color: #b5d5d9;
   border-style: none;
+  border-radius: 10px;
   cursor: pointer;
   color: #333333;
   width: 100%;
-  height: 60px;
-  font-size: 20px;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 14px 0;
 }
 
 .salePicModal {
