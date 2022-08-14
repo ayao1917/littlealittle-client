@@ -153,11 +153,13 @@ export default Vue.extend({
 
   .mobileView {
     display: flex;
+    padding: 0 8px;
 
     .salePageCardRow {
       display: flex;
       flex-direction: column;
       width: 50%;
+      margin: 16px 8px;
     }
   }
 }

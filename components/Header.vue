@@ -112,7 +112,7 @@ export default Vue.extend({
 
   .menuIcon {
     width: 24px;
-    height: 19px;
+    height: 24px;
   }
 
   .logoIcon {
@@ -122,8 +122,8 @@ export default Vue.extend({
   }
 
   .headerCartIcon {
-    width: 33px;
-    height: 29px;
+    width: 24px;
+    height: 24px;
   }
 
   .userIcon {

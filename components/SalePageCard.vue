@@ -3,11 +3,13 @@
     <div class="container">
       <img :src="salePage.picUrl" class="productImage" @click="onClickCard" />
       <div class="productContent">
-        <p class="productTitle">{{ salePage.name }}</p>
-        <p class="productDescription">{{ salePage.metaDescription }}</p>
+        <p v-if="salePage.name" class="productTitle">{{ salePage.name }}</p>
+        <p v-if="salePage.metaDescription" class="productDescription">
+          {{ salePage.metaDescription }}
+        </p>
         <div class="discount">
-          <span class="discountAfter">{{ salePage.discount }}</span>
-          <span class="discountBefore">{{ salePage.price }}</span>
+          <span class="discountAfter">{{ this.$discount }}</span>
+          <span class="discountBefore">{{ this.$price }}</span>
         </div>
       </div>
       <div class="footer">
@@ -32,6 +34,30 @@ export default Vue.extend({
       type: Object as PropType<SalePage>,
     },
   },
+  computed: {
+    $discount(): string {
+      if (!this.salePage.discount) {
+        return "";
+      }
+
+      if (!this.salePage.currency || !this.salePage.currency.title) {
+        return `${this.salePage.discount}`;
+      }
+
+      return `${this.salePage.currency.title} ${this.salePage.discount}`;
+    },
+    $price(): string {
+      if (!this.salePage.price) {
+        return "";
+      }
+
+      if (!this.salePage.currency || !this.salePage.currency.title) {
+        return `${this.salePage.price}`;
+      }
+
+      return `${this.salePage.currency.title} ${this.salePage.price}`;
+    },
+  },
   methods: {
     onClickCard(): void {
       this.$router.push(`/product/${this.salePage.alias}`);
@@ -42,8 +68,9 @@ export default Vue.extend({
 
 <style scoped lang="scss">
 .container {
-  margin: 4px;
+  padding: 8px;
   background-color: #ffffff;
+  border-radius: 8px;
 
   .productImage {
     width: 100%;
@@ -54,37 +81,42 @@ export default Vue.extend({
     padding: 0 8px;
 
     .productTitle {
-      color: #333333;
-      font-size: 19px;
-      font-weight: 500;
+      color: #000000;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 145%;
       text-overflow: ellipsis;
-      margin: 4px 2px;
+      margin-top: 8px;
     }
 
     .productDescription {
       color: #808080;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 400;
+      line-height: 17px;
       display: inline-block;
       width: 100%;
-      margin-top: 2px;
+      margin-top: 8px;
     }
 
     .discount {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
       margin-top: 8px;
 
       .discountAfter {
         color: #ba6562;
-        font-size: 19px;
-        font-weight: 600;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 145%;
+        margin-right: 8px;
       }
 
       .discountBefore {
         color: #b3b3b3;
-        font-size: 15px;
         font-weight: 400;
+        font-size: 12px;
+        line-height: 12px;
         text-decoration: line-through;
       }
     }
@@ -103,8 +135,8 @@ export default Vue.extend({
     }
 
     .iconCart {
-      width: 37px;
-      height: 32px;
+      width: 24px;
+      height: 24px;
     }
   }
 

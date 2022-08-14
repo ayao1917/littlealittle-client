@@ -57,7 +57,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .container {
   display: flex;
-  padding: 4px 2px;
+  padding: 8px 16px;
   overflow-x: scroll;
 }
 
@@ -68,9 +68,11 @@ export default Vue.extend({
 .categoryButton {
   padding: 2px 23px;
   white-space: nowrap;
+  font-weight: 400;
+  font-size: 18px;
 }
 
 .categoryButton:not(:last-child) {
-  margin-right: 2px;
+  margin-right: 8px;
 }
 </style>
