@@ -6,7 +6,9 @@
         src="~assets/images/minus.svg"
         @click="onClickMinus"
       />
-      {{ amount }}
+      <div class="amountBlock">
+        {{ amount }}
+      </div>
       <img
         class="plusIcon"
         src="~assets/images/plus.svg"
@@ -94,9 +96,6 @@ export default Vue.extend({
     height: 60px;
     padding: 0 15px;
     box-sizing: border-box;
-    border-color: #e6e6e6;
-    border-style: solid;
-    border-width: 0.5px;
 
     .countSelect {
       display: flex;
@@ -108,6 +107,13 @@ export default Vue.extend({
         width: 20px;
         height: 20px;
         cursor: pointer;
+      }
+
+      .amountBlock {
+        border: 2px solid #f1f3f6;
+        border-radius: 4px;
+        padding: 6px;
+        margin: 0 8px;
       }
 
       .plusIcon {

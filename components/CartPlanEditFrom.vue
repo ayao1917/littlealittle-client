@@ -296,6 +296,6 @@ export default Vue.extend({
 }
 
 .planDropdown {
-  margin-bottom: 12px;
+  margin: 12px 0;
 }
 </style>

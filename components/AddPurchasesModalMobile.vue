@@ -3,6 +3,7 @@
     <div v-show="$isModalActive" class="modal" @click.self="onCloseModal">
       <!-- Modal content -->
       <div class="modalContent">
+        <!--
         <div class="contentHeader">
           <img
             class="pullBarIcon"
@@ -10,6 +11,7 @@
             @click="onCloseModal"
           />
         </div>
+        -->
         <p class="itemTitleRow">{{ $addPurchase.name }}</p>
         <div class="imageContainer">
           <img class="itemImage" :src="$addPurchase.salePicUrl" />
@@ -22,7 +24,11 @@
           >
             放入購物車
           </ActionButton>
-          <ItemAmountField :amount="itemAmount" @onChange="onUpdateAmount" />
+          <ItemAmountField
+            class="amountRow"
+            :amount="itemAmount"
+            @onChange="onUpdateAmount"
+          />
         </div>
       </div>
     </div>
@@ -108,10 +114,9 @@ export default Vue.extend({
     }
 
     .itemTitleRow {
-      width: 100%;
-      padding: 12px 0;
-      text-align: center;
-      font-size: 24px;
+      margin: 42px 28px 12px;
+      font-weight: 400;
+      font-size: 14px;
     }
 
     .imageContainer {
@@ -139,15 +144,23 @@ export default Vue.extend({
 
   .modalFooter {
     display: flex;
-    padding: 0 8px 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
 
     .footerButton {
       width: calc(50% - 4px);
-      padding: 8px;
+      padding: 14px 48px;
+      font-weight: 700;
+      font-size: 14px;
     }
 
     .footerButton:not(:last-child) {
       margin-right: 8px;
+    }
+
+    .amountRow {
+      width: 88px;
     }
   }
 }
