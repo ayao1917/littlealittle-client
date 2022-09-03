@@ -17,6 +17,7 @@
             {{ errors.name }}
           </div>
         </div>
+        <!-- Hide gender option (ticket-1202837460895102)
         <div class="gridColumn gridColumnMd25 gridColumnSm100">
           <select
             v-model="formData.title"
@@ -35,6 +36,7 @@
             {{ errors.title }}
           </div>
         </div>
+        -->
         <div class="gridColumn gridColumnMd50 gridColumnSm100">
           <input
             v-model="formData.mobile"
@@ -401,7 +403,7 @@ export default Vue.extend({
         deliveryType,
         district,
         donateValue,
-        email,
+        // email, Hide email check (ticket-1202837460895102)
         invoiceType,
         invoiceValue,
         isDonate,
@@ -450,9 +452,11 @@ export default Vue.extend({
         this.errors.district = "請選擇縣市區";
       }
 
+      /* Hide email check (ticket-1202837460895102)
       if (!email) {
         this.errors.email = "請輸入信箱";
       }
+      */
 
       if (!mobile) {
         this.errors.mobile = "請輸入電話";

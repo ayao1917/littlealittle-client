@@ -22,7 +22,8 @@ export const PAYMENT_OPTIONS = [
     key: PAYMENT_METHOD.CREDIT_CARD.title,
     value: PAYMENT_METHOD.CREDIT_CARD.key,
   },
-  { key: PAYMENT_METHOD.ATM.title, value: PAYMENT_METHOD.ATM.key },
+  // Remove ATM option (ticket-1202837460895102)
+  // { key: PAYMENT_METHOD.ATM.title, value: PAYMENT_METHOD.ATM.key },
 ];
 
 export const INVOICE_OPTIONS = [

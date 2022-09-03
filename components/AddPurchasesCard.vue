@@ -10,11 +10,16 @@
       <img :src="addPurchase.picUrl" class="productImage" />
     </div>
     <p class="productTitle">{{ addPurchase.title }}</p>
-    <button class="addToCartButton addPurchaseButtonDekstop" @click="addToCart">
+    <button
+      class="addToCartButton addPurchaseButtonDekstop"
+      :disabled="$cartCount === 0"
+      @click="addToCart"
+    >
       {{ `$${addPurchase.price} 加購` }}
     </button>
     <button
       class="addToCartButton addPurchaseButtonMobile"
+      :disabled="$cartCount === 0"
       @click="showAddModal"
     >
       {{ `$${addPurchase.price} 加購` }}
@@ -49,6 +54,11 @@ export default Vue.extend({
     return {
       showDetail: false,
     };
+  },
+  computed: {
+    $cartCount(): number {
+      return this.$store.getters["cart/planCount"];
+    },
   },
   methods: {
     addToCart(event: MouseEvent): void {
@@ -117,6 +127,11 @@ export default Vue.extend({
   font-weight: 700;
   font-size: 14px;
   padding: 14px 0;
+}
+
+.addToCartButton:disabled {
+  background-color: #dbdada;
+  color: #ffffff;
 }
 
 .salePicModal {

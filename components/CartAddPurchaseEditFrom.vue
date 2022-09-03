@@ -31,12 +31,12 @@
         <ActionButton buttonStyle="pure" @onClick="onDropdownClick">
           <span>展開明細/修改</span>
           <img
-            v-if="!isActive"
+            v-if="isActive"
             class="dropdownIcon"
             src="~assets/images/arrowUp.svg"
           />
           <img
-            v-if="isActive"
+            v-if="!isActive"
             class="dropdownIcon"
             src="~assets/images/arrowDown.svg"
           />
@@ -60,15 +60,19 @@
         </div>
         <div class="cartDetailRow">
           <span>{{ `${cartAddPurchase.quantity} 組` }}</span>
-          <ActionButton buttonStyle="pure" @onClick="onDropdownClick">
+          <ActionButton
+            class="editItemButton"
+            buttonStyle="pure"
+            @onClick="onDropdownClick"
+          >
             <span>展開明細/修改</span>
             <img
-              v-if="!isActive"
+              v-if="isActive"
               class="dropdownIcon"
               src="~assets/images/arrowUp.svg"
             />
             <img
-              v-if="isActive"
+              v-if="!isActive"
               class="dropdownIcon"
               src="~assets/images/arrowDown.svg"
             />
@@ -147,6 +151,7 @@ export default Vue.extend({
 <style scoped lang="scss">
 .cartPlanEditFromContainer {
   border-bottom: 1px solid #e6e6e6;
+  padding: 12px 16px;
 }
 
 @media (min-width: 768px) {
@@ -251,14 +256,26 @@ export default Vue.extend({
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      flex-grow: 1;
+      margin-left: 28px;
 
       .cartDetailRow {
         display: flex;
         justify-content: space-between;
+        align-items: center;
 
         .closeIcon {
           width: 24px;
           height: 24px;
+        }
+
+        .editItemButton {
+          display: flex;
+          align-items: center;
+
+          span {
+            margin-right: 20px;
+          }
         }
 
         .dropdownIcon {
@@ -276,6 +293,7 @@ export default Vue.extend({
     width: 100%;
     height: 60px;
     padding: 0 15px;
+    margin-top: 12px;
     box-sizing: border-box;
     border-color: #e6e6e6;
     border-style: solid;

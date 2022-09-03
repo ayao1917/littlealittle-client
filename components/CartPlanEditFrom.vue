@@ -27,12 +27,12 @@
         <ActionButton buttonStyle="pure" @onClick="onDropdownClick">
           <span>展開明細/修改</span>
           <img
-            v-if="!isActive"
+            v-if="isActive"
             class="dropdownIcon"
             src="~assets/images/arrowUp.svg"
           />
           <img
-            v-if="isActive"
+            v-if="!isActive"
             class="dropdownIcon"
             src="~assets/images/arrowDown.svg"
           />
@@ -63,12 +63,12 @@
           >
             <span>展開明細/修改</span>
             <img
-              v-if="!isActive"
+              v-if="isActive"
               class="dropdownIcon"
               src="~assets/images/arrowUp.svg"
             />
             <img
-              v-if="isActive"
+              v-if="!isActive"
               class="dropdownIcon"
               src="~assets/images/arrowDown.svg"
             />
