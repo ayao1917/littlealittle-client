@@ -98,8 +98,7 @@ export default Vue.extend({
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 60px;
-    padding: 0 28px;
+    padding: 12px 28px;
     box-sizing: border-box;
     border-color: #e6e6e6;
     border-style: solid;
@@ -127,14 +126,14 @@ export default Vue.extend({
       width: 30%;
 
       .minusIcon {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
       }
 
       .plusIcon {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
       }
     }

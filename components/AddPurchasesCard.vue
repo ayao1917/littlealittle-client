@@ -93,8 +93,8 @@ export default Vue.extend({
 .productImageDetailContainer {
   position: absolute;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: flex-end;
   top: 0;
   left: 0;
   width: 100%;
@@ -102,11 +102,13 @@ export default Vue.extend({
 }
 
 .productImageDetailIcon {
-  width: 36px;
-  height: 36px;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
 }
 
 .productImage {
+  aspect-ratio: 1 / 1;
   width: 100%;
   cursor: pointer;
 }

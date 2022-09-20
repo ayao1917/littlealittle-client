@@ -269,7 +269,7 @@ export default Vue.extend({
 
         .buyNowButtonText {
           font-weight: 700;
-          font-size: 14px;
+          font-size: 18px;
         }
       }
     }

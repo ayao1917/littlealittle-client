@@ -290,28 +290,31 @@ export default Vue.extend({
     }
   }
 
-  .planListDetailTitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #c7dfe2;
-    width: 100%;
-    height: 60px;
-    padding: 0 28px;
-    box-sizing: border-box;
+  .dropdownContent {
+    margin-top: 6px;
 
-    span {
-      font-weight: 400;
-      font-size: 14px;
-      color: #000000;
-    }
+    .planListDetailTitle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #c7dfe2;
+      width: 100%;
+      padding: 6px 28px;
+      box-sizing: border-box;
 
-    .valid {
-      color: #4f9eac;
-    }
+      span {
+        font-weight: 400;
+        font-size: 14px;
+        color: #000000;
+      }
 
-    .invalid {
-      color: #ed847e;
+      .valid {
+        color: #4f9eac;
+      }
+
+      .invalid {
+        color: #ed847e;
+      }
     }
   }
 }

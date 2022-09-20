@@ -22,6 +22,7 @@
           <ActionButton
             class="footerButton"
             buttonStyle="outlineTeal"
+            :disabled="totalFee === 0"
             @onClick="onAddToCartClick"
           >
             <span class="buttonText">放入購物車</span>
@@ -29,6 +30,7 @@
           <ActionButton
             class="footerButton"
             buttonStyle="containedTeal"
+            :disabled="totalFee === 0"
             @onClick="onBuyNowClick"
           >
             <span class="buttonText">立即結帳</span>
@@ -166,9 +168,6 @@ export default Vue.extend({
 
       .planDropdown {
         width: 100%;
-      }
-
-      .planDropdown:not(:last-child) {
         margin-bottom: 8px;
       }
     }

@@ -20,6 +20,7 @@
           <ActionButton
             class="footerButton"
             buttonStyle="outlineTeal"
+            :disabled="itemAmount === 0"
             @onClick="addToCart"
           >
             放入購物車
@@ -114,7 +115,7 @@ export default Vue.extend({
     }
 
     .itemTitleRow {
-      margin: 42px 28px 12px;
+      margin: 12px 28px;
       font-weight: 400;
       font-size: 14px;
     }
@@ -149,10 +150,11 @@ export default Vue.extend({
     padding: 16px;
 
     .footerButton {
-      width: calc(50% - 4px);
-      padding: 14px 48px;
+      border-width: 2px;
+      width: calc(56% - 4px);
+      padding: 12px 46px;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 18px;
     }
 
     .footerButton:not(:last-child) {

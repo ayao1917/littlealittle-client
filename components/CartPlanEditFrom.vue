@@ -252,7 +252,8 @@ export default Vue.extend({
     justify-content: space-between;
 
     .productImage {
-      max-width: 100px;
+      width: 64px;
+      height: 64px;
     }
 
     .cartDetailBody {
