@@ -3,16 +3,19 @@
     <Header class="header"></Header>
     <nuxt class="content" />
     <Footer class="footer"></Footer>
+    <Alert />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+import Alert from "~/components/Alert.vue";
 import Footer from "~/components/Footer.vue";
 import Header from "~/components/Header.vue";
 
 export default Vue.extend({
   components: {
+    Alert,
     Footer,
     Header,
   },

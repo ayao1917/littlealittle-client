@@ -51,10 +51,14 @@ export const actions: ActionTree<OrderState, RootState> = {
       .catch(() => {
         // TODO: show errors to user
         commit("setOrderCreatePending", false);
-        dispatch("alert/triggerAlert", {
-          title: "新增訂單失敗",
-          type: "error",
-        });
+        dispatch(
+          "alert/triggerAlert",
+          {
+            title: "新增訂單失敗",
+            type: "error",
+          },
+          { root: true },
+        );
       });
   },
 };
