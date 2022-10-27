@@ -30,7 +30,7 @@
           <ActionButton
             class="footerButton"
             buttonStyle="containedTeal"
-            :disabled="totalFee === 0"
+            :disabled="!$isValidOrder"
             @onClick="onBuyNowClick"
           >
             <span class="buttonText">立即結帳</span>
@@ -49,6 +49,8 @@ import { SelectedPlan } from "~/types/cart";
 import { SalePage } from "~/types/salePage";
 import {
   addToCartAnimate,
+  isValidAccessory,
+  isValidPrimary,
   totalAccessoryFee,
   totalPrimaryFee,
 } from "~/utils/cart";
@@ -87,6 +89,29 @@ export default Vue.extend({
     },
     $isModalActive(): boolean {
       return this.$store.state.modal.activeModal === "ADD_CART";
+    },
+    $isValidAccessory(): boolean {
+      return Object.keys(this.selectedPlans).reduce((acc: boolean, key) => {
+        const selectedPlan = this.selectedPlans[key];
+        return (
+          isValidAccessory(
+            selectedPlan.plan,
+            selectedPlan.selectedPrimary,
+            selectedPlan.selectedAccessory,
+          ) && acc
+        );
+      }, true);
+    },
+    $isValidOrder(): boolean {
+      return this.$isValidAccessory && this.$isValidPrimary;
+    },
+    $isValidPrimary(): boolean {
+      return Object.keys(this.selectedPlans).reduce((acc: boolean, key) => {
+        const selectedPlan = this.selectedPlans[key];
+        return (
+          isValidPrimary(selectedPlan.plan, selectedPlan.selectedPrimary) && acc
+        );
+      }, true);
     },
     $selectedPlans(): SelectedPlan[] {
       return Object.keys(this.selectedPlans).map(
