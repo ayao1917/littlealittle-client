@@ -2,15 +2,7 @@
   <div class="cartPlanEditFromContainer">
     <div class="cartPlanDetailDesktop">
       <div class="cartDetailHeader">
-        <img
-          class="closeIcon"
-          src="~assets/images/close.svg"
-          @click="
-            () => {
-              onDeleteClick(cartProduct.salePage.id);
-            }
-          "
-        />
+        <DeleteCartItemIcon :itemId="cartProduct.salePage.id" />
       </div>
       <div class="cartDetailBody">
         <img :src="cartProduct.salePage.picUrl" class="productImage" />
@@ -44,15 +36,7 @@
       <div class="cartDetailBody">
         <div class="cartDetailRow">
           <span>{{ cartProduct.salePage.name }}</span>
-          <img
-            class="closeIcon"
-            src="~assets/images/close.svg"
-            @click="
-              () => {
-                onDeleteClick(cartProduct.salePage.id);
-              }
-            "
-          />
+          <DeleteCartItemIcon :itemId="cartProduct.salePage.id" />
         </div>
         <div class="cartDetailRow">
           <span>{{ `${$selectedAmount} 組` }}</span>
@@ -87,17 +71,13 @@
         @onUpdatePlan="onUpdateSelectedPlan"
       ></PlanDropdown>
     </div>
-    <DeletePlanConfirmModal
-      type="Default"
-      @onConfirm="onDeleteProduct"
-    ></DeletePlanConfirmModal>
   </div>
 </template>
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import ActionButton from "~/components/ActionButton.vue";
-import DeletePlanConfirmModal from "~/components/DeletePlanConfirmModal.vue";
+import DeleteCartItemIcon from "~/components/DeleteCartItemIcon.vue";
 import PlanDropdown from "~/components/PlanDropdown.vue";
 import { CartProduct, SelectedPlan } from "~/types/cart";
 import { isValidSelect, selectedAmount, totalPlanFee } from "~/utils/cart";
@@ -106,7 +86,7 @@ export default Vue.extend({
   name: "CartPlanEditFrom",
   components: {
     ActionButton,
-    DeletePlanConfirmModal,
+    DeleteCartItemIcon,
     PlanDropdown,
   },
   props: {
@@ -119,7 +99,7 @@ export default Vue.extend({
     return {
       isActive: false,
       isPlanValid: [] as boolean[],
-      toBeDelete: (null as unknown) as number,
+      toBeDelete: null as null | number,
     };
   },
   computed: {
@@ -142,17 +122,6 @@ export default Vue.extend({
     },
   },
   methods: {
-    onDeleteClick(id: number): void {
-      this.toBeDelete = id;
-      this.$store.commit("modal/openModal", "DELETE_PLAN_CONFIRM");
-    },
-    onDeleteProduct(): void {
-      if (this.toBeDelete) {
-        this.$store.commit("cart/dropCartProduct", this.toBeDelete);
-        this.$store.commit("cart/clearAddPurchase");
-        this.$store.commit("modal/closeModal");
-      }
-    },
     onDropdownClick(): void {
       this.isActive = !this.isActive;
     },
@@ -163,6 +132,7 @@ export default Vue.extend({
         selectedPlan.selectedPrimary,
         selectedPlan.selectedAccessory,
       );
+      console.log("isValid", isValid);
       this.$set(this.isPlanValid, selectedPlan.plan.id, isValid);
       this.$emit("onValidatePlan", this.isPlanValid);
       this.$emit("onUpdateCartProducts", {

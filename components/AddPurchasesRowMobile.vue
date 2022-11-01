@@ -106,8 +106,8 @@ export default Vue.extend({
       }
 
       .arrowIconMobile {
-        width: 24px;
-        height: 24px;
+        width: 0;
+        height: 0;
         cursor: pointer;
       }
     }
@@ -129,7 +129,7 @@ export default Vue.extend({
     .addPurchasesSlider {
       position: relative;
       width: 882px;
-      overflow: hidden;
+      overflow-y: scroll;
 
       .innerSlider {
         position: relative;

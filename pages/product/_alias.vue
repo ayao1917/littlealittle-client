@@ -3,6 +3,7 @@
     <div class="salePageContainer">
       <div
         v-if="$product"
+        ref="productContent"
         class="productContent"
         v-html="$product.content"
       ></div>
@@ -11,7 +12,7 @@
         <div class="productInfo">
           <p class="productTitle">{{ $product.name }}</p>
           <p class="productDescription">
-            寵愛自已情調香芬蠟燭無煙加熱燈，均勻融化蠟燭。不會燃燒
+            <!-- Display product description -->
           </p>
         </div>
       </div>
@@ -44,7 +45,7 @@
           </ActionButton>
         </div>
       </div>
-      <div class="buyNowContainer">
+      <div v-if="showFooter" class="buyNowContainer">
         <ActionButton
           buttonStyle="containedTeal"
           class="buyNowButton"
@@ -88,6 +89,7 @@ export default Vue.extend({
     return {
       cartProduct: { selectedPlans: {} } as CartProduct,
       isPlanValid: [] as boolean[],
+      showFooter: false,
     };
   },
   computed: {
@@ -115,15 +117,23 @@ export default Vue.extend({
       }
     },
   },
+  destroyed(): void {
+    window.removeEventListener("scroll", this.handleScroll);
+  },
   mounted(): void {
     const alias = this.$route.params.alias;
     this.$store.dispatch("salePage/getSalePage", { alias });
+    window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
     doAddToCart() {
       this.$store.commit("cart/pushCartProduct", {
         [this.$product.id]: this.cartProduct,
       });
+    },
+    handleScroll() {
+      const contentHeight = (this.$refs.productContent as Element).clientHeight;
+      this.showFooter = window.scrollY > contentHeight / 2;
     },
     initCart(product: SalePage) {
       const selectedPlans: {

@@ -112,7 +112,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      isActive: false,
+      isActive: true,
     };
   },
   computed: {

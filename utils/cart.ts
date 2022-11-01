@@ -132,7 +132,9 @@ export const isValidPrimary = (
   if (primaryItemQuantity === 1) {
     return true;
   } else {
-    return targetPrimaryQuantity(plan) === totalPrimaryAmount(selectedPrimary);
+    return (
+      totalPrimaryAmount(selectedPrimary) % targetPrimaryQuantity(plan) === 0
+    );
   }
 };
 
@@ -144,8 +146,9 @@ export const isValidAccessory = (
   const { accessoryQuantity } = plan;
   if (accessoryQuantity === -1 || accessoryQuantity === 1) {
     return (
-      targetAccessoryQuantity(plan, selectedPrimary) ===
-      totalAccessoryAmount(selectedAccessory)
+      totalAccessoryAmount(selectedAccessory) %
+        targetAccessoryQuantity(plan, selectedPrimary) ===
+      0
     );
   } else {
     return true;

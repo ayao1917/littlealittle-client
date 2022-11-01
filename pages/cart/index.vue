@@ -14,6 +14,7 @@
           :key="cartProduct.salePage.id"
           :cartProduct="cartProduct"
           @onUpdateCartProducts="onUpdateCartProducts"
+          @onValidatePlan="onValidatePlan"
         />
         <CartAddPurchaseEditFrom
           v-for="cartAddPurchase in cartAddPurchases"
