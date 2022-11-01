@@ -132,9 +132,8 @@ export default Vue.extend({
         selectedPlan.selectedPrimary,
         selectedPlan.selectedAccessory,
       );
-      console.log("isValid", isValid);
       this.$set(this.isPlanValid, selectedPlan.plan.id, isValid);
-      this.$emit("onValidatePlan", this.isPlanValid);
+      this.$emit("onValidatePlan", this.isPlanValid.every(Boolean));
       this.$emit("onUpdateCartProducts", {
         salePage: this.cartProduct.salePage,
         selectedPlans: {
