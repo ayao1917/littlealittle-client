@@ -116,7 +116,7 @@ export default Vue.extend({
 .productTitle {
   margin: 12px 4px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .addToCartButton {

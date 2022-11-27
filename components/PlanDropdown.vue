@@ -275,7 +275,7 @@ export default Vue.extend({
     padding: 12px;
     margin: 0 16px;
     width: calc(100% - 32px);
-    height: 60px;
+    height: 40px;
     outline: none;
 
     .dropdownText {

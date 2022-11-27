@@ -162,7 +162,8 @@ export default Vue.extend({
     }
 
     .amountRow {
-      width: 88px;
+      width: 120px;
+      margin-right: 20px;
     }
   }
 }

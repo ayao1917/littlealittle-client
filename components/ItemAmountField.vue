@@ -104,8 +104,8 @@ export default Vue.extend({
       width: 100%;
 
       .minusIcon {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
       }
 
@@ -113,12 +113,12 @@ export default Vue.extend({
         border: 2px solid #f1f3f6;
         border-radius: 4px;
         padding: 6px;
-        margin: 0 8px;
+        margin: 0px 15px 0px 15px;
       }
 
       .plusIcon {
-        width: 20px;
-        height: 20px;
+        width: 24px;
+        height: 24px;
         cursor: pointer;
       }
     }

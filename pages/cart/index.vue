@@ -295,7 +295,7 @@ export default Vue.extend({
 
           p {
             font-weight: 400;
-            font-size: 14px;
+            font-size: 20px;
             color: #000000;
           }
         }

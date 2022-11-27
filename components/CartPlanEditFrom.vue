@@ -238,8 +238,8 @@ export default Vue.extend({
         align-items: center;
 
         .closeIcon {
-          width: 24px;
-          height: 24px;
+          width: 20px;
+          height: 20px;
         }
 
         .dropdownIcon {
@@ -258,6 +258,10 @@ export default Vue.extend({
 
         span {
           font-weight: 400;
+          font-size: 20px;
+        }
+
+        button > span {
           font-size: 14px;
         }
       }
