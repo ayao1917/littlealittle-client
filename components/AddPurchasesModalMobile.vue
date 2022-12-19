@@ -16,6 +16,7 @@
         <div class="imageContainer">
           <img class="itemImage" :src="$addPurchase.salePicUrl" />
         </div>
+        <div class="footerPadding" />
         <div class="modalFooter">
           <ActionButton
             class="footerButton"
@@ -100,6 +101,7 @@ export default Vue.extend({
     position: absolute;
     background-color: #fefefe;
     width: 100%;
+    height: 80vh;
     bottom: 0;
     border-radius: 10px 10px 0 0;
 
@@ -121,7 +123,7 @@ export default Vue.extend({
     }
 
     .imageContainer {
-      max-height: 50vh;
+      max-height: 100%;
       overflow-y: auto;
     }
 
@@ -143,11 +145,19 @@ export default Vue.extend({
     }
   }
 
+  .footerPadding {
+    width: 100%;
+    height: 50px;
+  }
+
   .modalFooter {
+    position: fixed;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    bottom: 0;
+    width: 100%;
     padding: 16px;
+    background-color: white;
 
     .footerButton {
       border-width: 2px;
