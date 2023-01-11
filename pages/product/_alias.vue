@@ -288,7 +288,7 @@ export default Vue.extend({
   .salePageContainer:after {
     content: "";
     display: block;
-    height: 60px;
+    height: 80px;
   }
 }
 </style>
